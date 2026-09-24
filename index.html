@@ -3722,6 +3722,74 @@ ol,ul{ margin:0; padding:0; list-style:none }
   margin-bottom:var(--e-1);
 }
 .meta p{ font-size:var(--t-xs); color:var(--tinta-2) }
+
+/* ===== 6 bis · EL SELLO DEL CENTRO ========================================
+   El logo del CFA L'Alzina en relieve. `img/sello-cfa.webp` lo escribe
+   `_sello-cfa.py` a partir del logo plano, con la luz de la página: arriba a
+   la izquierda. Va grande en la portada y pequeño en la cabecera de cada
+   materia, que es donde se eligen las unidades. Las tres materias llevan el
+   mismo sello, porque el centro es el mismo para las tres.
+
+   EN ESCRITORIO VA PEGADO AL TITULAR, detrás de «Una lengua.»: una imagen en
+   línea, medida en em para que crezca y mengüe con la letra. Está fuera de
+   .titular__t, así que el repinte, que clona ese span, no lo copia, y los
+   márgenes negativos dejan la línea con la altura que tenía. En el móvil,
+   detrás del titular no queda sitio: va a la derecha de la entradilla y el
+   texto lo rodea por el círculo.
+
+   En la portada entra como un cuño: baja más grande y girado, aprieta por
+   debajo de su tamaño y vuelve. Con prefers-reduced-motion aparece ya
+   puesto, por la regla general del apartado 8.
+
+   El de la cabecera solo se ve con una materia abierta, porque en la portada
+   ya está el grande.
+
+   De noche el blanco del disco baja un 10 %. A plena potencia era lo más
+   claro de la página, por encima del propio texto.                       */
+.sello-cfa{
+  display:block;
+  flex:none;
+  width:var(--sello);
+  height:var(--sello);
+  user-select:none;
+  -webkit-user-drag:none;
+}
+:root:not([data-theme="light"]) .sello-cfa{ filter:brightness(.9) }
+
+.sello-cfa--titular,
+.sello-cfa--portada{
+  animation:golpe .6s cubic-bezier(.2,.8,.2,1) both;
+  animation-delay:480ms;
+}
+.sello-cfa--titular{ display:none }
+.portada__entrada{ position:relative }
+.sello-cfa--portada{
+  --sello:clamp(96px, 26vw, 112px);
+  float:right;
+  margin:2px 0 6px var(--e-4);
+  shape-outside:circle(50%);
+}
+@media (min-width:760px){
+  .sello-cfa--portada{ display:none }
+  .sello-cfa--titular{
+    display:inline-block;
+    --sello:1.2em;
+    vertical-align:middle;
+    margin:-.3em 0 -.3em .14em;
+  }
+}
+@keyframes golpe{
+  0%  { opacity:0; transform:translateY(-12px) scale(1.16) rotate(-6deg) }
+  55% { opacity:1; transform:translateY(0) scale(.96) rotate(0deg) }
+  100%{ opacity:1; transform:none }
+}
+.sello-cfa--cab{
+  --sello:30px;
+  display:none;
+  vertical-align:middle;
+  margin:-7px 9px -5px 0;
+}
+body:has(#materia:not([hidden])) .sello-cfa--cab{ display:inline-block }
 /* ===== 7 · PIE =========================================================== */
 
 /* EL CENTRO, DE NOCHE — Y ES UNA SOLA SALA, NO TRES ------------------------
@@ -5455,7 +5523,7 @@ try{
   <div class="tipometrica" aria-hidden="true"><span class="micro">Cíceros</span></div>
 
   <header class="cab">
-    <div class="cab__id">CFA L&#39;Alzina <span>· Profesor: Oscar Alejandro Baños</span></div>
+    <div class="cab__id"><img class="sello-cfa sello-cfa--cab" src="img/sello-cfa.webp" width="30" height="30" alt="">CFA L&#39;Alzina <span>· Profesor: Oscar Alejandro Baños</span></div>
     <div class="cab__der">
       <span class="rotulo">Curso 2026&thinsp;–&thinsp;27</span>
       <button class="lampara" type="button" id="lampara" aria-pressed="false">
@@ -5509,17 +5577,20 @@ try{
       </figcaption>
     </figure>
 
-    <h1 class="titular entra" style="--d:60ms"><svg class="marca-corrector" viewBox="0 0 30 38" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M23 5C19 9 14.5 13.5 10 18"/></svg><span class="titular__t">Tres puertas.<br><i>Una lengua.</i></span></h1>
+    <h1 class="titular entra" style="--d:60ms"><svg class="marca-corrector" viewBox="0 0 30 38" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M23 5C19 9 14.5 13.5 10 18"/></svg><span class="titular__t">Tres puertas.<br><i>Una lengua.</i></span><img class="sello-cfa sello-cfa--titular" src="img/sello-cfa.webp" width="176" height="176" alt=""></h1>
 
     <!-- La entradilla acaba donde acaba la frase. Antes seguia con «la di en
          la primera sesion y esta en el aula virtual», y eran dos cosas: la
          instruccion y la nota de donde encontrarla. Quien no tenga la clave
          la pide; quien la tenga no necesita que le cuenten de donde salio. -->
-    <p class="entrada entra" style="--d:150ms">
-      Aquí dentro está todo lo que damos en clase: apuntes, ejercicios que se
-      corrigen solos y los PDF de cada unidad. <b>Ingresa con la contraseña de
-      tu grupo.</b>
-    </p>
+    <div class="portada__entrada">
+      <img class="sello-cfa sello-cfa--portada" src="img/sello-cfa.webp" width="112" height="112" alt="">
+      <p class="entrada entra" style="--d:150ms">
+        Aquí dentro está todo lo que damos en clase: apuntes, ejercicios que se
+        corrigen solos y los PDF de cada unidad. <b>Ingresa con la contraseña de
+        tu grupo.</b>
+      </p>
+    </div>
 
     <div class="puertas__cab">
       <span class="rotulo">Elige tu grupo</span>

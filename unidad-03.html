@@ -129,6 +129,17 @@ body::before{
 .cab{ display:flex; align-items:flex-end; justify-content:space-between; gap:var(--e-4); margin-bottom:var(--e-6) }
 .cab h1{ margin:0; font:600 var(--t-xl)/1.15 var(--display); letter-spacing:-.005em }
 .cab .ordinal{ display:block; font:600 var(--t-3xs)/1 Archivo,sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--i); margin-bottom:var(--e-2) }
+/* El sello del CFA L'Alzina: el mismo archivo que usa el portal
+   (img/sello-cfa.webp, que escribe _sello-cfa.py). Desde 1000 px cuelga en el
+   margen izquierdo, a la altura de la cabecera, y la columna no se mueve; por
+   debajo ese margen no existe y va pequeño delante de «Castellano 2». De noche
+   el blanco baja un 10 %, como en el portal. */
+.cab{ position:relative }
+.cab__sello{ display:inline-block; width:22px; height:22px; margin:-7px 8px -5px 0; vertical-align:middle; user-select:none; -webkit-user-drag:none }
+:root:not([data-theme="light"]) .cab__sello{ filter:brightness(.9) }
+@media (min-width:1000px){
+  .cab__sello{ position:absolute; right:100%; top:50%; width:60px; height:60px; margin:-30px 22px 0 0 }
+}
 .lampara{
   flex:none; min-height:44px; padding:0 var(--e-3); background:var(--f-0);
   border:1px solid var(--hilo-f); border-radius:var(--curva); color:var(--tinta-2);
@@ -717,7 +728,7 @@ dialog p{ margin:0 0 var(--e-4); color:var(--tinta-2); font-size:var(--t-xs) }
 <div class="envoltorio">
   <header class="cab">
     <div>
-      <span class="ordinal">Castellano 2</span>
+      <span class="ordinal"><img class="cab__sello" src="img/sello-cfa.webp" width="60" height="60" alt="">Castellano 2</span>
       <h1 id="tit">Unidad 1</h1>
     </div>
     <button class="lampara" id="luz" type="button">A plena luz</button>

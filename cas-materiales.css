@@ -352,3 +352,13 @@ main{padding:18px 0 8px}
 #detail,.session-page .detail{padding:26px 28px}
 #detail h2{padding-bottom:0;margin-bottom:16px}
 @media(max-width:600px){#detail,.session-page .detail{padding:20px 16px}}
+/* El sello del CFA L'Alzina delante del nombre de la materia. Es el mismo
+   archivo que usa el portal (img/sello-cfa.webp, que escribe _sello-cfa.py),
+   medido en em para que siga el cuerpo de la marca, que baja de 62 a 28 px
+   entre el escritorio y el móvil. En el móvil baja a 0,8 em, porque con 1,05
+   «CAS Castellano» se partía a 320 px; «PAU +25 Castellano» se parte igual
+   a 390, como ya se partía sin sello por debajo de 375. De noche el blanco
+   baja un 10 %, como en el portal. */
+.brand__sello{display:inline-block;width:1.05em;height:1.05em;margin:-.2em .3em -.12em 0;vertical-align:middle;user-select:none;-webkit-user-drag:none}
+:root[data-theme=dark] .brand__sello{filter:brightness(.9)}
+@media(max-width:600px){.brand__sello{width:.8em;height:.8em;margin-right:.22em}}
