@@ -79,7 +79,7 @@ const PAU_DAYS = [
   "number": 7,
   "parts": [
    "La tilde diacrítica II: qué, quién, cuál, cómo, cuándo, cuánto, dónde, con tilde también sin signos de interrogación",
-   "La primera redacción de 50-80 palabras, con la rúbrica de Llengua castellana, el registro y el plan de tres líneas; definir un concepto; el título, el resumen de un párrafo y la explicación de una frase, que son las tres preguntas fijas del comentario · texto 2017t, «Recuperar ciertos complejos», de David Trueba, con reloj y corregido con la clave",
+   "La primera redacción de 50-⁠80 palabras, con la rúbrica de Llengua castellana, el registro y el plan de tres líneas; definir un concepto; el título, el resumen de un párrafo y la explicación de una frase, que son las tres preguntas fijas del comentario · texto 2017t, «Recuperar ciertos complejos», de David Trueba, con reloj y corregido con la clave",
    "Tanda de antecedente y función: dos ítems reales y cuatro propios en el formato 0,25 + 0,25"
   ],
   "special": false,
@@ -236,7 +236,7 @@ const PAU_DAYS = [
   "parts": [
    "Gimnasio: set propio 6 · formas verbales de 2019t, segunda pasada",
    "",
-   "Los conectores: las once funciones y las seis que hacen falta para escribir; conceder y oponer; qué va detrás de cada conector; y o e delante de i-; los cuatro ítems reales"
+   "Los conectores: las once funciones y las seis que hacen falta para escribir; conceder y oponer; qué va detrás de cada conector; y o e delante de i-⁠; los cuatro ítems reales"
   ],
   "special": false,
   "title": "Gimnasio"
@@ -270,12 +270,12 @@ const PAU_DAYS = [
   "date": "2026-12-17",
   "number": 23,
   "parts": [
-   "EXAMEN 1 — los bloques 1 y 2 de castellano 2022t enteros (7 puntos) y, en lugar de su bloque 3, seis ítems reales de 2015-2021 de los tipos dados",
+   "EXAMEN 1 — los bloques 1 y 2 de castellano 2022t enteros (7 puntos) y, en lugar de su bloque 3, seis ítems reales de 2015-⁠2021 de los tipos dados",
    "",
    ""
   ],
   "special": true,
-  "title": "EXAMEN 1 — los bloques 1 y 2 de castellano 2022t enteros (7 puntos) y, en lugar de su bloque 3, seis ítems reales de 2015-2021 de los tipos dados"
+  "title": "EXAMEN 1 — los bloques 1 y 2 de castellano 2022t enteros (7 puntos) y, en lugar de su bloque 3, seis ítems reales de 2015-⁠2021 de los tipos dados"
  },
  {
   "term": 1,

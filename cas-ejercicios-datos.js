@@ -14,7 +14,7 @@ const CAS_EJERCICIOS = {
  "2026-09-29": {
   "dia": 2,
   "pagina": "cas/dia-02.html",
-  "ejercicios": 11,
+  "ejercicios": 15,
   "carriles": [
    "La sílaba y el acento",
    "Escribir lo que se pide · Nudo 18",
@@ -24,7 +24,7 @@ const CAS_EJERCICIOS = {
  "2026-10-01": {
   "dia": 3,
   "pagina": "cas/dia-03.html",
-  "ejercicios": 12,
+  "ejercicios": 16,
   "carriles": [
    "Cuándo se pone la tilde",
    "Qué se corrige en un texto",
@@ -34,7 +34,7 @@ const CAS_EJERCICIOS = {
  "2026-10-06": {
   "dia": 4,
   "pagina": "cas/dia-04.html",
-  "ejercicios": 11,
+  "ejercicios": 18,
   "carriles": [
    "Dos vocales en una sílaba",
    "El plan y el registro",
@@ -44,7 +44,7 @@ const CAS_EJERCICIOS = {
  "2026-10-08": {
   "dia": 5,
   "pagina": "cas/dia-05.html",
-  "ejercicios": 11,
+  "ejercicios": 24,
   "carriles": [
    "El hiato",
    "Cómo se defiende una opinión",
@@ -54,7 +54,7 @@ const CAS_EJERCICIOS = {
  "2026-10-15": {
   "dia": 6,
   "pagina": "cas/dia-06.html",
-  "ejercicios": 12,
+  "ejercicios": 15,
   "carriles": [
    "La diéresis",
    "El primer texto",
@@ -64,7 +64,7 @@ const CAS_EJERCICIOS = {
  "2026-10-20": {
   "dia": 7,
   "pagina": "cas/dia-07.html",
-  "ejercicios": 11,
+  "ejercicios": 18,
   "carriles": [
    "La tilde diacrítica (1): los monosílabos",
    "Cómo se lee un texto de examen",
@@ -74,7 +74,7 @@ const CAS_EJERCICIOS = {
  "2026-10-22": {
   "dia": 8,
   "pagina": "cas/dia-08.html",
-  "ejercicios": 14,
+  "ejercicios": 25,
   "carriles": [
    "La tilde diacrítica (2): los interrogativos",
    "Responder sin copiar",
@@ -84,7 +84,7 @@ const CAS_EJERCICIOS = {
  "2026-10-27": {
   "dia": 9,
   "pagina": "cas/dia-09.html",
-  "ejercicios": 13,
+  "ejercicios": 25,
   "carriles": [
    "B y V",
    "El primer texto corregido",
@@ -94,7 +94,7 @@ const CAS_EJERCICIOS = {
  "2026-10-29": {
   "dia": 10,
   "pagina": "cas/dia-10.html",
-  "ejercicios": 10,
+  "ejercicios": 13,
   "carriles": [
    "B y V: las excepciones y tu lista de fallos",
    "El resumen",
@@ -104,7 +104,7 @@ const CAS_EJERCICIOS = {
  "2026-11-03": {
   "dia": 11,
   "pagina": "cas/dia-11.html",
-  "ejercicios": 9,
+  "ejercicios": 16,
   "carriles": [
    "J y G",
    "El resumen, paso a paso",
@@ -114,7 +114,7 @@ const CAS_EJERCICIOS = {
  "2026-11-05": {
   "dia": 12,
   "pagina": "cas/dia-12.html",
-  "ejercicios": 9,
+  "ejercicios": 18,
   "carriles": [
    "Práctica: B/V y J/G",
    "El resumen, sobre un texto",
@@ -124,7 +124,7 @@ const CAS_EJERCICIOS = {
  "2026-11-10": {
   "dia": 13,
   "pagina": "cas/dia-13.html",
-  "ejercicios": 9,
+  "ejercicios": 16,
   "carriles": [
    "La relectura de dos minutos",
    "El segundo texto",
@@ -134,7 +134,7 @@ const CAS_EJERCICIOS = {
  "2026-11-12": {
   "dia": 14,
   "pagina": "cas/dia-14.html",
-  "ejercicios": 10,
+  "ejercicios": 17,
   "carriles": [
    "La h",
    "El segundo texto y las cinco partes",
@@ -144,7 +144,7 @@ const CAS_EJERCICIOS = {
  "2026-11-17": {
   "dia": 15,
   "pagina": "cas/dia-15.html",
-  "ejercicios": 9,
+  "ejercicios": 16,
   "carriles": [
    "Palabras que se separan (1)",
    "El texto explicativo",
@@ -154,7 +154,7 @@ const CAS_EJERCICIOS = {
  "2026-11-19": {
   "dia": 16,
   "pagina": "cas/dia-16.html",
-  "ejercicios": 9,
+  "ejercicios": 16,
   "carriles": [
    "Palabras que se separan (2)",
    "Práctica de comprensión",
@@ -164,7 +164,7 @@ const CAS_EJERCICIOS = {
  "2026-11-24": {
   "dia": 17,
   "pagina": "cas/dia-17.html",
-  "ejercicios": 9,
+  "ejercicios": 13,
   "carriles": [
    "La concordancia",
    "El tercer texto",
@@ -174,7 +174,7 @@ const CAS_EJERCICIOS = {
  "2026-11-26": {
   "dia": 18,
   "pagina": "cas/dia-18.html",
-  "ejercicios": 11,
+  "ejercicios": 18,
   "carriles": [
    "La lista y el recuento",
    "El tercer texto y las dos pasadas",
@@ -184,7 +184,7 @@ const CAS_EJERCICIOS = {
  "2026-12-01": {
   "dia": 19,
   "pagina": "cas/dia-19.html",
-  "ejercicios": 8,
+  "ejercicios": 24,
   "carriles": [
    "Repaso de ortografía",
    "Simulacro del bloque 1",

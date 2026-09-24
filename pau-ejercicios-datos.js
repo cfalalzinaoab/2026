@@ -4,7 +4,7 @@ const PAU_EJERCICIOS = {
  "2026-09-24": {
   "dia": 1,
   "pagina": "pau/dia-01.html",
-  "ejercicios": 8,
+  "ejercicios": 18,
   "carriles": [
    "La sílaba tónica",
    "Las nueve clases de palabras"
@@ -13,7 +13,7 @@ const PAU_EJERCICIOS = {
  "2026-09-29": {
   "dia": 2,
   "pagina": "pau/dia-02.html",
-  "ejercicios": 11,
+  "ejercicios": 24,
   "carriles": [
    "Las tres reglas de la tilde",
    "Leer el texto entero",
@@ -24,7 +24,7 @@ const PAU_EJERCICIOS = {
  "2026-10-01": {
   "dia": 3,
   "pagina": "pau/dia-03.html",
-  "ejercicios": 7,
+  "ejercicios": 14,
   "carriles": [
    "Diptongo, triptongo, hiato",
    "La categoría de una palabra en su oración"
@@ -33,7 +33,7 @@ const PAU_EJERCICIOS = {
  "2026-10-06": {
   "dia": 4,
   "pagina": "pau/dia-04.html",
-  "ejercicios": 14,
+  "ejercicios": 22,
   "carriles": [
    "La tilde del hiato",
    "Escribir: la concesión, el cierre y el texto narrativo",
@@ -44,27 +44,27 @@ const PAU_EJERCICIOS = {
  "2026-10-08": {
   "dia": 5,
   "pagina": "pau/dia-05.html",
-  "ejercicios": 8,
+  "ejercicios": 12,
   "carriles": [
-   "Enclíticos y compuestos",
+   "La tilde diacrítica I: los nueve pares",
    "Los pronombres I: el antecedente"
   ]
  },
  "2026-10-15": {
   "dia": 6,
   "pagina": "pau/dia-06.html",
-  "ejercicios": 7,
+  "ejercicios": 12,
   "carriles": [
-   "La tilde diacrítica I: los nueve pares",
+   "La tilde diacrítica II: aun y aún, los interrogativos",
    "Los pronombres II: antecedente y función"
   ]
  },
  "2026-10-20": {
   "dia": 7,
   "pagina": "pau/dia-07.html",
-  "ejercicios": 19,
+  "ejercicios": 38,
   "carriles": [
-   "La tilde diacrítica II: los interrogativos",
+   "Las letras: la h, b y v, j y g",
    "La primera redacción de 50-80 palabras",
    "«Recuperar ciertos complejos», de David Trueba",
    "La tanda: antecedente y función"
@@ -73,18 +73,18 @@ const PAU_EJERCICIOS = {
  "2026-10-22": {
   "dia": 8,
   "pagina": "pau/dia-08.html",
-  "ejercicios": 9,
+  "ejercicios": 19,
   "carriles": [
-   "Letras: b y v, j y g, la h · el primer set real de tildes",
+   "Palabras que se separan · el primer set real de tildes",
    "Significado I: sinónimo, antónimo, hiperónimo y sentido figurado"
   ]
  },
  "2026-10-27": {
   "dia": 9,
   "pagina": "pau/dia-09.html",
-  "ejercicios": 13,
+  "ejercicios": 17,
   "carriles": [
-   "Palabras que se separan · set 2018s",
+   "Concordancias y parónimos · set 2018s",
    "El primer examen de comentario, y la segunda redacción corta",
    "El origen del lenguaje · Comentari de text 2024, tribunal especial",
    "La tanda: léxico y fraseología"
@@ -93,9 +93,9 @@ const PAU_EJERCICIOS = {
  "2026-10-29": {
   "dia": 10,
   "pagina": "pau/dia-10.html",
-  "ejercicios": 8,
+  "ejercicios": 12,
   "carriles": [
-   "Dos concordancias, el agua, los parónimos · set 2020t",
+   "La relectura de tres minutos · set 2020t",
    "Significado II: las figuras y el sentido figurado"
   ]
  },
@@ -113,7 +113,7 @@ const PAU_EJERCICIOS = {
  "2026-11-05": {
   "dia": 12,
   "pagina": "pau/dia-12.html",
-  "ejercicios": 9,
+  "ejercicios": 10,
   "carriles": [
    "Arranca el gimnasio · set 2025s",
    "Nombre y adjetivo I: plurales, femeninos y diminutivos"
@@ -133,7 +133,7 @@ const PAU_EJERCICIOS = {
  "2026-11-12": {
   "dia": 14,
   "pagina": "pau/dia-14.html",
-  "ejercicios": 8,
+  "ejercicios": 13,
   "carriles": [
    "Gimnasio · set 2026s, el último real antes de los propios",
    "Nombre y adjetivo II: derivadas, primitivos y cómo está formada una palabra"
@@ -153,7 +153,7 @@ const PAU_EJERCICIOS = {
  "2026-11-19": {
   "dia": 16,
   "pagina": "pau/dia-16.html",
-  "ejercicios": 9,
+  "ejercicios": 12,
   "carriles": [
    "Gimnasio · set propio 2",
    "El verbo I: la primera persona, los participios y los gerundios"
@@ -173,7 +173,7 @@ const PAU_EJERCICIOS = {
  "2026-11-26": {
   "dia": 18,
   "pagina": "pau/dia-18.html",
-  "ejercicios": 8,
+  "ejercicios": 10,
   "carriles": [
    "Gimnasio · set propio 4: todo formas de vosotros",
    "El verbo II: las perífrasis y la pregunta del NO"
@@ -193,7 +193,7 @@ const PAU_EJERCICIOS = {
  "2026-12-03": {
   "dia": 20,
   "pagina": "pau/dia-20.html",
-  "ejercicios": 10,
+  "ejercicios": 24,
   "carriles": [
    "Gimnasio · set propio 6",
    "Los conectores: la lista, los cuatro momentos y el ítem del bloque 3"

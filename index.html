@@ -3136,24 +3136,20 @@ ol,ul{ margin:0; padding:0; list-style:none }
 }
 .materia__nom + .micro{ display:block; margin-top:var(--e-3) }
 /* LA DESCRIPCIÓN VA JUSTIFICADA, que es como se compone un párrafo en una
-   página impresa. Y con partición: justificar sin partir palabras a 46
-   caracteres de medida abre ríos de blanco entre las palabras —en castellano,
-   que tiene palabras largas, se ve enseguida—, y el remedio de la imprenta
-   para eso lleva quinientos años inventado: se parte por sílabas.
-
-   `hyphens:auto` NO HACE NADA SIN IDIOMA: el navegador necesita saber en qué
-   lengua está el texto para elegir el diccionario de partición. Como esta
-   página no tiene etiqueta <html> escrita (ver el comentario del doctype), el
-   idioma lo pone el script en una línea. Sin eso, esto sería justificado sin
-   partir, o sea peor que sin justificar.                                  */
+   página impresa, Y SIN PARTIR NINGUNA PALABRA. Hasta el 24-09-2026 llevaba
+   `hyphens:auto`, que con el idioma que pone el script parte por sílabas en
+   los navegadores que traen diccionario de castellano; ese día Osky pidió
+   texto justificado y ninguna palabra partida en toda la web. En una medida
+   de 46 caracteres, el renglón se iguala abriendo el espacio entre palabras,
+   y `hyphens:none` tampoco deja partir por un guion blando.              */
 .materia__desc{
   font-size:var(--t-s);
   line-height:1.62;
   color:var(--tinta-2);
   max-width:46ch;
   text-align:justify;
-  hyphens:auto;
-  -webkit-hyphens:auto;
+  hyphens:none;
+  -webkit-hyphens:none;
 }
 
 /* barra de avance del itinerario ------------------------------------------
@@ -5752,7 +5748,10 @@ try{
    La funcion y sus reglas se quedan porque el dia que haya textos largos de
    verdad —los apuntes de cada unidad— el problema vuelve tal cual: no hay
    diccionario de particion para el castellano en el navegador, asi que
-   `hyphens:auto` no parte nada y hay que marcarlo a mano.               */
+   `hyphens:auto` no parte nada y hay que marcarlo a mano.
+   Desde el 24-09-2026 la regla de la web es no partir ninguna palabra (lo
+   pidio Osky): `.materia__desc` lleva `hyphens:none`, y un corte marcado con
+   la barra ya no se veria.                                               */
 /* LOS NUMEROS DE LA PAGINA SE DICEN, NO SE CIFRAN. En una linea compuesta
    —«plancha carmin · ocho formas · marca en rombo»— un 8 canta como un dato
    de catalogo. Llegaba hasta doce, con el motivo de que una materia con mas

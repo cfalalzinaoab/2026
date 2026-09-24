@@ -29,7 +29,14 @@ body{margin:0;background:var(--fondo);color:var(--tinta);
   font:16px/1.65 Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif;
   font-variant-numeric:lining-nums;
   -webkit-text-size-adjust:100%}
-/* texto alineado a la izquierda: en pantalla la justificación abre ríos y la partición de palabras depende del navegador */
+/* El texto corrido va justificado y sin partir palabras (lo pidió Osky el
+   24-09-2026): sin partición, el renglón se iguala abriendo el espacio entre
+   palabras. A la izquierda se quedan los títulos, las tablas, los botones,
+   los campos que se rellenan y los textos de examen con las líneas
+   numeradas, porque cada fila copia un renglón del cuadernillo. */
+body{text-align:justify;hyphens:none;-webkit-hyphens:none}
+h1,h2,h3,h4,h5,h6,.kicker,.sub,.meta,.ej-t,.lec-t,.lec-f,.textoexamen,nav,summary,
+button,input,textarea,select,.ops,.chapa,.conv,.pie{text-align:left}
 .env{max-width:860px;margin:0 auto;padding:0 18px 90px}
 
 /* cabecera */
@@ -244,7 +251,7 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
 
 /* cazar faltas */
 .caza{margin-top:9px;line-height:1.95;font-size:15px}
-.tk{cursor:pointer;padding:2px 3px;border-radius:5px;border-bottom:2px solid transparent;
+.tk{cursor:pointer;padding:2px 3px;border-radius:5px;border-bottom:2px solid transparent;white-space:nowrap;
   transition:background .12s,border-color .12s}
 .tk:hover{background:var(--acento2)}
 .tk.sel{background:var(--acento2);border-bottom-color:var(--acento);font-weight:600}
@@ -267,13 +274,82 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
 .lec-x{flex:1;text-align:left;hyphens:none}
 .lec-l.blanco{height:9px}
 /* el pie de la lectura termina con el nombre del cuadernillo oficial
-   —Examenes/2016_general_llengua_castellana_titular.pdf—, que no tiene por
-   donde partirse: sin esto mide 425 px y en un movil de 390 desplaza de lado
-   la pagina entera */
+   —Exámenes/2016_general_llengua_castellana_titular.pdf—, que mide 425 px y
+   en un móvil de 390 desplazaba de lado la página entera. Hasta el 24-09-2026
+   lo partía overflow-wrap:anywhere, por cualquier letra; ahora motor.js pone
+   un <wbr> detrás de cada barra y cada guion bajo, y se parte por ahí */
 .lec-p{color:var(--tinta3);font-size:13px;margin-top:14px;text-align:right;
-  overflow-wrap:anywhere;
   font-family:Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif}
 @media(max-width:560px){.lec-c{font-size:14px}.lec-n{flex-basis:17px}}
+
+/* la teoría que sale del dossier (_teoria_web.py): los mismos elementos que el
+   PDF —apartados, subapartados, recuadros, la línea «En el examen», versalitas
+   y los textos de examen con las líneas numeradas— con los colores de la web.
+   Los recuadros van también en la ventana de teoría de cada ejercicio. */
+:root{--verde:#3d7400;--verdef:#eef4e4}
+@media (prefers-color-scheme:dark){:root{--verde:#a4d17a;--verdef:#1e2717}}
+.teoria.dossier>h3,.teoria.dossier>details.ap-dossier:first-of-type{margin-top:26px}
+.teoria.dossier>h3{padding-top:16px;border-top:1px solid var(--linea)}
+.teoria h3,.v-bloque h3{font-size:17px;line-height:1.3;margin:24px 0 8px}
+.teoria h4,.v-bloque h4{font-size:15px;line-height:1.35;margin:20px 0 6px;color:var(--tinta2)}
+.teoria h5,.v-bloque h5{font-size:15px;margin:16px 0 4px}
+.teoria h6,.v-bloque h6{font-size:14px;margin:14px 0 4px;color:var(--tinta2)}
+.teoria ul,.teoria ol,.v-bloque ul,.v-bloque ol{padding-left:22px}
+.teoria li,.v-bloque li{margin-bottom:5px}
+.teoria hr,.v-bloque hr{border:0;border-top:1px solid var(--linea);margin:22px 18%}
+.teoria blockquote,.v-bloque blockquote{margin:14px 0;padding:11px 15px;background:var(--verdef);
+  border-left:3px solid var(--verde);border-radius:0 8px 8px 0;font-size:15px}
+.teoria blockquote p,.v-bloque blockquote p{margin:0 0 7px}
+.teoria blockquote p:last-child,.v-bloque blockquote p:last-child{margin-bottom:0}
+.teoria blockquote strong:first-child,.v-bloque blockquote strong:first-child{color:var(--verde)}
+.teoria blockquote.criterio,.v-bloque blockquote.criterio{background:var(--acento2);border-left-color:var(--acento)}
+.teoria blockquote.criterio strong:first-child,.v-bloque blockquote.criterio strong:first-child{color:var(--acento)}
+.teoria blockquote.juego,.v-bloque blockquote.juego{background:var(--fondo);border-left-color:var(--tinta3);font-size:14px}
+.teoria blockquote.juego strong:first-child,.v-bloque blockquote.juego strong:first-child{color:var(--tinta2)}
+.enelexamen{font-size:14px;line-height:1.55;background:var(--acento2);border-left:3px solid var(--acento);
+  padding:10px 14px;border-radius:0 8px 8px 0;margin:6px 0 18px}
+.enelexamen strong{color:var(--acento)}
+.vs{font-variant:small-caps;letter-spacing:.03em;font-weight:600}
+.teoria .hueco,.v-bloque .hueco{display:inline-block;border-bottom:1px solid var(--tinta3);height:.9em;
+  margin:0 .12em -.1em;vertical-align:baseline;max-width:40%}
+th.vacia,td.vacia{border:0;background:transparent;width:14px;padding:0}
+/* un texto de examen dentro de la teoría: una fila por línea, como la lectura */
+.textoexamen{border:1px solid var(--linea);border-radius:8px;padding:14px 17px;margin:14px 0 18px;
+  background:var(--fondo);font-size:14px;line-height:1.75}
+.textoexamen .ln{display:flex;gap:11px;align-items:baseline}
+.textoexamen .ln.blanca{height:9px}
+.textoexamen .n{flex:0 0 22px;text-align:right;color:var(--tinta3);user-select:none;
+  border-right:1px solid var(--linea);padding-right:9px;
+  font:400 11px/1.75 Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif}
+/* una línea del examen que no cabe sigue debajo con sangría: sin ella, el trozo
+   partido parece otra línea y la numeración de cinco en cinco se descoloca */
+.textoexamen .t{flex:1;white-space:pre-wrap;hyphens:none;min-width:0;padding-left:1.6em;text-indent:-1.6em}
+@media(max-width:560px){.textoexamen{padding:12px 12px;font-size:13px}.textoexamen .n{flex-basis:17px}}
+/* por encima de mil doscientas palabras, cada apartado se pliega bajo su título */
+details.ap-dossier{border-top:1px solid var(--linea)}
+details.ap-dossier+details.ap-dossier{margin-top:0}
+details.ap-dossier:last-of-type{border-bottom:1px solid var(--linea);margin-bottom:10px}
+details.ap-dossier>summary{cursor:pointer;list-style:none;display:flex;gap:9px;align-items:baseline;padding:13px 0;user-select:none}
+details.ap-dossier>summary::-webkit-details-marker{display:none}
+details.ap-dossier>summary::before{content:"▸";color:var(--acento);font-size:14px;flex:0 0 auto}
+details.ap-dossier[open]>summary::before{content:"▾"}
+details.ap-dossier>summary>h3{margin:0;padding:0;border:0;font-size:16px}
+details.ap-dossier>summary:hover>h3{color:var(--acento)}
+details.ap-dossier[open]{padding-bottom:12px}
+@media print{details.ap-dossier>summary::before{display:none}}
+/* de qué ejercicio del dossier sale el de la web */
+.ej-dossier{margin:-2px 0 8px 37px;font:700 11px/1.4 Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--tinta3)}
+@media(max-width:560px){.ej-dossier{margin-left:0}}
+/* el rótulo que separa los ejercicios del dossier de la práctica que solo está en la web */
+.solo-web{margin:38px 0 0;padding-top:14px;border-top:2px dashed var(--linea);
+  font:700 11px/1.4 Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tinta3)}
+/* la terna de un ejercicio de huecos: las tres formas entre paréntesis */
+.terna{color:var(--tinta2);white-space:nowrap}
+/* una palabra con guion, barra o raya no se parte de un renglón a otro:
+   motor.js la mete en un <span class="nb"> (sinPartir) */
+.nb{white-space:nowrap}
 
 </style>
 </head>
@@ -296,7 +372,7 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
   </div>
 </div>
 <div class="aviso" id="aviso"></div>
-<script>window.DIA = {"dia": 12, "fecha": "2026-11-05", "tab": "Día 12 · PAU +25", "kicker": "PAU +25 · primer trimestre", "h1": "Jueves 5 de noviembre", "sub": "Arranca el gimnasio con el set de 2025s · plurales, femeninos y diminutivos", "carriles": [{"chapa": "Carril A", "titulo": "Arranca el gimnasio · set 2025s", "meta": "15 minutos · cómo funciona el gimnasio de tildes hasta diciembre, y el cuarto set real", "teoria": "<p>Las cuatro piezas de ortografía están dadas: las tres reglas, las vocales en contacto, la diacrítica, las letras y la relectura. Desde hoy el carril A es un gimnasio: cada sesión empieza con un set de ocho palabras escritas sin ninguna tilde, se ponen las que falten, se corrige en el acto y se anota cuántas se fallan. <b>El enunciado nunca indica cuántas llevan tilde<\/b>, igual que en el examen. En los diez ejercicios reales del censo hay 79 palabras, y 49 llevan tilde y 30 no: quien pone tilde a todo acierta 49 y falla 30, así que los señuelos están puestos para eso.<\/p>\n\n<h3>El calendario del gimnasio<\/h3>\n<table>\n<tr><th>desde<\/th><th>qué cae cada sesión<\/th><\/tr>\n<tr><td>22 de octubre<\/td><td>un set real: 2015t, 2018s y 2020t ya están hechos; hoy 2025s, el 10 de noviembre 2026t y el 12 2026s<\/td><\/tr>\n<tr><td>17 de noviembre<\/td><td>un set propio, ocho en total hasta el 15 de diciembre, con los mismos señuelos que repite el tribunal<\/td><\/tr>\n<tr><td>24 de noviembre<\/td><td>además, cinco formas verbales del censo, y la lista de diez de cada uno<\/td><\/tr>\n<\/table>\n<p>Los cuatro sets reales que no aparecen aquí —2022s, 2023t, 2023s y 2024t— llegan con sus exámenes, en diciembre y en marzo.<\/p>\n\n<h3>El cuarto set real<\/h3>\n<p>El de 2025s: ocho palabras, con dos hiatos con hache en medio, una esdrújula con pronombre pegado y el señuelo que más repite el tribunal, <i>caracteres<\/i>, que ya salió en el set de 2018s. Los tres pasos de siempre: pronunciar la palabra en voz alta, clasificarla y leer la última letra; y en las dos vocales juntas, la pregunta del hiato. La hache entre dos vocales no cuenta para nada: <i>búho<\/i> y <i>oír<\/i> se acentúan como si no estuviera.<\/p>", "ejercicios": [{"tipo": "hueco", "titulo": "Set 2025s: ponga tilde en las palabras que la necesiten", "estricto": true, "ayuda": "Las ocho palabras del ejercicio de 2025, tal como venían: sin ninguna tilde. Copia cada una con tilde si le corresponde y tal cual si no.", "items": [{"enun": "<i>textil<\/i>", "conv": "2025s", "sol": "textil", "porque": "aguda acabada en -l, <i>tex-til<\/i>"}, {"enun": "<i>acuifero<\/i>", "conv": "2025s", "sol": "acuífero", "porque": "esdrújula, <i>a-cuí-fe-ro<\/i>"}, {"enun": "<i>buho<\/i>", "conv": "2025s", "sol": "búho", "porque": "hiato: <i>ú<\/i> tónica + <i>o<\/i>; la hache no lo impide"}, {"enun": "<i>abdomen<\/i>", "conv": "2025s", "sol": "abdomen", "porque": "llana acabada en -n; el plural <i>abdómenes<\/i> sí lleva"}, {"enun": "<i>escuchemosle<\/i>", "conv": "2025s", "sol": "escuchémosle", "porque": "esdrújula: es-cu-<b>ché<\/b>-mos-le, con el pronombre pegado"}, {"enun": "<i>caracteres<\/i>", "conv": "2025s", "sol": "caracteres", "porque": "llana acabada en -s; el singular <i>carácter<\/i> sí lleva"}, {"enun": "<i>hincapie<\/i>", "conv": "2025s", "sol": "hincapié", "porque": "aguda acabada en vocal"}, {"enun": "<i>oir<\/i>", "conv": "2025s", "sol": "oír", "porque": "hiato: <i>o-ír<\/i>, dos sílabas, no un monosílabo"}], "criterio": "Llevan tilde cinco de las ocho. Los tres señuelos son una aguda en -l, una llana en -n y una llana en -s, y las dos llanas tienen trampa en la otra forma de la palabra: <i>abdómenes<\/i> y <i>carácter<\/i> sí llevan.", "apoyo": ["El cuarto set real"]}, {"tipo": "clasificar", "titulo": "¿Por qué la lleva o no la lleva?", "ops": ["aguda acabada en vocal, -n o -s: lleva", "aguda acabada en otra consonante: no lleva", "llana acabada en vocal, -n o -s: no lleva", "esdrújula o sobresdrújula: lleva", "hiato con la cerrada tónica: lleva"], "ayuda": "Las mismas ocho palabras. Indica por qué regla lleva o no lleva tilde cada una.", "items": [{"enun": "<i>acuífero<\/i>", "sol": "esdrújula o sobresdrújula: lleva", "porque": "la fuerza va en la antepenúltima"}, {"enun": "<i>oír<\/i>", "sol": "hiato con la cerrada tónica: lleva", "porque": "<i>í<\/i> tónica junto a <i>o<\/i>"}, {"enun": "<i>hincapié<\/i>", "sol": "aguda acabada en vocal, -n o -s: lleva", "porque": "acaba en vocal y la fuerza va en la última"}, {"enun": "<i>caracteres<\/i>", "sol": "llana acabada en vocal, -n o -s: no lleva", "porque": "acaba en -s y la fuerza va en la penúltima"}, {"enun": "<i>textil<\/i>", "sol": "aguda acabada en otra consonante: no lleva", "porque": "acaba en -l"}, {"enun": "<i>escuchémosle<\/i>", "sol": "esdrújula o sobresdrújula: lleva", "porque": "la fuerza va en la antepenúltima"}, {"enun": "<i>búho<\/i>", "sol": "hiato con la cerrada tónica: lleva", "porque": "<i>ú<\/i> tónica junto a <i>o<\/i>"}, {"enun": "<i>abdomen<\/i>", "sol": "llana acabada en vocal, -n o -s: no lleva", "porque": "acaba en -n y la fuerza va en la penúltima"}], "criterio": "Cada palabra cae en una sola regla, y las dos de hiato se deciden antes que las demás: si hay hiato con la cerrada tónica, la tilde va aunque la regla general no la pida.", "apoyo": ["El cuarto set real"]}], "cuaderno": {"pieza": "A-3", "apartados": ["Set 2025S"]}, "cuaderno_txt": "Anexo A-3 · El gimnasio: sets de tildes y formas verbales — el cuaderno: Set 2025S (p. 295)"}, {"chapa": "Carril C", "titulo": "Nombre y adjetivo I: plurales, femeninos y diminutivos", "meta": "45 minutos · las preguntas de lista de cinco palabras: los dos sets de plural, los dos de femenino y el de diminutivo, con sus claves", "teoria": "<p>Seis de los veinticuatro exámenes de Llengua castellana traen una pregunta de lista sobre el nombre: escribir el plural, el femenino o el diminutivo de cinco palabras. Se corrigen elemento a elemento, y la clave lo formula así: cada palabra que falte, que sea errónea o que esté mal escrita cuenta como fallo. Dos consecuencias: se contestan las cinco aunque la quinta sea la peor, porque dejarla en blanco cuenta lo mismo que ponerla mal; y una palabra bien pensada y mal escrita —⊗<i>lapizes<\/i>— cuenta como una palabra fallada.<\/p>\n\n<h3>Plurales<\/h3>\n<p>La regla general añade <i>-s<\/i> detrás de vocal y <i>-es<\/i> detrás de consonante: <i>sofás<\/i>, <i>valses<\/i>. Los fallos se concentran en cinco grupos.<\/p>\n<table>\n<tr><th>grupo<\/th><th>qué pasa<\/th><th>ejemplos<\/th><\/tr>\n<tr><td><b>no cambian<\/b><\/td><td>llanas y esdrújulas acabadas en -s<\/td><td><i>jueves, pasapurés, análisis, crisis, paraguas<\/i><\/td><\/tr>\n<tr><td><b>pierden la tilde<\/b><\/td><td>agudas en -n o -s que al ganar una sílaba pasan a llanas<\/td><td><i>compás → compases, arpón → arpones, sartén → sartenes<\/i><\/td><\/tr>\n<tr><td><b>ganan la tilde<\/b><\/td><td>llanas en -n que al ganar una sílaba pasan a esdrújulas<\/td><td><i>régimen → regímenes, examen → exámenes, volumen → volúmenes<\/i><\/td><\/tr>\n<tr><td><b>la z pasa a c<\/b><\/td><td>delante de la <i>e<\/i> de <i>-es<\/i><\/td><td><i>rapaz → rapaces, desliz → deslices, lápiz → lápices<\/i><\/td><\/tr>\n<tr><td><b>vocal tónica final<\/b><\/td><td><i>-ú<\/i> e <i>-í<\/i> admiten <i>-s<\/i> y, en las cultas, <i>-es<\/i>; los latinismos en <i>-um<\/i> añaden <i>-s<\/i><\/td><td><i>tabúes<\/i> o <i>tabús<\/i>, <i>maniquís<\/i>, <i>esquís<\/i>, <i>currículums<\/i><\/td><\/tr>\n<\/table>\n<p>Y una palabra con trampa propia: <i>carácter<\/i> → <i>caracteres<\/i>, que pierde la tilde y mueve la fuerza una sílaba, <i>ca-rac-te-res<\/i>. El ejercicio de tildes lo repite como señuelo más que ninguna otra palabra, y aquí aparece desde el otro lado: en uno hay que ponerle la tilde al singular y en el otro quitársela al plural.<\/p>\n\n<h3>Femeninos<\/h3>\n<p>Cuatro terminaciones propias y un grupo que no cambia. <i>-triz<\/i>: <i>emperatriz<\/i>, <i>actriz<\/i>. <i>-esa<\/i>: <i>alcaldesa<\/i>, <i>baronesa<\/i>, <i>princesa<\/i>. <i>-isa<\/i>: <i>sacerdotisa<\/i>, <i>poetisa<\/i>. <i>-ina<\/i>: <i>heroína<\/i>. Los acabados en consonante añaden <i>-a<\/i>, y si eran agudos con tilde la pierden, igual que un plural: <i>bailarín → bailarina<\/i>, <i>escocés → escocesa<\/i>. Y los comunes en cuanto al género no cambian de forma, solo de artículo: <i>la testigo<\/i>, <i>la maniquí<\/i>, <i>la modelo<\/i>, <i>la pianista<\/i>. En el examen se escriben con el artículo delante, porque el artículo es lo único que marca el femenino; la clave de 2019s lo escribe así.<\/p>\n\n<h3>Diminutivos<\/h3>\n<p>Tres sufijos y dos cambios de letra. <i>-ito<\/i> va con las palabras de dos o más sílabas acabadas en <i>-a<\/i> u <i>-o<\/i>: <i>ruidito<\/i>, <i>manita<\/i>. <i>-cito<\/i>, con las acabadas en <i>-e<\/i>, <i>-n<\/i> o <i>-r<\/i>: <i>examencito<\/i>, <i>jovencito<\/i>, <i>cafecito<\/i>. <i>-ecito<\/i>, con los monosílabos y con algunas de dos sílabas que llevan diptongo: <i>pececito<\/i>, <i>panecito<\/i>, <i>piececito<\/i>, <i>lluviecita<\/i>. Los dos cambios de letra: la <i>z<\/i> pasa a <i>c<\/i> delante de <i>e<\/i>, <i>pez → pececito<\/i>, <i>nuez → nuececita<\/i>; y la <i>u<\/i> de <i>agua<\/i> y de <i>lengua<\/i> necesita diéresis para seguir sonando, <i>agüita<\/i>, <i>lengüita<\/i>. La clave admite también las formas en <i>-illo<\/i>, y en <i>lluvia<\/i> admite dos, <i>lluviecita<\/i> y <i>lluvita<\/i>.<\/p>", "ejercicios": [{"tipo": "hueco", "titulo": "Set 2020t: escriba el plural de los siguientes sustantivos", "estricto": true, "ayuda": "Las cinco palabras del ejercicio de 2020, con su clave oficial. Escribe cada plural con su tilde si la lleva.", "items": [{"enun": "<i>vals<\/i>", "conv": "2020t", "sol": "valses", "porque": "acabado en consonante: <i>-es<\/i>"}, {"enun": "<i>tabú<\/i>", "conv": "2020t", "sol": "tabúes|tabús", "porque": "la clave de 2020 da <i>tabúes<\/i>; la de 2015, <i>tabús<\/i> o <i>tabúes<\/i>: las dos valen"}, {"enun": "<i>pasapurés<\/i>", "conv": "2020t", "sol": "pasapurés", "porque": "llana acabada en -s: no cambia"}, {"enun": "<i>rapaz<\/i>", "conv": "2020t", "sol": "rapaces", "porque": "la <i>z<\/i> pasa a <i>c<\/i>"}, {"enun": "<i>compás<\/i>", "conv": "2020t", "sol": "compases", "porque": "aguda en -s que pasa a llana: pierde la tilde"}], "criterio": "Las dos trampas del set: <i>pasapurés<\/i>, que no cambia, y <i>compás<\/i>, que pierde la tilde. Escribir ⊗<i>compáses<\/i> cuenta como plural fallado aunque la forma sea la correcta.", "apoyo": ["Plurales"]}, {"tipo": "hueco", "titulo": "Set 2015t: escriba el plural de los siguientes sustantivos", "estricto": true, "ayuda": "Las cinco palabras del ejercicio de 2015, con su clave oficial.", "items": [{"enun": "<i>jueves<\/i>", "conv": "2015t", "sol": "jueves", "porque": "llana acabada en -s: no cambia"}, {"enun": "<i>tabú<\/i>", "conv": "2015t", "sol": "tabús|tabúes", "porque": "la clave admite las dos"}, {"enun": "<i>arpón<\/i>", "conv": "2015t", "sol": "arpones", "porque": "pierde la tilde al ganar una sílaba"}, {"enun": "<i>desliz<\/i>", "conv": "2015t", "sol": "deslices", "porque": "la <i>z<\/i> pasa a <i>c<\/i>"}, {"enun": "<i>análisis<\/i>", "conv": "2015t", "sol": "análisis", "porque": "esdrújula acabada en -s: no cambia"}], "criterio": "El mismo diseño que el de 2020: dos que no cambian, una que pierde la tilde, una <i>z<\/i> y un <i>tabú<\/i>. Los dos sets juntos son los cinco grupos de la tabla.", "apoyo": ["Plurales"]}, {"tipo": "clasificar", "titulo": "¿Qué le pasa al plural?", "ops": ["no cambia", "pierde la tilde", "gana la tilde", "la z pasa a c", "añade -s y nada más"], "ayuda": "Diez palabras que no están en los sets reales. Explica qué le pasa a cada una al pasar al plural.", "items": [{"enun": "<i>sofá<\/i>", "sol": "añade -s y nada más", "porque": "<i>sofás<\/i>: acabada en vocal, conserva la tilde"}, {"enun": "<i>sartén<\/i>", "sol": "pierde la tilde", "porque": "<i>sartenes<\/i>: al ganar una sílaba pasa a llana acabada en -s"}, {"enun": "<i>lunes<\/i>", "sol": "no cambia", "porque": "llana acabada en -s: <i>los lunes<\/i>"}, {"enun": "<i>lápiz<\/i>", "sol": "la z pasa a c", "porque": "<i>lápices<\/i>, y conserva la tilde porque sigue siendo llana acabada en consonante distinta de -s"}, {"enun": "<i>examen<\/i>", "sol": "gana la tilde", "porque": "<i>exámenes<\/i>: al ganar una sílaba pasa a esdrújula"}, {"enun": "<i>cruz<\/i>", "sol": "la z pasa a c", "porque": "<i>cruces<\/i>"}, {"enun": "<i>paraguas<\/i>", "sol": "no cambia", "porque": "llana acabada en -s"}, {"enun": "<i>carácter<\/i>", "sol": "pierde la tilde", "porque": "<i>caracteres<\/i>: la fuerza se mueve una sílaba y la palabra queda llana acabada en -s"}, {"enun": "<i>café<\/i>", "sol": "añade -s y nada más", "porque": "<i>cafés<\/i>: acabada en vocal"}, {"enun": "<i>volumen<\/i>", "sol": "gana la tilde", "porque": "<i>volúmenes<\/i>: esdrújula"}], "criterio": "Las que ganan o pierden la tilde se deciden con la regla general aplicada al plural: <i>sartenes<\/i> es llana acabada en -s y <i>exámenes<\/i> es esdrújula. <i>Carácter<\/i> pierde la tilde por la misma regla, con el añadido de que la fuerza cambia de sílaba.", "apoyo": ["Plurales"]}, {"tipo": "hueco", "titulo": "Femeninos: los dos sets reales", "estricto": true, "ayuda": "Las cuatro palabras de 2016t y las cinco de 2019s, con su clave oficial. En las que no cambian de forma, escribe el artículo delante: <i>la testigo<\/i>.", "items": [{"enun": "<i>sacerdote<\/i>", "conv": "2016t", "sol": "sacerdotisa|la sacerdotisa", "porque": "<i>-isa<\/i>"}, {"enun": "<i>emperador<\/i>", "conv": "2016t", "sol": "emperatriz|la emperatriz", "porque": "<i>-triz<\/i>"}, {"enun": "<i>héroe<\/i>", "conv": "2016t", "sol": "heroína|la heroína", "porque": "<i>-ina<\/i>, y pierde la tilde: <i>he-ro-í-na<\/i> lleva la suya por el hiato"}, {"enun": "<i>barón<\/i>", "conv": "2016t", "sol": "baronesa|la baronesa", "porque": "<i>-esa<\/i>, y pierde la tilde"}, {"enun": "<i>maniquí<\/i>", "conv": "2019s", "sol": "la maniquí|maniquí", "porque": "común en cuanto al género: solo cambia el artículo"}, {"enun": "<i>bailarín<\/i>", "conv": "2019s", "sol": "la bailarina|bailarina", "porque": "añade <i>-a<\/i> y pierde la tilde"}, {"enun": "<i>alcalde<\/i>", "conv": "2019s", "sol": "la alcaldesa|alcaldesa", "porque": "<i>-esa<\/i>"}, {"enun": "<i>escocés<\/i>", "conv": "2019s", "sol": "la escocesa|escocesa", "porque": "añade <i>-a<\/i> y pierde la tilde"}, {"enun": "<i>testigo<\/i>", "conv": "2019s", "sol": "la testigo|testigo", "porque": "común en cuanto al género: <i>la testigo<\/i>; ⊗<i>la testiga<\/i> cuenta como fallo"}], "criterio": "Cuatro terminaciones propias, dos que añaden <i>-a<\/i> y dos que no cambian. Las que pierden la tilde —<i>bailarina<\/i>, <i>escocesa<\/i>, <i>baronesa<\/i>— la pierden por la regla general: al ganar una sílaba pasan a llanas acabadas en vocal.", "apoyo": ["Femeninos"]}, {"tipo": "hueco", "titulo": "Set 2025t: escriba el diminutivo de los siguientes sustantivos", "estricto": true, "ayuda": "Las cinco palabras del ejercicio de 2025, con su clave oficial. La clave admite también las formas en <i>-illo<\/i>.", "items": [{"enun": "<i>agua<\/i>", "conv": "2025t", "sol": "agüita|agüilla", "porque": "la diéresis hace sonar la <i>u<\/i>; ⊗<i>aguita<\/i> se leería sin ella"}, {"enun": "<i>pez<\/i>", "conv": "2025t", "sol": "pececito|pececillo", "porque": "monosílabo: <i>-ecito<\/i>, y la <i>z<\/i> pasa a <i>c<\/i>"}, {"enun": "<i>ruido<\/i>", "conv": "2025t", "sol": "ruidito|ruidillo", "porque": "<i>-ito<\/i>, regular"}, {"enun": "<i>lluvia<\/i>", "conv": "2025t", "sol": "lluviecita|lluvita|lluviecilla|lluvilla", "porque": "la clave admite <i>lluviecita<\/i> y <i>lluvita<\/i>"}, {"enun": "<i>examen<\/i>", "conv": "2025t", "sol": "examencito|examencillo", "porque": "acabada en -n: <i>-cito<\/i>"}], "criterio": "Las dos trampas del set son de letra: la diéresis de <i>agüita<\/i> y la <i>c<\/i> de <i>pececito<\/i>. Un diminutivo bien formado y sin la diéresis cuenta como fallo.", "apoyo": ["Diminutivos"]}, {"tipo": "hueco", "titulo": "Cinco diminutivos más", "ayuda": "Cinco palabras que no están en el set real: <i>lengua<\/i>, <i>nuez<\/i>, <i>pie<\/i>, <i>joven<\/i>, <i>sol<\/i>. Escribe el diminutivo con el sufijo que le corresponde.", "estricto": true, "items": [{"enun": "<i>lengua<\/i>", "sol": "lengüita|lengüilla", "porque": "diéresis, como <i>agüita<\/i>"}, {"enun": "<i>nuez<\/i>", "sol": "nuececita|nuececilla", "porque": "monosílabo y <i>z<\/i> → <i>c<\/i>, como <i>pececito<\/i>"}, {"enun": "<i>pie<\/i>", "sol": "piececito|piececillo", "porque": "monosílabo: <i>-ecito<\/i>"}, {"enun": "<i>joven<\/i>", "sol": "jovencito|jovencillo", "porque": "acabada en -n: <i>-cito<\/i>"}, {"enun": "<i>sol<\/i>", "sol": "solecito|solecillo", "porque": "monosílabo: <i>-ecito<\/i>"}], "criterio": "Los tres monosílabos llevan <i>-ecito<\/i>, la acabada en -n lleva <i>-cito<\/i> y <i>lengua<\/i> repite la diéresis de <i>agua<\/i>. Con estos cinco y los cinco reales quedan cubiertos los tres sufijos y los dos cambios de letra.", "apoyo": ["Diminutivos"]}, {"tipo": "abierta", "titulo": "Explica la tilde que va y viene", "ayuda": "Dos o tres líneas.", "items": [{"enun": "¿Por qué <i>compás<\/i> pierde la tilde en <i>compases<\/i> y <i>examen<\/i> la gana en <i>exámenes<\/i>?", "modelo": "Porque la tilde depende de en qué sílaba va la fuerza y en qué acaba la palabra, y el plural añade una sílaba sin mover la fuerza. <i>Compás<\/i> es aguda acabada en -s y lleva tilde; en <i>compases<\/i> la fuerza sigue en la misma sílaba, que ahora es la penúltima, y una llana acabada en -s no la lleva. <i>Examen<\/i> es llana acabada en -n y no la lleva; en <i>exámenes<\/i> la fuerza sigue en la misma sílaba, que ahora es la antepenúltima, y las esdrújulas la llevan siempre."}], "criterio": "La explicación completa nombra los dos datos que cambian —la posición de la fuerza contada desde el final y la terminación— y los aplica a las dos palabras. Contestar «porque cambia la sílaba tónica» no basta: la sílaba tónica es la misma, y lo que cambia es el número de sílabas que quedan detrás.", "apoyo": ["Plurales"]}], "cuaderno": {"pieza": 7, "apartados": [1, 4], "ejercicios": [3, 4]}, "cuaderno_txt": "Pieza 7 · Nombre y adjetivo: plurales, femeninos, derivadas y primitivos — apartados 1 y 4: Cómo se puntúan estas preguntas; Plurales, femeninos y diminutivos (p. 172 y 177) · ejercicios 3 y 4"}], "pie": "Ejercicios del curso de PAU +25 del CFA L'Alzina de Cerdanyola, 2026-27. Las palabras y los enunciados marcados con un año están tomados de las <i>Proves d'accés a la universitat per a més grans de 25 anys<\/i> de la Generalitat de Catalunya, documentos públicos, y las respuestas proceden de sus criterios oficiales de corrección. El texto del carril B está inventado para practicar.", "revision": "2026-09-23"};</script>
+<script>window.DIA = {"dia": 12, "fecha": "2026-11-05", "tab": "Día 12 · PAU +25", "kicker": "PAU +25 · primer trimestre", "h1": "Jueves 5 de noviembre", "sub": "Arranca el gimnasio con el set de 2025s · plurales, femeninos y diminutivos", "carriles": [{"chapa": "Carril A", "titulo": "Arranca el gimnasio · set 2025s", "meta": "15 minutos · cómo funciona el gimnasio de tildes hasta diciembre, y el cuarto set real", "teoria": "<blockquote>\n<p><strong>Los seis sets reales de exámenes no reservados, los ocho sets propios y dieciséis formas verbales de cinco exámenes (2017-2021).<\/strong> Con esto el carril A tiene material propio hasta el 17 de diciembre, y las piezas 1 y 2 se quedan con la teoría y con los ejercicios que enseñan a decidir.<\/p>\n<\/blockquote>\n<p><strong>Cómo funciona.<\/strong> Cada sesión empieza con un set de ocho palabras escritas sin ninguna tilde. Se ponen las que falten, se corrige en el acto y se anota cuántas se fallan. El enunciado <strong>nunca indica cuántas llevan tilde<\/strong>, igual que en el examen. Los seis sets reales son repaso: 34 de sus 47 palabras se han estudiado antes en las piezas 1 y 2, casi siempre con su respuesta —del set de 2015t, siete de ocho—. Los ocho sets propios no llevan ninguna palabra del censo, así que miden lo aprendido sin repaso previo.<\/p>\n<p><strong>El reparto del censo entero:<\/strong> de las 79 palabras de los diez ejercicios reales, <strong>49 llevan tilde y 30 no<\/strong>. Quien pone tilde a todo acierta 49 y falla 30.<\/p>\n<p><strong>El calendario del carril A<\/strong>, sesión por sesión:<\/p>\n<table>\n<thead>\n<tr>\n<th>desde<\/th>\n<th>qué cae cada sesión<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td>22 de octubre<\/td>\n<td>un <strong>set real<\/strong>: 2015t, 2018s, 2020t, 2025s, 2026t y 2026s, en ese orden<\/td>\n<\/tr>\n<tr>\n<td>17 de noviembre<\/td>\n<td>un <strong>set propio<\/strong>, ocho en total, hasta el 15 de diciembre<\/td>\n<\/tr>\n<tr>\n<td>24 de noviembre<\/td>\n<td>además, <strong>cinco formas verbales<\/strong> del censo, y la lista de diez de cada alumno<\/td>\n<\/tr>\n<tr>\n<td>segundo trimestre<\/td>\n<td>solo los martes: cinco formas verbales y la lista de diez, sin sets nuevos<\/td>\n<\/tr>\n<\/tbody>\n<\/table>", "ejercicios": [{"tipo": "hueco", "titulo": "Set 2025s: ponga tilde en las palabras que la necesiten", "estricto": true, "ayuda": "Las ocho palabras del ejercicio de 2025, tal como venían: sin ninguna tilde. Copia cada una con tilde si le corresponde y tal cual si no.", "items": [{"enun": "<i>textil<\/i>", "conv": "2025s", "sol": "textil", "porque": "aguda acabada en -l, <i>tex-til<\/i>"}, {"enun": "<i>acuifero<\/i>", "conv": "2025s", "sol": "acuífero", "porque": "esdrújula, <i>a-cuí-fe-ro<\/i>"}, {"enun": "<i>buho<\/i>", "conv": "2025s", "sol": "búho", "porque": "hiato: <i>ú<\/i> tónica + <i>o<\/i>; la hache no lo impide"}, {"enun": "<i>abdomen<\/i>", "conv": "2025s", "sol": "abdomen", "porque": "llana acabada en -n; el plural <i>abdómenes<\/i> sí lleva"}, {"enun": "<i>escuchemosle<\/i>", "conv": "2025s", "sol": "escuchémosle", "porque": "esdrújula: es-cu-<b>ché<\/b>-mos-le, con el pronombre pegado"}, {"enun": "<i>caracteres<\/i>", "conv": "2025s", "sol": "caracteres", "porque": "llana acabada en -s; el singular <i>carácter<\/i> sí lleva"}, {"enun": "<i>hincapie<\/i>", "conv": "2025s", "sol": "hincapié", "porque": "aguda acabada en vocal"}, {"enun": "<i>oir<\/i>", "conv": "2025s", "sol": "oír", "porque": "hiato: <i>o-ír<\/i>, dos sílabas, no un monosílabo"}], "criterio": "Llevan tilde cinco de las ocho. Los tres señuelos son una aguda en -l, una llana en -n y una llana en -s, y las dos llanas tienen trampa en la otra forma de la palabra: <i>abdómenes<\/i> y <i>carácter<\/i> sí llevan.", "apoyo": "todo", "dossier": {"cuaderno": "A-3", "ejercicio": "Set 2025S"}, "dossier_txt": "Del dossier: anexo A-3 · Set 2025S"}, {"tipo": "clasificar", "titulo": "¿Por qué la lleva o no la lleva?", "ops": ["aguda acabada en vocal, -n o -s: lleva", "aguda acabada en otra consonante: no lleva", "llana acabada en vocal, -n o -s: no lleva", "esdrújula o sobresdrújula: lleva", "hiato con la cerrada tónica: lleva"], "ayuda": "Las mismas ocho palabras. Indica por qué regla lleva o no lleva tilde cada una.", "items": [{"enun": "<i>acuífero<\/i>", "sol": "esdrújula o sobresdrújula: lleva", "porque": "la fuerza va en la antepenúltima"}, {"enun": "<i>oír<\/i>", "sol": "hiato con la cerrada tónica: lleva", "porque": "<i>í<\/i> tónica junto a <i>o<\/i>"}, {"enun": "<i>hincapié<\/i>", "sol": "aguda acabada en vocal, -n o -s: lleva", "porque": "acaba en vocal y la fuerza va en la última"}, {"enun": "<i>caracteres<\/i>", "sol": "llana acabada en vocal, -n o -s: no lleva", "porque": "acaba en -s y la fuerza va en la penúltima"}, {"enun": "<i>textil<\/i>", "sol": "aguda acabada en otra consonante: no lleva", "porque": "acaba en -l"}, {"enun": "<i>escuchémosle<\/i>", "sol": "esdrújula o sobresdrújula: lleva", "porque": "la fuerza va en la antepenúltima"}, {"enun": "<i>búho<\/i>", "sol": "hiato con la cerrada tónica: lleva", "porque": "<i>ú<\/i> tónica junto a <i>o<\/i>"}, {"enun": "<i>abdomen<\/i>", "sol": "llana acabada en vocal, -n o -s: no lleva", "porque": "acaba en -n y la fuerza va en la penúltima"}], "criterio": "Cada palabra cae en una sola regla, y las dos de hiato se deciden antes que las demás: si hay hiato con la cerrada tónica, la tilde va aunque la regla general no la pida.", "apoyo": "todo", "solo_web": true}], "cuaderno": {"pieza": "A-3", "apartados": ["Set 2025S"]}, "cuaderno_txt": "Anexo A-3 · El gimnasio: sets de tildes y formas verbales — el cuaderno: Set 2025S (p. 295)", "teoria_dossier": true}, {"chapa": "Carril C", "titulo": "Nombre y adjetivo I: plurales, femeninos y diminutivos", "meta": "45 minutos · las preguntas de lista de cinco palabras: los dos sets de plural, los dos de femenino y el de diminutivo, con sus claves", "teoria": "<div class=\"enelexamen\"><strong>En el examen.<\/strong> Cuatro ítems del bloque 3 salen de esta pieza, y entre los cuatro suman casi medio punto por examen:<\/div>\n<table>\n<thead>\n<tr>\n<th>ítem<\/th>\n<th>cae<\/th>\n<th>qué pide<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td><strong>El sustantivo primitivo<\/strong> de cuatro o cinco palabras derivadas<\/td>\n<td>6 de 24<\/td>\n<td><em>dentífrico<\/em> → <em>diente<\/em><\/td>\n<\/tr>\n<tr>\n<td><strong>Cinco palabras derivadas<\/strong> de una palabra dada<\/td>\n<td>6 de 24<\/td>\n<td><em>piedra<\/em> → cinco<\/td>\n<\/tr>\n<tr>\n<td><strong>Plurales, femeninos o diminutivos<\/strong> de cinco sustantivos<\/td>\n<td>6 de 24<\/td>\n<td><em>tabú<\/em> → <em>tabús<\/em> o <em>tabúes<\/em><\/td>\n<\/tr>\n<tr>\n<td><strong>Prefijada, compuesta o parasintética<\/strong><\/td>\n<td>5 de 24<\/td>\n<td>clasificar por su estructura<\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n<h3>1 · Cómo se puntúan estas preguntas<\/h3>\n<p>Son <strong>preguntas de lista<\/strong>, y se corrigen elemento a elemento. El descuento por cada uno que falte o esté mal depende de cuántos pidan:<\/p>\n<table>\n<thead>\n<tr>\n<th>elementos pedidos<\/th>\n<th>descuento por cada fallo<\/th>\n<th>dónde consta<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td><strong>cinco<\/strong><\/td>\n<td><strong>0,1<\/strong><\/td>\n<td>2017t, 2020t, 2020s, 2025s, 2025t, 2026s, 2026t<\/td>\n<\/tr>\n<tr>\n<td><strong>cuatro<\/strong><\/td>\n<td><strong>0,15<\/strong><\/td>\n<td>2016s<\/td>\n<\/tr>\n<tr>\n<td><strong>tres<\/strong><\/td>\n<td><strong>0,16<\/strong><\/td>\n<td>2016t<\/td>\n<\/tr>\n<tr>\n<td><strong>dos<\/strong><\/td>\n<td><strong>0,25<\/strong><\/td>\n<td>2021s<\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n<p>El reparto no es una regla fija: 2016t descuenta 0,12 por cada uno en un ítem de cuatro femeninos, y 0,15 × 4 daría 0,6 sobre un ítem de 0,5. Lo que sí se repite es el criterio de las claves: <strong>medio punto repartido entre los elementos que se piden<\/strong>.<\/p>\n<p><strong>Dos consecuencias prácticas.<\/strong> La primera: <strong>se contestan todos los que piden<\/strong>, aunque el quinto sea el menos seguro, porque dejarlo en blanco descuenta lo mismo que ponerlo mal. La segunda, que sale literal de las claves: «se descontarán 0,1 puntos por cada palabra que falte o que sea errónea <strong>o esté mal escrita<\/strong>». <strong>Una palabra bien pensada y mal escrita descuenta igual que una equivocada.<\/strong><\/p>\n<h3>4 · Plurales, femeninos y diminutivos<\/h3>\n<h4>Plurales<\/h4>\n<p>Dos sets reales: <em>vals, tabú, pasapurés, rapaz, compás<\/em> (2020t) y <em>jueves, tabú, arpón, desliz, análisis<\/em>.<\/p>\n<table>\n<thead>\n<tr>\n<th>singular<\/th>\n<th>plural<\/th>\n<th>por qué<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td>vals<\/td>\n<td><strong>valses<\/strong><\/td>\n<td>acabado en consonante, añade <em>-es<\/em><\/td>\n<\/tr>\n<tr>\n<td>tabú<\/td>\n<td><strong>tabús<\/strong> o <strong>tabúes<\/strong><\/td>\n<td>acabado en <em>-ú<\/em> tónica: la clave oficial de 2015t da «tabús (o tabúes)»<\/td>\n<\/tr>\n<tr>\n<td>pasapurés<\/td>\n<td><strong>pasapurés<\/strong><\/td>\n<td>compuesto de verbo más sustantivo en plural, como <em>sacacorchos<\/em>: <strong>no cambia<\/strong><\/td>\n<\/tr>\n<tr>\n<td>rapaz<\/td>\n<td><strong>rapaces<\/strong><\/td>\n<td>la <em>z<\/em> pasa a <em>c<\/em> delante de <em>e<\/em><\/td>\n<\/tr>\n<tr>\n<td>compás<\/td>\n<td><strong>compases<\/strong><\/td>\n<td>aguda acabada en <em>-s<\/em>: añade <em>-es<\/em> y <strong>pierde la tilde<\/strong><\/td>\n<\/tr>\n<tr>\n<td>jueves<\/td>\n<td><strong>jueves<\/strong><\/td>\n<td>llana acabada en <em>-s<\/em>: no cambia<\/td>\n<\/tr>\n<tr>\n<td>arpón<\/td>\n<td><strong>arpones<\/strong><\/td>\n<td>pierde la tilde al añadir sílaba<\/td>\n<\/tr>\n<tr>\n<td>desliz<\/td>\n<td><strong>deslices<\/strong><\/td>\n<td><em>z<\/em> → <em>c<\/em><\/td>\n<\/tr>\n<tr>\n<td>análisis<\/td>\n<td><strong>análisis<\/strong><\/td>\n<td>esdrújula acabada en <em>-s<\/em>: no cambia<\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n<p><strong>Los dos grupos que dan los puntos:<\/strong> los que <strong>no cambian<\/strong> —<em>jueves<\/em> y <em>análisis<\/em>, llano y esdrújula acabados en <em>-s<\/em>— y los que <strong>pierden la tilde<\/strong> al crecer una sílaba —<em>compás<\/em> → <em>compases<\/em>, <em>arpón<\/em> → <em>arpones<\/em>—. <em>Pasapurés<\/em> también se queda igual, y por otra razón: es agudo, y lo que lo hace invariable es su formación, verbo más sustantivo en plural. En <em>régimen<\/em> → <em>regímenes<\/em> la tilde ni se gana ni se pierde: las dos formas son esdrújulas y la tilde se mueve con la fuerza.<\/p>\n<h4>Femeninos<\/h4>\n<p><em>Emperador<\/em> → <strong>emperatriz<\/strong>; <em>alcalde<\/em> → <strong>alcaldesa<\/strong>; <em>testigo<\/em> → <strong>la testigo<\/strong>, que es común en cuanto al género y solo cambia el artículo, como <em>el pianista / la pianista<\/em>. Distinto es <em>la víctima<\/em>, que es <strong>epiceno<\/strong>: una sola forma y un solo artículo para los dos sexos —«la víctima era un hombre de sesenta años»—.<\/p>\n<p><strong>Los acabados en consonante añaden <em>-a<\/em>,<\/strong> y si eran agudos con tilde la pierden, porque la palabra gana una sílaba y pasa a llana acabada en vocal: <em>bailarín<\/em> → <strong>bailarina<\/strong>, <em>escocés<\/em> → <strong>escocesa<\/strong>. En el examen se escriben con el artículo delante. La clave de 2019s da así las cinco que pedía: <em>la maniquí<\/em>, <em>la bailarina<\/em>, <em>la alcaldesa<\/em>, <em>la escocesa<\/em>, <em>la testigo<\/em>; en <em>maniquí<\/em> y <em>testigo<\/em> el artículo es lo único que marca el femenino.<\/p>\n<h4>Diminutivos<\/h4>\n<p>Set real de 2025t: <em>agua, pez, ruido, lluvia, examen<\/em>.<\/p>\n<table>\n<thead>\n<tr>\n<th>palabra<\/th>\n<th>diminutivo<\/th>\n<th>por qué<\/th>\n<\/tr>\n<\/thead>\n<tbody>\n<tr>\n<td>agua<\/td>\n<td><strong>agüita<\/strong><\/td>\n<td>necesita diéresis para que la <em>u<\/em> suene<\/td>\n<\/tr>\n<tr>\n<td>pez<\/td>\n<td><strong>pececito<\/strong><\/td>\n<td>la <em>z<\/em> pasa a <em>c<\/em>, y entra <em>-ecito<\/em><\/td>\n<\/tr>\n<tr>\n<td>ruido<\/td>\n<td><strong>ruidito<\/strong><\/td>\n<td>regular<\/td>\n<\/tr>\n<tr>\n<td>lluvia<\/td>\n<td><strong>lluviecita<\/strong> o <strong>lluvita<\/strong><\/td>\n<td>la clave admite las dos<\/td>\n<\/tr>\n<tr>\n<td>examen<\/td>\n<td><strong>examencito<\/strong><\/td>\n<td><\/td>\n<\/tr>\n<\/tbody>\n<\/table>\n<p><em>La clave admite también las formas en -illo / -illa.<\/em><\/p>", "ejercicios": [{"tipo": "hueco", "titulo": "Plurales", "dossier": {"cuaderno": "7", "ejercicio": 3}, "ayuda": "Escribe el plural de cada sustantivo, con su tilde si la lleva.", "estricto": true, "items": [{"enun": "<i>lunes<\/i>", "sol": "lunes", "porque": "llana acabada en -s: no cambia"}, {"enun": "<i>champú<\/i>", "sol": "champús|champúes", "porque": "las dos formas son válidas"}, {"enun": "<i>cruz<\/i>", "sol": "cruces", "porque": "la <i>z<\/i> pasa a <i>c<\/i>"}, {"enun": "<i>sartén<\/i>", "sol": "sartenes", "porque": "pierde la tilde: al ganar una sílaba pasa a llana acabada en -s"}, {"enun": "<i>paraguas<\/i>", "sol": "paraguas", "porque": "llana acabada en -s: no cambia"}, {"enun": "<i>carácter<\/i>", "sol": "caracteres", "porque": "pierde la tilde y mueve la fuerza una sílaba: ca-rac-<b>te<\/b>-res"}], "criterio": "<i>Lunes<\/i> y <i>paraguas<\/i> no cambian, porque son llanas acabadas en -s. <i>Cruz<\/i> cambia la <i>z<\/i> por <i>c<\/i>. <i>Sartenes<\/i> pierde la tilde al pasar a llana acabada en -s, y <i>caracteres<\/i> la pierde además porque la fuerza pasa a otra sílaba. <i>Caracteres<\/i> ha aparecido tres veces como señuelo en el ejercicio de tildes.", "apoyo": ["4 · Plurales, femeninos y diminutivos", "Plurales"], "dossier_txt": "Del dossier: pieza 7, ejercicio 3"}, {"tipo": "hueco", "titulo": "Diminutivos", "dossier": {"cuaderno": "7", "ejercicio": 4}, "ayuda": "Escribe el diminutivo de cada sustantivo. Se admiten las formas en <i>-ito<\/i> y en <i>-illo<\/i>.", "estricto": true, "items": [{"enun": "<i>lengua<\/i>", "sol": "lengüita|lengüilla", "porque": "la diéresis hace sonar la <i>u<\/i>"}, {"enun": "<i>nuez<\/i>", "sol": "nuececita|nuececilla", "porque": "el mismo cambio de <i>z<\/i> a <i>c<\/i> que <i>pececito<\/i>"}, {"enun": "<i>pie<\/i>", "sol": "piececito|piececillo", "porque": "monosílabo: <i>-ecito<\/i>"}, {"enun": "<i>mano<\/i>", "sol": "manita|manecita", "porque": "las dos formas están admitidas"}, {"enun": "<i>joven<\/i>", "sol": "jovencito|jovencillo", "porque": "acabada en -n: <i>-cito<\/i>"}], "criterio": "<i>Lengüita<\/i> lleva diéresis para que suene la <i>u<\/i>, como <i>agüita<\/i>. <i>Nuez<\/i> y <i>pie<\/i> son monosílabos y toman <i>-ecito<\/i>, y <i>nuez<\/i> cambia además la <i>z<\/i> por <i>c<\/i>. <i>Joven<\/i>, acabada en -n, toma <i>-cito<\/i>. De <i>mano<\/i> se admiten <i>manita<\/i> y <i>manecita<\/i>.", "apoyo": ["4 · Plurales, femeninos y diminutivos", "Diminutivos"], "dossier_txt": "Del dossier: pieza 7, ejercicio 4"}, {"tipo": "hueco", "titulo": "Set 2020t: escriba el plural de los siguientes sustantivos", "estricto": true, "ayuda": "Las cinco palabras del ejercicio de 2020, con su clave oficial. Escribe cada plural con su tilde si la lleva.", "items": [{"enun": "<i>vals<\/i>", "conv": "2020t", "sol": "valses", "porque": "acabado en consonante: <i>-es<\/i>"}, {"enun": "<i>tabú<\/i>", "conv": "2020t", "sol": "tabúes|tabús", "porque": "la clave de 2020 da <i>tabúes<\/i>; la de 2015, <i>tabús<\/i> o <i>tabúes<\/i>: las dos valen"}, {"enun": "<i>pasapurés<\/i>", "conv": "2020t", "sol": "pasapurés", "porque": "llana acabada en -s: no cambia"}, {"enun": "<i>rapaz<\/i>", "conv": "2020t", "sol": "rapaces", "porque": "la <i>z<\/i> pasa a <i>c<\/i>"}, {"enun": "<i>compás<\/i>", "conv": "2020t", "sol": "compases", "porque": "aguda en -s que pasa a llana: pierde la tilde"}], "criterio": "Las dos trampas del set: <i>pasapurés<\/i>, que no cambia, y <i>compás<\/i>, que pierde la tilde. Escribir ⊗<i>compáses<\/i> cuenta como plural fallado aunque la forma sea la correcta.", "apoyo": ["4 · Plurales, femeninos y diminutivos"], "solo_web": true}, {"tipo": "hueco", "titulo": "Set 2015t: escriba el plural de los siguientes sustantivos", "estricto": true, "ayuda": "Las cinco palabras del ejercicio de 2015, con su clave oficial.", "items": [{"enun": "<i>jueves<\/i>", "conv": "2015t", "sol": "jueves", "porque": "llana acabada en -s: no cambia"}, {"enun": "<i>tabú<\/i>", "conv": "2015t", "sol": "tabús|tabúes", "porque": "la clave admite las dos"}, {"enun": "<i>arpón<\/i>", "conv": "2015t", "sol": "arpones", "porque": "pierde la tilde al ganar una sílaba"}, {"enun": "<i>desliz<\/i>", "conv": "2015t", "sol": "deslices", "porque": "la <i>z<\/i> pasa a <i>c<\/i>"}, {"enun": "<i>análisis<\/i>", "conv": "2015t", "sol": "análisis", "porque": "esdrújula acabada en -s: no cambia"}], "criterio": "El mismo diseño que el de 2020: dos que no cambian, una que pierde la tilde, una <i>z<\/i> y un <i>tabú<\/i>. Los dos sets juntos son los cinco grupos de la tabla.", "apoyo": ["4 · Plurales, femeninos y diminutivos"], "solo_web": true}, {"tipo": "clasificar", "titulo": "¿Qué le pasa al plural?", "ops": ["no cambia", "pierde la tilde", "gana la tilde", "la z pasa a c", "añade -s y nada más"], "ayuda": "Diez palabras que no están en los sets reales. Explica qué le pasa a cada una al pasar al plural.", "items": [{"enun": "<i>sofá<\/i>", "sol": "añade -s y nada más", "porque": "<i>sofás<\/i>: acabada en vocal, conserva la tilde"}, {"enun": "<i>lápiz<\/i>", "sol": "la z pasa a c", "porque": "<i>lápices<\/i>, y conserva la tilde porque sigue siendo llana acabada en consonante distinta de -s"}, {"enun": "<i>examen<\/i>", "sol": "gana la tilde", "porque": "<i>exámenes<\/i>: al ganar una sílaba pasa a esdrújula"}, {"enun": "<i>café<\/i>", "sol": "añade -s y nada más", "porque": "<i>cafés<\/i>: acabada en vocal"}, {"enun": "<i>volumen<\/i>", "sol": "gana la tilde", "porque": "<i>volúmenes<\/i>: esdrújula"}, {"enun": "<i>tesis<\/i>", "sol": "no cambia", "porque": "llana acabada en -s: <i>las tesis<\/i>"}, {"enun": "<i>virus<\/i>", "sol": "no cambia", "porque": "llana acabada en -s: <i>los virus<\/i>"}, {"enun": "<i>canción<\/i>", "sol": "pierde la tilde", "porque": "<i>canciones<\/i>: al ganar una sílaba pasa a llana acabada en -s"}, {"enun": "<i>francés<\/i>", "sol": "pierde la tilde", "porque": "<i>franceses<\/i>: llana acabada en -s"}, {"enun": "<i>origen<\/i>", "sol": "gana la tilde", "porque": "<i>orígenes<\/i>: al ganar una sílaba pasa a esdrújula"}], "criterio": "Las que ganan o pierden la tilde se deciden con la regla general aplicada al plural: <i>canciones<\/i> es llana acabada en -s y <i>exámenes<\/i> es esdrújula. <i>Tesis<\/i> y <i>virus<\/i> no cambian, porque son llanas acabadas en -s.", "apoyo": ["4 · Plurales, femeninos y diminutivos"], "solo_web": true}, {"tipo": "hueco", "titulo": "Femeninos: los dos sets reales", "estricto": true, "ayuda": "Las cuatro palabras de 2016t y las cinco de 2019s, con su clave oficial. En las que no cambian de forma, escribe el artículo delante: <i>la testigo<\/i>.", "items": [{"enun": "<i>sacerdote<\/i>", "conv": "2016t", "sol": "sacerdotisa|la sacerdotisa", "porque": "<i>-isa<\/i>"}, {"enun": "<i>emperador<\/i>", "conv": "2016t", "sol": "emperatriz|la emperatriz", "porque": "<i>-triz<\/i>"}, {"enun": "<i>héroe<\/i>", "conv": "2016t", "sol": "heroína|la heroína", "porque": "<i>-ina<\/i>, y pierde la tilde: <i>he-ro-í-na<\/i> lleva la suya por el hiato"}, {"enun": "<i>barón<\/i>", "conv": "2016t", "sol": "baronesa|la baronesa", "porque": "<i>-esa<\/i>, y pierde la tilde"}, {"enun": "<i>maniquí<\/i>", "conv": "2019s", "sol": "la maniquí|maniquí", "porque": "común en cuanto al género: solo cambia el artículo"}, {"enun": "<i>bailarín<\/i>", "conv": "2019s", "sol": "la bailarina|bailarina", "porque": "añade <i>-a<\/i> y pierde la tilde"}, {"enun": "<i>alcalde<\/i>", "conv": "2019s", "sol": "la alcaldesa|alcaldesa", "porque": "<i>-esa<\/i>"}, {"enun": "<i>escocés<\/i>", "conv": "2019s", "sol": "la escocesa|escocesa", "porque": "añade <i>-a<\/i> y pierde la tilde"}, {"enun": "<i>testigo<\/i>", "conv": "2019s", "sol": "la testigo|testigo", "porque": "común en cuanto al género: <i>la testigo<\/i>; ⊗<i>la testiga<\/i> cuenta como fallo"}], "criterio": "Cuatro terminaciones propias, dos que añaden <i>-a<\/i> y dos que no cambian. Las que pierden la tilde —<i>bailarina<\/i>, <i>escocesa<\/i>, <i>baronesa<\/i>— la pierden por la regla general: al ganar una sílaba pasan a llanas acabadas en vocal.", "apoyo": ["Femeninos"], "solo_web": true}, {"tipo": "hueco", "titulo": "Set 2025t: escriba el diminutivo de los siguientes sustantivos", "estricto": true, "ayuda": "Las cinco palabras del ejercicio de 2025, con su clave oficial. La clave admite también las formas en <i>-illo<\/i>.", "items": [{"enun": "<i>agua<\/i>", "conv": "2025t", "sol": "agüita|agüilla", "porque": "la diéresis hace sonar la <i>u<\/i>; ⊗<i>aguita<\/i> se leería sin ella"}, {"enun": "<i>pez<\/i>", "conv": "2025t", "sol": "pececito|pececillo", "porque": "monosílabo: <i>-ecito<\/i>, y la <i>z<\/i> pasa a <i>c<\/i>"}, {"enun": "<i>ruido<\/i>", "conv": "2025t", "sol": "ruidito|ruidillo", "porque": "<i>-ito<\/i>, regular"}, {"enun": "<i>lluvia<\/i>", "conv": "2025t", "sol": "lluviecita|lluvita|lluviecilla|lluvilla", "porque": "la clave admite <i>lluviecita<\/i> y <i>lluvita<\/i>"}, {"enun": "<i>examen<\/i>", "conv": "2025t", "sol": "examencito|examencillo", "porque": "acabada en -n: <i>-cito<\/i>"}], "criterio": "Las dos trampas del set son de letra: la diéresis de <i>agüita<\/i> y la <i>c<\/i> de <i>pececito<\/i>. Un diminutivo bien formado y sin la diéresis cuenta como fallo.", "apoyo": ["Diminutivos"], "solo_web": true}, {"tipo": "abierta", "titulo": "Explica la tilde que va y viene", "ayuda": "Dos o tres líneas.", "items": [{"enun": "¿Por qué <i>compás<\/i> pierde la tilde en <i>compases<\/i> y <i>examen<\/i> la gana en <i>exámenes<\/i>?", "modelo": "Porque la tilde depende de en qué sílaba va la fuerza y en qué acaba la palabra, y el plural añade una sílaba sin mover la fuerza. <i>Compás<\/i> es aguda acabada en -s y lleva tilde; en <i>compases<\/i> la fuerza sigue en la misma sílaba, que ahora es la penúltima, y una llana acabada en -s no la lleva. <i>Examen<\/i> es llana acabada en -n y no la lleva; en <i>exámenes<\/i> la fuerza sigue en la misma sílaba, que ahora es la antepenúltima, y las esdrújulas la llevan siempre."}], "criterio": "La explicación completa nombra los dos datos que cambian —la posición de la fuerza contada desde el final y la terminación— y los aplica a las dos palabras. Contestar «porque cambia la sílaba tónica» no basta: la sílaba tónica es la misma, y lo que cambia es el número de sílabas que quedan detrás.", "apoyo": ["4 · Plurales, femeninos y diminutivos"], "solo_web": true}], "cuaderno": {"pieza": 7, "apartados": [1, 4], "ejercicios": [3, 4]}, "cuaderno_txt": "Pieza 7 · Nombre y adjetivo: plurales, femeninos, derivadas y primitivos — apartados 1 y 4: Cómo se puntúan estas preguntas; Plurales, femeninos y diminutivos (p. 172 y 177) · ejercicios 3 y 4", "teoria_dossier": true}], "pie": "Ejercicios del curso de PAU +25 del CFA L'Alzina de Cerdanyola, 2026-27. Las palabras y los enunciados marcados con un año están tomados de las <i>Proves d'accés a la universitat per a més grans de 25 anys<\/i> de la Generalitat de Catalunya, documentos públicos, y las respuestas proceden de sus criterios oficiales de corrección. El texto del carril B está inventado para practicar.", "revision": "2026-09-24"};</script>
 <script>
 /* Motor de ejercicios · PAU +25 Castellà 26-27
    Formato de estado compatible con castellano 2:
@@ -306,7 +382,7 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
 
   var DIA = window.DIA;
   /* La llave lleva la materia delante. Las páginas de CAS y las de PAU +25 se
-     sirven desde el mismo sitio —oscaralejandrobanos.github.io/2026/—, así que
+     sirven desde el mismo sitio —cfalalzinaoab.github.io/2026/—, así que
      comparten localStorage: con una llave común, el día 3 de CAS y el día 3 de
      PAU se pisarían el progreso el uno al otro. */
   var LLAVE = 'pau2627-dia-' + String(DIA.dia).padStart(2, '0');
@@ -456,14 +532,43 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
     });
     return nodo;
   }
-  /* la teoría del carril partida en bloques: lo anterior al primer <h3> y un
-     bloque por cada <h3>. "apoyo" del ejercicio dice cuáles enseñar. */
+  /* La teoría que sale del dossier trae un h3 por apartado, y una sesión puede
+     traer más de mil palabras: los ejercicios quedaban a varias pantallas del
+     título del carril. Por encima de PLIEGUE palabras, cada apartado se pliega
+     bajo su título; por debajo, la teoría se lee seguida, como en el papel. */
+  var PLIEGUE = 1200;
+  function pliegaApartados(nodo) {
+    var h3s = Array.prototype.slice.call(nodo.children).filter(function (x) { return x.tagName === 'H3'; });
+    if (!h3s.length) return nodo;
+    if ((nodo.textContent.match(/\S+/g) || []).length <= PLIEGUE) return nodo;
+    h3s.forEach(function (h) {
+      var det = el('details', 'ap-dossier');
+      var sum = el('summary');
+      nodo.insertBefore(det, h);
+      sum.appendChild(h);
+      det.appendChild(sum);
+      while (det.nextSibling && det.nextSibling.tagName !== 'H3') det.appendChild(det.nextSibling);
+    });
+    return nodo;
+  }
+  /* la teoría del carril partida en bloques: lo anterior al primer encabezado y
+     un bloque por cada <h3> o <h4>. La teoría que sale del dossier trae un h3 por
+     apartado y un h4 por subapartado; el bloque de un h3 lleva dentro sus h4, y
+     el de un h4 sabe de qué h3 es. "apoyo" del ejercicio dice cuáles enseñar.
+     _teoria_web.py hace el mismo corte en Python. */
   function bloquesTeoria(html) {
-    var partes = (html || '').split(/(<h3[^>]*>[\s\S]*?<\/h3>)/);
-    var out = [{ titulo: '', html: partes[0] }];
+    var partes = (html || '').split(/(<h[34][^>]*>[\s\S]*?<\/h[34]>)/);
+    var out = [{ titulo: '', html: partes[0], padre: null }], h3 = null;
     for (var i = 1; i < partes.length; i += 2) {
       var tit = partes[i].replace(/<[^>]+>/g, '').trim();
-      out.push({ titulo: tit, html: partes[i] + (partes[i + 1] || '') });
+      var cuerpo = partes[i] + (partes[i + 1] || '');
+      var es3 = /^<h3/i.test(partes[i]);
+      if (es3) {
+        for (var j = i + 2; j < partes.length && !/^<h3/i.test(partes[j]); j += 2)
+          cuerpo += partes[j] + (partes[j + 1] || '');
+        h3 = tit;
+      }
+      out.push({ titulo: tit, html: cuerpo, padre: es3 ? null : h3 });
     }
     return out;
   }
@@ -483,6 +588,9 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
     if (parcial) {
       var elegidos = bs.filter(function (b) {
         return (b.titulo === '' && ap.indexOf('intro') >= 0) || (b.titulo && ap.indexOf(b.titulo) >= 0);
+      }).filter(function (b) {
+        /* un subapartado cuyo apartado también se enseña ya va dentro de él */
+        return !(b.padre && ap.indexOf(b.padre) >= 0);
       });
       if (!elegidos.length) parcial = false;
       else {
@@ -553,6 +661,8 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
     h.appendChild(el('div', 'num', String(n)));
     h.appendChild(el('div', 'ej-t', ej.titulo));
     box.appendChild(h);
+    /* de qué ejercicio del dossier sale: el mismo que el alumno tiene en papel */
+    if (ej.dossier_txt) box.appendChild(el('p', 'ej-dossier', ej.dossier_txt));
     if (ej.ayuda) box.appendChild(el('p', 'ej-ayuda', ej.ayuda));
 
     var cont = el('div', 'items');
@@ -615,14 +725,16 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
         campo.value = e.v[k] || '';
         campo.placeholder = ej.pide || (ej.tipo === 'justificar' ? 'Explica por qué…' : 'Escribe aquí tu respuesta…');
         var cuenta = null;
-        if (ej.tipo === 'abierta' && ej.palabras) {
+        /* la consigna de extensión puede ir en el ítem: el mismo plan, en 50-80 y en 150-200 */
+        var P0 = it.palabras || ej.palabras;
+        if (ej.tipo === 'abierta' && P0) {
           /* consigna de extensión: {min, max} o {objetivo}. Se cuenta lo escrito,
              que es lo que el alumno tiene que hacer en el examen antes de entregar */
           campo.classList.add('larga');
           cuenta = el('div', 'cuenta', '');
           var pintaCuenta = function () {
             var n = (campo.value.match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu) || []).length;
-            var P = ej.palabras, t = n + (n === 1 ? ' palabra' : ' palabras'), fuera = false;
+            var P = P0, t = n + (n === 1 ? ' palabra' : ' palabras'), fuera = false;
             if (P.min != null && P.max != null) {
               t += ' · consigna: entre ' + P.min + ' y ' + P.max;
               fuera = n > 0 && (n < P.min || n > P.max);
@@ -716,7 +828,10 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
     sol.appendChild(el('summary', null, 'La clave' + (ej.criterio ? ' y el criterio' : '')));
     var sc = el('div', 'sol-c');
     (ej.items || []).forEach(function (it, i) {
-      if (it.sol) sc.appendChild(el('p', null, '<b>' + letra(i) + ')</b> ' + it.sol));
+      /* una clave con varias respuestas válidas las separa con «|» en el JSON;
+         en pantalla van con « / », que se lee y deja cada palabra entera */
+      if (it.sol) sc.appendChild(el('p', null, '<b>' + letra(i) + ')</b> ' +
+        String(it.sol).split('|').join(' / ')));
       else if (it.modelo) sc.appendChild(el('p', null, '<b>' + letra(i) + ')</b> ' + it.modelo));
     });
     (ej.modelos || []).forEach(function (m) { sc.appendChild(el('div', 'modelo', m)); });
@@ -957,25 +1072,49 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
           cuerpo.appendChild(fila);
         });
         caja.appendChild(cuerpo);
-        if (L.pie) caja.appendChild(el('div', 'lec-p', L.pie));
+        /* el pie de los textos de examen acaba con el nombre del cuadernillo
+           —Exámenes/2019_general_llengua_castellana_titular.pdf—: un <wbr> detrás
+           de cada barra y de cada guion bajo deja partir el renglón por ahí, y no
+           por dentro de una palabra. Las etiquetas no se tocan. */
+        if (L.pie) caja.appendChild(el('div', 'lec-p', L.pie.split(/(<[^>]+>)/).map(function (s, i) {
+          return i % 2 ? s : s.replace(/([\/_])/g, '$1<wbr>');
+        }).join('')));
         sec.appendChild(caja);
       }
       if (c.teoria) {
-        var t = el('div', null, c.teoria);
-        t.querySelectorAll('table').forEach(function (tb) {
-          var w = el('div', 'tabla-scroll');
-          tb.parentNode.insertBefore(w, tb); w.appendChild(tb);
-        });
+        var t = el('div', c.teoria_dossier ? 'teoria dossier' : 'teoria', c.teoria);
+        if (c.teoria_dossier) pliegaApartados(t);
+        envuelveTablas(t);
         sec.appendChild(t);
       }
+      var yaWeb = false;
       (c.ejercicios || []).forEach(function (ej) {
+        /* los ejercicios del dossier van primero; los que no están en papel,
+           detrás de un rótulo que lo dice */
+        if (ej.solo_web && !yaWeb) {
+          sec.appendChild(el('p', 'solo-web', 'Práctica que solo está en la web'));
+          yaWeb = true;
+        }
         var box = pinta(ej, ejercicios.length);
         var cab = box.querySelector('.ej-h');
         var iconos = el('div', 'ej-icos');
         /* las preguntas van sobre el texto: se abre encima, sin perder el sitio.
            Si el carril no tiene texto pero el día sí, en otro carril, y el
            ejercicio pregunta por él, el icono abre ese */
-        var li = c.lectura ? ci : (hablaDelTexto(ej) ? lecturaDelDia : -1);
+        /* "usa_texto": false quita el icono también en el carril del texto: lo
+           llevan las preguntas que van sobre otro texto, el que trae la teoría */
+        var li = ej.usa_texto === false || ej.texto_html ? -1 :
+          (c.lectura ? ci : (hablaDelTexto(ej) ? lecturaDelDia : -1));
+        /* el ejercicio que pregunta por un texto del dossier que hoy no está en
+           la página trae el suyo */
+        if (ej.texto_html) {
+          var btx = botonIcono('ico-texto', ICONO.texto, 'texto', 'Ver el texto');
+          btx.onclick = function () {
+            var caja = envuelveTablas(el('div', 'teoria dossier', ej.texto_html));
+            abreVentana(c.chapa + ' · el texto', ej.texto_titulo || 'El texto', caja, btx);
+          };
+          iconos.appendChild(btx);
+        }
         if (li >= 0) {
           var bt = botonIcono('ico-texto', ICONO.texto, 'texto', 'Ver el texto');
           bt.onclick = function () {
@@ -1010,6 +1149,59 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
       localStorage.removeItem(LLAVE); location.reload();
     };
     progreso();
+    vigilaCortes();
+  }
+
+  /* Ninguna palabra se parte de un renglón a otro (lo pidió Osky el
+     24-09-2026). El navegador admite un corte detrás de un guion, de una
+     barra o de unos puntos suspensivos, y a los dos lados de una raya: «-aba»
+     podía quedar con el guion al final de una línea y «aba» al principio de
+     la siguiente, y una raya de cierre podía abrir renglón. Cada palabra que
+     lleva uno de esos signos va
+     en un <span class="nb">, que no se parte. Las de más de treinta
+     caracteres, como un nombre de archivo o un enlace, se dejan partir,
+     porque en un móvil no caben en un renglón. Los textos de «cazar» no se
+     tocan: cada palabra ya es su propio <span class="tk">. */
+  var PARTIBLE = /[-\u2010\u2011\u2013\u2014\u2026\/]/;
+  function partible(t) { return t.length > 1 && t.length <= 30 && PARTIBLE.test(t); }
+  function sinPartir(raiz) {
+    var w = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentElement;
+        if (!p || !PARTIBLE.test(n.data)) return NodeFilter.FILTER_REJECT;
+        if (p.closest('script,style,textarea,.caza,.nb')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodos = [];
+    while (w.nextNode()) nodos.push(w.currentNode);
+    nodos.forEach(function (n) {
+      var trozos = n.data.split(/(\s+)/);
+      if (!trozos.some(partible)) return;
+      var frag = document.createDocumentFragment();
+      trozos.forEach(function (t) {
+        if (partible(t)) {
+          var s = document.createElement('span');
+          s.className = 'nb';
+          s.textContent = t;
+          frag.appendChild(s);
+        } else if (t) frag.appendChild(document.createTextNode(t));
+      });
+      n.parentNode.replaceChild(frag, n);
+    });
+  }
+  /* la página se pinta entera al arrancar, pero la ventana de teoría, las
+     soluciones y los veredictos se escriben después: se vigila el cuerpo */
+  function vigilaCortes() {
+    sinPartir(document.body);
+    new MutationObserver(function (cambios) {
+      cambios.forEach(function (c) {
+        c.addedNodes.forEach(function (n) {
+          if (n.nodeType === 1) sinPartir(n);
+          else if (n.nodeType === 3 && n.parentElement) sinPartir(n.parentElement);
+        });
+      });
+    }).observe(document.body, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arranca);

@@ -29,7 +29,14 @@ body{margin:0;background:var(--fondo);color:var(--tinta);
   font:16px/1.65 Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif;
   font-variant-numeric:lining-nums;
   -webkit-text-size-adjust:100%}
-/* texto alineado a la izquierda: en pantalla la justificación abre ríos y la partición de palabras depende del navegador */
+/* El texto corrido va justificado y sin partir palabras (lo pidió Osky el
+   24-09-2026): sin partición, el renglón se iguala abriendo el espacio entre
+   palabras. A la izquierda se quedan los títulos, las tablas, los botones,
+   los campos que se rellenan y los textos de examen con las líneas
+   numeradas, porque cada fila copia un renglón del cuadernillo. */
+body{text-align:justify;hyphens:none;-webkit-hyphens:none}
+h1,h2,h3,h4,h5,h6,.kicker,.sub,.meta,.ej-t,.lec-t,.lec-f,.textoexamen,nav,summary,
+button,input,textarea,select,.ops,.chapa,.conv,.pie{text-align:left}
 .env{max-width:860px;margin:0 auto;padding:0 18px 90px}
 
 /* cabecera */
@@ -244,7 +251,7 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
 
 /* cazar faltas */
 .caza{margin-top:9px;line-height:1.95;font-size:15px}
-.tk{cursor:pointer;padding:2px 3px;border-radius:5px;border-bottom:2px solid transparent;
+.tk{cursor:pointer;padding:2px 3px;border-radius:5px;border-bottom:2px solid transparent;white-space:nowrap;
   transition:background .12s,border-color .12s}
 .tk:hover{background:var(--acento2)}
 .tk.sel{background:var(--acento2);border-bottom-color:var(--acento);font-weight:600}
@@ -270,6 +277,75 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
   font-family:Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif}
 @media(max-width:560px){.lec-c{font-size:14px}.lec-n{flex-basis:17px}}
 
+/* la teoría que sale del dossier (_teoria_web.py): los mismos elementos que el
+   PDF —apartados, subapartados, recuadros, la línea «En el examen», versalitas
+   y los textos de examen con las líneas numeradas— con los colores de la web.
+   Los recuadros van también en la ventana de teoría de cada ejercicio. */
+:root{--verde:#3d7400;--verdef:#eef4e4}
+@media (prefers-color-scheme:dark){:root{--verde:#a4d17a;--verdef:#1e2717}}
+.teoria.dossier>h3,.teoria.dossier>details.ap-dossier:first-of-type{margin-top:26px}
+.teoria.dossier>h3{padding-top:16px;border-top:1px solid var(--linea)}
+.teoria h3,.v-bloque h3{font-size:17px;line-height:1.3;margin:24px 0 8px}
+.teoria h4,.v-bloque h4{font-size:15px;line-height:1.35;margin:20px 0 6px;color:var(--tinta2)}
+.teoria h5,.v-bloque h5{font-size:15px;margin:16px 0 4px}
+.teoria h6,.v-bloque h6{font-size:14px;margin:14px 0 4px;color:var(--tinta2)}
+.teoria ul,.teoria ol,.v-bloque ul,.v-bloque ol{padding-left:22px}
+.teoria li,.v-bloque li{margin-bottom:5px}
+.teoria hr,.v-bloque hr{border:0;border-top:1px solid var(--linea);margin:22px 18%}
+.teoria blockquote,.v-bloque blockquote{margin:14px 0;padding:11px 15px;background:var(--verdef);
+  border-left:3px solid var(--verde);border-radius:0 8px 8px 0;font-size:15px}
+.teoria blockquote p,.v-bloque blockquote p{margin:0 0 7px}
+.teoria blockquote p:last-child,.v-bloque blockquote p:last-child{margin-bottom:0}
+.teoria blockquote strong:first-child,.v-bloque blockquote strong:first-child{color:var(--verde)}
+.teoria blockquote.criterio,.v-bloque blockquote.criterio{background:var(--acento2);border-left-color:var(--acento)}
+.teoria blockquote.criterio strong:first-child,.v-bloque blockquote.criterio strong:first-child{color:var(--acento)}
+.teoria blockquote.juego,.v-bloque blockquote.juego{background:var(--fondo);border-left-color:var(--tinta3);font-size:14px}
+.teoria blockquote.juego strong:first-child,.v-bloque blockquote.juego strong:first-child{color:var(--tinta2)}
+.enelexamen{font-size:14px;line-height:1.55;background:var(--acento2);border-left:3px solid var(--acento);
+  padding:10px 14px;border-radius:0 8px 8px 0;margin:6px 0 18px}
+.enelexamen strong{color:var(--acento)}
+.vs{font-variant:small-caps;letter-spacing:.03em;font-weight:600}
+.teoria .hueco,.v-bloque .hueco{display:inline-block;border-bottom:1px solid var(--tinta3);height:.9em;
+  margin:0 .12em -.1em;vertical-align:baseline;max-width:40%}
+th.vacia,td.vacia{border:0;background:transparent;width:14px;padding:0}
+/* un texto de examen dentro de la teoría: una fila por línea, como la lectura */
+.textoexamen{border:1px solid var(--linea);border-radius:8px;padding:14px 17px;margin:14px 0 18px;
+  background:var(--fondo);font-size:14px;line-height:1.75}
+.textoexamen .ln{display:flex;gap:11px;align-items:baseline}
+.textoexamen .ln.blanca{height:9px}
+.textoexamen .n{flex:0 0 22px;text-align:right;color:var(--tinta3);user-select:none;
+  border-right:1px solid var(--linea);padding-right:9px;
+  font:400 11px/1.75 Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif}
+/* una línea del examen que no cabe sigue debajo con sangría: sin ella, el trozo
+   partido parece otra línea y la numeración de cinco en cinco se descoloca */
+.textoexamen .t{flex:1;white-space:pre-wrap;hyphens:none;min-width:0;padding-left:1.6em;text-indent:-1.6em}
+@media(max-width:560px){.textoexamen{padding:12px 12px;font-size:13px}.textoexamen .n{flex-basis:17px}}
+/* por encima de mil doscientas palabras, cada apartado se pliega bajo su título */
+details.ap-dossier{border-top:1px solid var(--linea)}
+details.ap-dossier+details.ap-dossier{margin-top:0}
+details.ap-dossier:last-of-type{border-bottom:1px solid var(--linea);margin-bottom:10px}
+details.ap-dossier>summary{cursor:pointer;list-style:none;display:flex;gap:9px;align-items:baseline;padding:13px 0;user-select:none}
+details.ap-dossier>summary::-webkit-details-marker{display:none}
+details.ap-dossier>summary::before{content:"▸";color:var(--acento);font-size:14px;flex:0 0 auto}
+details.ap-dossier[open]>summary::before{content:"▾"}
+details.ap-dossier>summary>h3{margin:0;padding:0;border:0;font-size:16px}
+details.ap-dossier>summary:hover>h3{color:var(--acento)}
+details.ap-dossier[open]{padding-bottom:12px}
+@media print{details.ap-dossier>summary::before{display:none}}
+/* de qué ejercicio del dossier sale el de la web */
+.ej-dossier{margin:-2px 0 8px 37px;font:700 11px/1.4 Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--tinta3)}
+@media(max-width:560px){.ej-dossier{margin-left:0}}
+/* el rótulo que separa los ejercicios del dossier de la práctica que solo está en la web */
+.solo-web{margin:38px 0 0;padding-top:14px;border-top:2px dashed var(--linea);
+  font:700 11px/1.4 Verdana,"DejaVu Sans",Geneva,Tahoma,sans-serif;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tinta3)}
+/* la terna de un ejercicio de huecos: las tres formas entre paréntesis */
+.terna{color:var(--tinta2);white-space:nowrap}
+/* una palabra con guion, barra o raya no se parte de un renglón a otro:
+   motor.js la mete en un <span class="nb"> (sinPartir) */
+.nb{white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -291,7 +367,7 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
   </div>
 </div>
 <div class="aviso" id="aviso"></div>
-<script>window.DIA = {"dia": 1, "fecha": "2026-09-24", "tab": "Día 1 · 24 sep · CAS Castellà", "kicker": "CAS Castellà 26-27 · primer trimestre · día 1", "h1": "Jueves 24 de septiembre", "sub": "Diagnóstico · no lleva nota · se recoge y se devuelve el 11 de mayo", "carriles": [{"chapa": "Antes de nada", "titulo": "Qué es esta prueba", "meta": "Lo único que hace falta saber hoy", "teoria": "<table><tr><th>bloque<\/th><th>puntos<\/th><th>qué te piden<\/th><\/tr><tr><td><b>1 · Comprensión y expresión<\/b><\/td><td>3,5<\/td><td>3-4 preguntas abiertas sobre un texto (2,5) + 4 palabras para explicar (1)<\/td><\/tr><tr><td><b>2 · Reflexión lingüística<\/b><\/td><td>3,5<\/td><td>cinco ejercicios, los mismos desde hace quince años<\/td><\/tr><tr><td><b>3 · Expresión escrita<\/b><\/td><td>3<\/td><td>unas cien palabras, eligiendo entre dos temas<\/td><\/tr><\/table><div class=\"nota\"><p><b>Cada falta de ortografía, gramática o léxico descuenta 0,10<\/b> en los bloques 1 y 2, hasta un tope de 2 puntos. Quince faltas descuentan 1,5: tres ejercicios enteros del bloque 2.<\/p><p><b>El texto de partida procede casi siempre de una columna de periódico<\/b>: en quince de las dieciséis últimas convocatorias. Una anécdota concreta abierta en reflexión general, en primera persona, sobre un tema social. Entre 500 y 745 palabras.<\/p><\/div><p><b>La prueba casi nunca te pide hacer: te pide explicar.<\/b> No te pide poner tildes: te pide decir por qué están puestas. De ahí que el carril A no practique poner tildes, sino explicar las que ya están puestas.<\/p>"}, {"chapa": "El texto", "titulo": "«Vecinos y gorrinos», de Rosa Montero", "meta": "Convocatoria 2011 · El País Semanal, 9 de enero de 2011 · 745 palabras — el más largo de las dieciséis", "teoria": "<div class=\"nota\"><p>Léelo dos veces. La primera, entera y sin parar. La segunda, marcando lo que no entiendas.<\/p><p>Y atiende a la <b>forma<\/b> antes que al contenido: primera persona, dos anécdotas concretas —la carta de una lectora y una escena de <i>Mad Men<\/i>— que se abren en una reflexión general. Es el formato de quince de las dieciséis convocatorias.<\/p><\/div><h3 style=\"font-size:17px;margin:22px 0 4px\">VECINOS Y GORRINOS<\/h3><p>Una lectora, Pilar López López, me manda una carta hablando de lo que ella llama «la degradación de la ciudad y el maltrato al paisaje». Se refiere a la tradicional tendencia de los españoles a engorrinar los espacios públicos, y adjunta media docena de fotos, en verdad espeluznantes, de contenedores madrileños rodeados por montañas de porquerías diversas: cascotes, bolsas de plástico rajadas derramando su podrido contenido por el suelo, trapos viejos, aparatos electrónicos destripados, ¡incluso la taza de un retrete! Una marea de inmundicias, en fin, que todos hemos visto mil veces por la calle y que a veces llega a bloquear la acera.<\/p><p>Con afilada pluma, Pilar dice que esos ciudadanos insolidarios que arrojan sus basuras en cualquier parte (hace falta descaro, desde luego, para tirar bolsas de residuos orgánicos junto a los receptáculos de cartón y vidrio) quizá sean «los mismos que van al supermercado y, después de coger un producto congelado, se arrepienten y lo dejan en la estantería de los detergentes». O también «los que entran en una tienda y cuando se les cae una prenda de la percha la dejan tirada en el suelo, obligando a que algún empleado la recoja, como si fuera nuestro esclavo». Sí, la lectora tiene razón, todo forma parte de lo mismo, a saber, la falta de conciencia cívica, la incultura social, el individualismo feroz y primitivo de este país.<\/p><p>A los ciudadanos se les puede educar, naturalmente. Recuerdo ahora una escena genial de Mad Men, esa estupenda serie de televisión que retrata la vida norteamericana de los años cincuenta. El protagonista, un ejecutivo de publicidad, y su mujer, una antigua modelo convertida en ama de casa, están de picnic en el campo. El paisaje es fabuloso, la pareja y los dos niños son guapísimos, y a la perfecta escena no le falta un detalle: han extendido un mantel impecable sobre la hierba, la ex modelo está sentada como una flor rodeada por el amplio vuelo de su falda y, unos metros más allá, les espera un rutilante Cadillac lleno de cromados. Terminada la merienda, y antes de marcharse, la mujer, muy en su papel de madre ideal, ordena a los críos que le enseñen las manos, a ver si las tienen limpias. Y, una vez comprobado tan importante detalle, se levanta, agarra el mantel, lo sacude enérgicamente sobre el suelo, lo dobla con cuidado, se mete en el coche con su familia y los cuatro se van tan contentos, dejando el hermoso prado cubierto de porquerías: platos desechables, servilletas de papel, mendrugos de pan, botellas vacías. Es una escena desternillante, y precisamente basa su potencia humorística en el contraste: en que hoy ya hemos aprendido que eso no se hace. Es decir, supongo que casi todos los norteamericanos han debido de aprenderlo. En lo tocante a España, no lo tengo tan claro. Algo hemos mejorado en estos últimos treinta años, me parece. Pero, ¡tan poco! Basta con mirar las fotos que ha enviado la lectora para comprobarlo.<\/p><p>35 Siempre me ha desesperado ese rasgo salvaje de nuestra cultura que hace que mantengamos el interior de nuestras casas como los chorros del oro, limpias y ordenadas y llenas de tapetitos de encajes, y que luego seamos capaces de arrojar una lavadora rota en la puerta misma de nuestro chalé de la sierra. ¿Es que no la ven al entrar y al salir? ¿No les molesta? Pues se diría que no, porque seguramente la mayoría de los que convierten los contenedores en un albañal son vecinos del barrio y pasan todos los días por ahí tan campantes, sin que les incomode la guarrería. Es tan chocante esa diferencia abismal entre el prurito de limpieza doméstica y el bárbaro descuido de los espacios exteriores que a veces hasta me asalta la inquietante sospecha que no es que no les moleste la suciedad; no es que, en su ignorancia de marmolillos, no sean capaces de verla, sino que en realidad lo hacen aposta y con inquina; que agreden y ensucian y maltratan el espacio público porque lo que es de los demás es zona hostil. Porque sólo nos cabe la horda en la cabeza, nuestro grupo, nuestra pandilla, nuestra tribu, y todo lo que no sea eso es el enemigo. Es decir, el Estado, el bien común, la colectividad, la sociedad civil: todos son adversarios a los que hay que combatir y llenar de basuras para que se jeringuen. Si lo piensas bien, como que da hasta miedo.<\/p>", "literal": true}, {"chapa": "Las preguntas", "titulo": "Tres preguntas y cien palabras", "meta": "Las preguntas oficiales de aquella convocatoria, literales · hoy se contestan en papel", "cuaderno": {"libre": "diagnóstico, sin nota: se recoge y se devuelve el 11 de mayo"}, "teoria": "<p>Las tres preguntas de abajo reproducen literalmente <b>las oficiales de aquella convocatoria<\/b>, y las cuatro palabras del ejercicio de léxico también. Se contestan a mano, con frases completas, mientras dure la clase.<\/p><p>Después puedes comprobarlas aquí: las tres tienen <b>respuesta oficial<\/b>, y por eso se ha elegido este texto y no otro. No para ponerte nota —hoy no la hay— sino para que compruebes <b>qué esperaba el corrector<\/b> en cada una.<\/p><div class=\"nota\"><p>El orden de las preguntas se repite casi todos los años: primero el <b>resumen<\/b>, que cuando cae vale 1,25 (2026) o 1,5 (2024 y 2025), más que cualquier otra pregunta del bloque; después una o dos <b>preguntas de comprensión<\/b> sobre un punto concreto del texto; y al final el <b>léxico<\/b>, cuatro palabras en su contexto. La redacción va aparte, en el bloque 3.<\/p><\/div>", "ejercicios": [{"tipo": "abierta", "titulo": "Resumen", "ayuda": "«Escriba un resumen que exponga la idea principal que quiere expresar la autora.»", "items": [{"enun": "Tu resumen:", "modelo": "La rúbrica es de cuatro niveles (2025; en 2026, 1,25 · 0,75 · 0,5 · 0). <b>1,5<\/b>: recoge las ideas esenciales de forma clara, ordenada y precisa, <b>sin subjetividad y sin copia literal<\/b>. <b>1<\/b>: recoge la mayoría y no copia, pero falla en precisión, claridad u orden. <b>0,5<\/b>: deficiencias graves en las ideas, subjetividad o copia literal. <b>0<\/b>: no recoge las ideas esenciales o las malinterpreta."}], "criterio": "Hoy no se corrige. Pero anota este criterio: <b>una frase copiada del texto no cuenta como resumen<\/b>. El resumen pide la idea formulada con tus palabras, y quien copia no ha demostrado que la haya entendido.", "apoyo": "todo"}, {"tipo": "abierta", "titulo": "La escena de <i>Mad Men<\/i>", "ayuda": "«Explique por qué cree la autora del texto que es cómica la escena de la serie de televisión Mad Men.»", "items": [{"enun": "Tu respuesta:", "modelo": "La autora la encuentra cómica por el contraste entre el aspecto impecable de la familia y la basura que deja en el campo al marcharse, y porque hoy nos parece normal recoger lo que uno ensucia. <i>Una respuesta que se quede en «porque dejan basura» es válida pero imprecisa: 0,5.<\/i>"}], "criterio": "La pregunta no pide «qué pasa en la escena»: pide <b>por qué es cómica<\/b>. Contar la escena no contesta.", "apoyo": "todo"}, {"tipo": "abierta", "titulo": "Léxico", "ayuda": "«Proponga un sinónimo o explique el significado de estas palabras, atendiendo al contexto»: enérgicamente · los chorros del oro · picnic · incomode.", "items": [{"enun": "Las cuatro:", "modelo": "<b>enérgicamente<\/b>: decididamente, resueltamente. · <b>los chorros del oro<\/b>: muy limpio, reluciente. · <b>picnic<\/b>: merienda o comida en el campo. · <b>incomode<\/b>: moleste, estorbe."}], "criterio": "El enunciado da <b>dos vías y las dos puntúan igual<\/b>: sinónimo <i>o<\/i> explicación. Si la palabra forma parte de una expresión figurada —<i>los chorros del oro<\/i>—, no busques sinónimo: explica qué significa la expresión entera dentro de esa frase.", "apoyo": "todo"}, {"tipo": "abierta", "titulo": "Cien palabras", "ayuda": "«Redacte un texto argumentativo que exponga su opinión sobre la degradación de las ciudades.» Unas cien palabras; menos de cincuenta valen cero.", "items": [{"enun": "Tu texto (o cuenta aquí las palabras que te han salido):", "modelo": "Se corrige con seis bandas: coherencia 0,5 · cohesión 0,75 · corrección 1 · variación 0,25 · registro 0,25 · disposición 0,25. Y con tres ceros que van antes: fuera del enunciado, 0 · menos de 50 palabras, 0 · muy breve, prorrateo."}], "modelos": ["<b>Modelo · 107 palabras.<\/b> «Creo que la suciedad de las calles depende más de los vecinos que del ayuntamiento. En primer lugar, la limpieza municipal pasa una vez al día, y basta con que unas pocas personas dejen bolsas fuera del contenedor para que la calle esté sucia el resto de la jornada. Además, el punto limpio de mi barrio está a diez minutos y no cobra nada, y aun así aparecen muebles en la acera todas las semanas. Es cierto que faltan papeleras, pero eso no explica los muebles dejados junto a un contenedor vacío. Por eso pienso que, sin multas a quien ensucia, ningún servicio de limpieza dará abasto.»"], "criterio": "Hoy esto <b>no lleva nota<\/b>. Se recoge y se guarda: el 29 de septiembre se te devuelve para que lo puntúes con la hoja de autoevaluación, y el 11 de mayo, para que compruebes de dónde saliste. El martes se estudia qué evalúa el corrector en un texto argumentativo, apartado por apartado.", "apoyo": "todo"}], "cuaderno_txt": "sesión sin cuaderno: diagnóstico, sin nota: se recoge y se devuelve el 11 de mayo"}], "pie": "Texto, preguntas, respuestas oficiales y consigna: <i>Prova d'accés a CFGS, convocatòria 2011<\/i>, serie 1 — documento público de la Generalitat de Catalunya. Adaptación de «Vecinos y gorrinos», de Rosa Montero, El País Semanal, 9 de enero de 2011. El modelo de cien palabras es material propio del CFA L'Alzina.", "revision": "2026-09-23"};</script>
+<script>window.DIA = {"dia": 1, "fecha": "2026-09-24", "tab": "Día 1 · 24 sep · CAS Castellà", "kicker": "CAS Castellà 26-27 · primer trimestre · día 1", "h1": "Jueves 24 de septiembre", "sub": "Diagnóstico · no lleva nota · se recoge y se devuelve el 11 de mayo", "carriles": [{"chapa": "Antes de nada", "titulo": "Qué es esta prueba", "meta": "Lo único que hace falta saber hoy", "teoria": "<table><tr><th>bloque<\/th><th>puntos<\/th><th>qué te piden<\/th><\/tr><tr><td><b>1 · Comprensión y expresión<\/b><\/td><td>3,5<\/td><td>3-4 preguntas abiertas sobre un texto (2,5) + 4 palabras para explicar (1)<\/td><\/tr><tr><td><b>2 · Reflexión lingüística<\/b><\/td><td>3,5<\/td><td>cinco ejercicios, los mismos desde hace quince años<\/td><\/tr><tr><td><b>3 · Expresión escrita<\/b><\/td><td>3<\/td><td>unas cien palabras, eligiendo entre dos temas<\/td><\/tr><\/table><div class=\"nota\"><p><b>Cada falta de ortografía, gramática o léxico descuenta 0,10<\/b> en los bloques 1 y 2, hasta un tope de 2 puntos. Quince faltas descuentan 1,5: tres ejercicios enteros del bloque 2.<\/p><p><b>El texto de partida procede casi siempre de una columna de periódico<\/b>: en quince de las dieciséis últimas convocatorias. Una anécdota concreta abierta en reflexión general, en primera persona, sobre un tema social. Entre 500 y 745 palabras.<\/p><\/div><p><b>La prueba casi nunca te pide hacer: te pide explicar.<\/b> No te pide poner tildes: te pide decir por qué están puestas. De ahí que el carril A no practique poner tildes, sino explicar las que ya están puestas.<\/p>"}, {"chapa": "El texto", "titulo": "«Vecinos y gorrinos», de Rosa Montero", "meta": "Convocatoria 2011 · El País Semanal, 9 de enero de 2011 · 745 palabras — el más largo de las dieciséis", "teoria": "<div class=\"nota\"><p>Léelo dos veces. La primera, entera y sin parar. La segunda, marcando lo que no entiendas.<\/p><p>Y atiende a la <b>forma<\/b> antes que al contenido: primera persona, dos anécdotas concretas —la carta de una lectora y una escena de <i>Mad Men<\/i>— que se abren en una reflexión general. Es el formato de quince de las dieciséis convocatorias.<\/p><\/div><h3 style=\"font-size:17px;margin:22px 0 4px\">VECINOS Y GORRINOS<\/h3><p>Una lectora, Pilar López López, me manda una carta hablando de lo que ella llama «la degradación de la ciudad y el maltrato al paisaje». Se refiere a la tradicional tendencia de los españoles a engorrinar los espacios públicos, y adjunta media docena de fotos, en verdad espeluznantes, de contenedores madrileños rodeados por montañas de porquerías diversas: cascotes, bolsas de plástico rajadas derramando su podrido contenido por el suelo, trapos viejos, aparatos electrónicos destripados, ¡incluso la taza de un retrete! Una marea de inmundicias, en fin, que todos hemos visto mil veces por la calle y que a veces llega a bloquear la acera.<\/p><p>Con afilada pluma, Pilar dice que esos ciudadanos insolidarios que arrojan sus basuras en cualquier parte (hace falta descaro, desde luego, para tirar bolsas de residuos orgánicos junto a los receptáculos de cartón y vidrio) quizá sean «los mismos que van al supermercado y, después de coger un producto congelado, se arrepienten y lo dejan en la estantería de los detergentes». O también «los que entran en una tienda y cuando se les cae una prenda de la percha la dejan tirada en el suelo, obligando a que algún empleado la recoja, como si fuera nuestro esclavo». Sí, la lectora tiene razón, todo forma parte de lo mismo, a saber, la falta de conciencia cívica, la incultura social, el individualismo feroz y primitivo de este país.<\/p><p>A los ciudadanos se les puede educar, naturalmente. Recuerdo ahora una escena genial de Mad Men, esa estupenda serie de televisión que retrata la vida norteamericana de los años cincuenta. El protagonista, un ejecutivo de publicidad, y su mujer, una antigua modelo convertida en ama de casa, están de picnic en el campo. El paisaje es fabuloso, la pareja y los dos niños son guapísimos, y a la perfecta escena no le falta un detalle: han extendido un mantel impecable sobre la hierba, la ex modelo está sentada como una flor rodeada por el amplio vuelo de su falda y, unos metros más allá, les espera un rutilante Cadillac lleno de cromados. Terminada la merienda, y antes de marcharse, la mujer, muy en su papel de madre ideal, ordena a los críos que le enseñen las manos, a ver si las tienen limpias. Y, una vez comprobado tan importante detalle, se levanta, agarra el mantel, lo sacude enérgicamente sobre el suelo, lo dobla con cuidado, se mete en el coche con su familia y los cuatro se van tan contentos, dejando el hermoso prado cubierto de porquerías: platos desechables, servilletas de papel, mendrugos de pan, botellas vacías. Es una escena desternillante, y precisamente basa su potencia humorística en el contraste: en que hoy ya hemos aprendido que eso no se hace. Es decir, supongo que casi todos los norteamericanos han debido de aprenderlo. En lo tocante a España, no lo tengo tan claro. Algo hemos mejorado en estos últimos treinta años, me parece. Pero, ¡tan poco! Basta con mirar las fotos que ha enviado la lectora para comprobarlo.<\/p><p>35 Siempre me ha desesperado ese rasgo salvaje de nuestra cultura que hace que mantengamos el interior de nuestras casas como los chorros del oro, limpias y ordenadas y llenas de tapetitos de encajes, y que luego seamos capaces de arrojar una lavadora rota en la puerta misma de nuestro chalé de la sierra. ¿Es que no la ven al entrar y al salir? ¿No les molesta? Pues se diría que no, porque seguramente la mayoría de los que convierten los contenedores en un albañal son vecinos del barrio y pasan todos los días por ahí tan campantes, sin que les incomode la guarrería. Es tan chocante esa diferencia abismal entre el prurito de limpieza doméstica y el bárbaro descuido de los espacios exteriores que a veces hasta me asalta la inquietante sospecha que no es que no les moleste la suciedad; no es que, en su ignorancia de marmolillos, no sean capaces de verla, sino que en realidad lo hacen aposta y con inquina; que agreden y ensucian y maltratan el espacio público porque lo que es de los demás es zona hostil. Porque sólo nos cabe la horda en la cabeza, nuestro grupo, nuestra pandilla, nuestra tribu, y todo lo que no sea eso es el enemigo. Es decir, el Estado, el bien común, la colectividad, la sociedad civil: todos son adversarios a los que hay que combatir y llenar de basuras para que se jeringuen. Si lo piensas bien, como que da hasta miedo.<\/p>", "literal": true}, {"chapa": "Las preguntas", "titulo": "Tres preguntas y cien palabras", "meta": "Las preguntas oficiales de 2011, literales · hoy se contestan en papel", "cuaderno": {"libre": "diagnóstico, sin nota: se recoge y se devuelve el 11 de mayo"}, "teoria": "<p>Los cuatro enunciados de este carril reproducen literalmente los del examen de <b>2011<\/b>, el del texto de Rosa Montero: el resumen, la pregunta sobre la escena de <i>Mad Men<\/i>, las cuatro palabras del léxico y la redacción de cien palabras. Hoy se contestan en papel, a mano y con frases completas, y la hoja se recoge al final de la clase.<\/p><p>Este texto se eligió porque la clave oficial de 2011 trae la respuesta de las tres preguntas del bloque 1. Después de la clase, la solución de cada ejercicio de esta página muestra <b>qué esperaba el corrector<\/b>; el diagnóstico no lleva nota.<\/p><div class=\"nota\"><p>El orden de las preguntas se repite casi todos los años: primero el <b>resumen<\/b>, que cuando cae vale 1,25 (2026) o 1,5 (2024 y 2025), más que cualquier otra pregunta del bloque; después una o dos <b>preguntas de comprensión<\/b> sobre un punto concreto del texto; y al final el <b>léxico<\/b>, cuatro palabras en su contexto. La redacción va aparte, en el bloque 3.<\/p><\/div>", "ejercicios": [{"tipo": "abierta", "titulo": "Resumen", "ayuda": "«Escriba un resumen que exponga la idea principal que quiere expresar la autora.»", "items": [{"enun": "Tu resumen:", "modelo": "La rúbrica es de cuatro niveles (2025; en 2026, 1,25 · 0,75 · 0,5 · 0). <b>1,5<\/b>: recoge las ideas esenciales de forma clara, ordenada y precisa, <b>sin subjetividad y sin copia literal<\/b>. <b>1<\/b>: recoge la mayoría y no copia, pero falla en precisión, claridad u orden. <b>0,5<\/b>: deficiencias graves en las ideas, subjetividad o copia literal. <b>0<\/b>: no recoge las ideas esenciales o las malinterpreta."}], "criterio": "Hoy no se corrige. Pero anota este criterio: <b>una frase copiada del texto no cuenta como resumen<\/b>. El resumen pide la idea formulada con tus palabras, y quien copia no ha demostrado que la haya entendido.", "apoyo": "todo"}, {"tipo": "abierta", "titulo": "La escena de <i>Mad Men<\/i>", "ayuda": "«Explique por qué cree la autora del texto que es cómica la escena de la serie de televisión Mad Men.»", "items": [{"enun": "Tu respuesta:", "modelo": "La autora la encuentra cómica por el contraste entre el aspecto impecable de la familia y la basura que deja en el campo al marcharse, y porque hoy nos parece normal recoger lo que uno ensucia. <i>Una respuesta que se quede en «porque dejan basura» es válida pero imprecisa: 0,5.<\/i>"}], "criterio": "La pregunta no pide «qué pasa en la escena»: pide <b>por qué es cómica<\/b>. Contar la escena no contesta.", "apoyo": "todo"}, {"tipo": "abierta", "titulo": "Léxico", "ayuda": "«Proponga un sinónimo o explique el significado de estas palabras, atendiendo al contexto»: enérgicamente · los chorros del oro · picnic · incomode.", "items": [{"enun": "Las cuatro:", "modelo": "<b>enérgicamente<\/b>: decididamente, resueltamente. · <b>los chorros del oro<\/b>: muy limpio, reluciente. · <b>picnic<\/b>: merienda o comida en el campo. · <b>incomode<\/b>: moleste, estorbe."}], "criterio": "El enunciado da <b>dos vías y las dos puntúan igual<\/b>: sinónimo <i>o<\/i> explicación. Si la palabra forma parte de una expresión figurada —<i>los chorros del oro<\/i>—, no busques sinónimo: explica qué significa la expresión entera dentro de esa frase.", "apoyo": "todo"}, {"tipo": "abierta", "titulo": "Cien palabras", "ayuda": "«Redacte un texto argumentativo que exponga su opinión sobre la degradación de las ciudades.» Unas cien palabras; menos de cincuenta valen cero.", "items": [{"enun": "Tu texto (o cuenta aquí las palabras que te han salido):", "modelo": "Se corrige con seis bandas: coherencia 0,5 · cohesión 0,75 · corrección 1 · variación 0,25 · registro 0,25 · disposición 0,25. Y con tres ceros que van antes: fuera del enunciado, 0 · menos de 50 palabras, 0 · muy breve, prorrateo."}], "modelos": ["<b>Modelo · 107 palabras.<\/b> «Creo que la suciedad de las calles depende más de los vecinos que del ayuntamiento. En primer lugar, la limpieza municipal pasa una vez al día, y basta con que unas pocas personas dejen bolsas fuera del contenedor para que la calle esté sucia el resto de la jornada. Además, el punto limpio de mi barrio está a diez minutos y no cobra nada, y aun así aparecen muebles en la acera todas las semanas. Es cierto que faltan papeleras, pero eso no explica los muebles dejados junto a un contenedor vacío. Por eso pienso que, sin multas a quien ensucia, ningún servicio de limpieza dará abasto.»"], "criterio": "Hoy la redacción <b>no lleva nota<\/b>. Se recoge y se guarda: el 29 de septiembre se te devuelve para que la puntúes con la hoja de autoevaluación, y el 11 de mayo, para que la compares con lo que escribes al final del curso. El martes 29 de septiembre se estudia qué evalúa el corrector en un texto argumentativo, apartado por apartado.", "apoyo": "todo"}], "cuaderno_txt": "sesión sin cuaderno: diagnóstico, sin nota: se recoge y se devuelve el 11 de mayo"}], "pie": "Texto, preguntas, respuestas oficiales y consigna: <i>Prova d'accés a CFGS, convocatòria 2011<\/i>, serie 1 — documento público de la Generalitat de Catalunya. Adaptación de «Vecinos y gorrinos», de Rosa Montero, El País Semanal, 9 de enero de 2011. El modelo de cien palabras es material propio del CFA L'Alzina.", "revision": "2026-09-24"};</script>
 <script>
 /* Motor de ejercicios · CAS Castellà 26-27
    Formato de estado compatible con castellano 2:
@@ -447,14 +523,43 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
     });
     return nodo;
   }
-  /* la teoría del carril partida en bloques: lo anterior al primer <h3> y un
-     bloque por cada <h3>. "apoyo" del ejercicio dice cuáles enseñar. */
+  /* La teoría que sale del dossier trae un h3 por apartado, y una sesión puede
+     traer más de mil palabras: los ejercicios quedaban a varias pantallas del
+     título del carril. Por encima de PLIEGUE palabras, cada apartado se pliega
+     bajo su título; por debajo, la teoría se lee seguida, como en el papel. */
+  var PLIEGUE = 1200;
+  function pliegaApartados(nodo) {
+    var h3s = Array.prototype.slice.call(nodo.children).filter(function (x) { return x.tagName === 'H3'; });
+    if (!h3s.length) return nodo;
+    if ((nodo.textContent.match(/\S+/g) || []).length <= PLIEGUE) return nodo;
+    h3s.forEach(function (h) {
+      var det = el('details', 'ap-dossier');
+      var sum = el('summary');
+      nodo.insertBefore(det, h);
+      sum.appendChild(h);
+      det.appendChild(sum);
+      while (det.nextSibling && det.nextSibling.tagName !== 'H3') det.appendChild(det.nextSibling);
+    });
+    return nodo;
+  }
+  /* la teoría del carril partida en bloques: lo anterior al primer encabezado y
+     un bloque por cada <h3> o <h4>. La teoría que sale del dossier trae un h3 por
+     apartado y un h4 por subapartado; el bloque de un h3 lleva dentro sus h4, y
+     el de un h4 sabe de qué h3 es. "apoyo" del ejercicio dice cuáles enseñar.
+     _teoria_web.py hace el mismo corte en Python. */
   function bloquesTeoria(html) {
-    var partes = (html || '').split(/(<h3[^>]*>[\s\S]*?<\/h3>)/);
-    var out = [{ titulo: '', html: partes[0] }];
+    var partes = (html || '').split(/(<h[34][^>]*>[\s\S]*?<\/h[34]>)/);
+    var out = [{ titulo: '', html: partes[0], padre: null }], h3 = null;
     for (var i = 1; i < partes.length; i += 2) {
       var tit = partes[i].replace(/<[^>]+>/g, '').trim();
-      out.push({ titulo: tit, html: partes[i] + (partes[i + 1] || '') });
+      var cuerpo = partes[i] + (partes[i + 1] || '');
+      var es3 = /^<h3/i.test(partes[i]);
+      if (es3) {
+        for (var j = i + 2; j < partes.length && !/^<h3/i.test(partes[j]); j += 2)
+          cuerpo += partes[j] + (partes[j + 1] || '');
+        h3 = tit;
+      }
+      out.push({ titulo: tit, html: cuerpo, padre: es3 ? null : h3 });
     }
     return out;
   }
@@ -474,6 +579,9 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
     if (parcial) {
       var elegidos = bs.filter(function (b) {
         return (b.titulo === '' && ap.indexOf('intro') >= 0) || (b.titulo && ap.indexOf(b.titulo) >= 0);
+      }).filter(function (b) {
+        /* un subapartado cuyo apartado también se enseña ya va dentro de él */
+        return !(b.padre && ap.indexOf(b.padre) >= 0);
       });
       if (!elegidos.length) parcial = false;
       else {
@@ -544,6 +652,8 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
     h.appendChild(el('div', 'num', String(n)));
     h.appendChild(el('div', 'ej-t', ej.titulo));
     box.appendChild(h);
+    /* de qué ejercicio del dossier sale: el mismo que el alumno tiene en papel */
+    if (ej.dossier_txt) box.appendChild(el('p', 'ej-dossier', ej.dossier_txt));
     if (ej.ayuda) box.appendChild(el('p', 'ej-ayuda', ej.ayuda));
 
     var cont = el('div', 'items');
@@ -606,14 +716,16 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
         campo.value = e.v[k] || '';
         campo.placeholder = ej.pide || (ej.tipo === 'justificar' ? 'Explica por qué…' : 'Escribe aquí tu respuesta…');
         var cuenta = null;
-        if (ej.tipo === 'abierta' && ej.palabras) {
+        /* la consigna de extensión puede ir en el ítem: el mismo plan, en 50-80 y en 150-200 */
+        var P0 = it.palabras || ej.palabras;
+        if (ej.tipo === 'abierta' && P0) {
           /* consigna de extensión: {min, max} o {objetivo}. Se cuenta lo escrito,
              que es lo que el alumno tiene que hacer en el examen antes de entregar */
           campo.classList.add('larga');
           cuenta = el('div', 'cuenta', '');
           var pintaCuenta = function () {
             var n = (campo.value.match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu) || []).length;
-            var P = ej.palabras, t = n + (n === 1 ? ' palabra' : ' palabras'), fuera = false;
+            var P = P0, t = n + (n === 1 ? ' palabra' : ' palabras'), fuera = false;
             if (P.min != null && P.max != null) {
               t += ' · consigna: entre ' + P.min + ' y ' + P.max;
               fuera = n > 0 && (n < P.min || n > P.max);
@@ -707,7 +819,10 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
     sol.appendChild(el('summary', null, 'La clave' + (ej.criterio ? ' y el criterio' : '')));
     var sc = el('div', 'sol-c');
     (ej.items || []).forEach(function (it, i) {
-      if (it.sol) sc.appendChild(el('p', null, '<b>' + letra(i) + ')</b> ' + it.sol));
+      /* una clave con varias respuestas válidas las separa con «|» en el JSON;
+         en pantalla van con « / », que se lee y deja cada palabra entera */
+      if (it.sol) sc.appendChild(el('p', null, '<b>' + letra(i) + ')</b> ' +
+        String(it.sol).split('|').join(' / ')));
       else if (it.modelo) sc.appendChild(el('p', null, '<b>' + letra(i) + ')</b> ' + it.modelo));
     });
     (ej.modelos || []).forEach(function (m) { sc.appendChild(el('div', 'modelo', m)); });
@@ -945,25 +1060,49 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
           cuerpo.appendChild(fila);
         });
         caja.appendChild(cuerpo);
-        if (L.pie) caja.appendChild(el('div', 'lec-p', L.pie));
+        /* el pie de los textos de examen acaba con el nombre del cuadernillo
+           —Exámenes/2019_general_llengua_castellana_titular.pdf—: un <wbr> detrás
+           de cada barra y de cada guion bajo deja partir el renglón por ahí, y no
+           por dentro de una palabra. Las etiquetas no se tocan. */
+        if (L.pie) caja.appendChild(el('div', 'lec-p', L.pie.split(/(<[^>]+>)/).map(function (s, i) {
+          return i % 2 ? s : s.replace(/([\/_])/g, '$1<wbr>');
+        }).join('')));
         sec.appendChild(caja);
       }
       if (c.teoria) {
-        var t = el('div', null, c.teoria);
-        t.querySelectorAll('table').forEach(function (tb) {
-          var w = el('div', 'tabla-scroll');
-          tb.parentNode.insertBefore(w, tb); w.appendChild(tb);
-        });
+        var t = el('div', c.teoria_dossier ? 'teoria dossier' : 'teoria', c.teoria);
+        if (c.teoria_dossier) pliegaApartados(t);
+        envuelveTablas(t);
         sec.appendChild(t);
       }
+      var yaWeb = false;
       (c.ejercicios || []).forEach(function (ej) {
+        /* los ejercicios del dossier van primero; los que no están en papel,
+           detrás de un rótulo que lo dice */
+        if (ej.solo_web && !yaWeb) {
+          sec.appendChild(el('p', 'solo-web', 'Práctica que solo está en la web'));
+          yaWeb = true;
+        }
         var box = pinta(ej, ejercicios.length);
         var cab = box.querySelector('.ej-h');
         var iconos = el('div', 'ej-icos');
         /* las preguntas van sobre el texto: se abre encima, sin perder el sitio.
            Si el carril no tiene texto pero el día sí, en otro carril, y el
            ejercicio pregunta por él, el icono abre ese */
-        var li = c.lectura ? ci : (hablaDelTexto(ej) ? lecturaDelDia : -1);
+        /* "usa_texto": false quita el icono también en el carril del texto: lo
+           llevan las preguntas que van sobre otro texto, el que trae la teoría */
+        var li = ej.usa_texto === false || ej.texto_html ? -1 :
+          (c.lectura ? ci : (hablaDelTexto(ej) ? lecturaDelDia : -1));
+        /* el ejercicio que pregunta por un texto del dossier que hoy no está en
+           la página (el de 2026 después del 20 de octubre) trae el suyo */
+        if (ej.texto_html) {
+          var btx = botonIcono('ico-texto', ICONO.texto, 'texto', 'Ver el texto');
+          btx.onclick = function () {
+            var caja = envuelveTablas(el('div', 'teoria dossier', ej.texto_html));
+            abreVentana(c.chapa + ' · el texto', ej.texto_titulo || 'El texto', caja, btx);
+          };
+          iconos.appendChild(btx);
+        }
         if (li >= 0) {
           var bt = botonIcono('ico-texto', ICONO.texto, 'texto', 'Ver el texto');
           bt.onclick = function () {
@@ -998,6 +1137,59 @@ footer.fin{margin-top:30px;padding-top:18px;border-top:1px solid var(--linea);
       localStorage.removeItem(LLAVE); location.reload();
     };
     progreso();
+    vigilaCortes();
+  }
+
+  /* Ninguna palabra se parte de un renglón a otro (lo pidió Osky el
+     24-09-2026). El navegador admite un corte detrás de un guion, de una
+     barra o de unos puntos suspensivos, y a los dos lados de una raya: «-aba»
+     podía quedar con el guion al final de una línea y «aba» al principio de
+     la siguiente, y una raya de cierre podía abrir renglón. Cada palabra que
+     lleva uno de esos signos va
+     en un <span class="nb">, que no se parte. Las de más de treinta
+     caracteres, como un nombre de archivo o un enlace, se dejan partir,
+     porque en un móvil no caben en un renglón. Los textos de «cazar» no se
+     tocan: cada palabra ya es su propio <span class="tk">. */
+  var PARTIBLE = /[-\u2010\u2011\u2013\u2014\u2026\/]/;
+  function partible(t) { return t.length > 1 && t.length <= 30 && PARTIBLE.test(t); }
+  function sinPartir(raiz) {
+    var w = document.createTreeWalker(raiz, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentElement;
+        if (!p || !PARTIBLE.test(n.data)) return NodeFilter.FILTER_REJECT;
+        if (p.closest('script,style,textarea,.caza,.nb')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodos = [];
+    while (w.nextNode()) nodos.push(w.currentNode);
+    nodos.forEach(function (n) {
+      var trozos = n.data.split(/(\s+)/);
+      if (!trozos.some(partible)) return;
+      var frag = document.createDocumentFragment();
+      trozos.forEach(function (t) {
+        if (partible(t)) {
+          var s = document.createElement('span');
+          s.className = 'nb';
+          s.textContent = t;
+          frag.appendChild(s);
+        } else if (t) frag.appendChild(document.createTextNode(t));
+      });
+      n.parentNode.replaceChild(frag, n);
+    });
+  }
+  /* la página se pinta entera al arrancar, pero la ventana de teoría, las
+     soluciones y los veredictos se escriben después: se vigila el cuerpo */
+  function vigilaCortes() {
+    sinPartir(document.body);
+    new MutationObserver(function (cambios) {
+      cambios.forEach(function (c) {
+        c.addedNodes.forEach(function (n) {
+          if (n.nodeType === 1) sinPartir(n);
+          else if (n.nodeType === 3 && n.parentElement) sinPartir(n.parentElement);
+        });
+      });
+    }).observe(document.body, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arranca);

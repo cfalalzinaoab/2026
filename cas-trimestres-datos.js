@@ -102,48 +102,48 @@ const CAS_DAYS = [
     "date": "2026-10-27",
     "number": 9,
     "parts": [
-      "B/V",
+      "B/⁠V",
       "Devolución del primer texto · texto real de 2019 (bloque 1 oficial) · tesis y argumentos sobre la consigna de 2019",
       "Los pronombres: los seis tipos"
     ],
     "special": false,
-    "title": "B/V"
+    "title": "B/⁠V"
   },
   {
     "term": 0,
     "date": "2026-10-29",
     "number": 10,
     "parts": [
-      "B/V: las excepciones",
+      "B/⁠V: las excepciones",
       "El resumen: el método y qué evitar",
       "Los pronombres: la sustitución"
     ],
     "special": false,
-    "title": "B/V: las excepciones"
+    "title": "B/⁠V: las excepciones"
   },
   {
     "term": 0,
     "date": "2026-11-03",
     "number": 11,
     "parts": [
-      "J/G",
+      "J/⁠G",
       "El resumen: el modelo resuelto · texto real de 2018 (bloque 1 oficial) · la concesión sobre la consigna de 2018",
       "Los pronombres: práctica"
     ],
     "special": false,
-    "title": "J/G"
+    "title": "J/⁠G"
   },
   {
     "term": 0,
     "date": "2026-11-05",
     "number": 12,
     "parts": [
-      "Práctica: B/V y J/G",
+      "Práctica: B/⁠V y J/⁠G",
       "Práctica de resumen sobre texto real · texto real de 2017 (bloque 1 oficial) · el cierre sobre la consigna de 2017",
       "El verbo: núcleo del predicado, copulativos"
     ],
     "special": false,
-    "title": "Práctica: B/V y J/G"
+    "title": "Práctica: B/⁠V y J/⁠G"
   },
   {
     "term": 0,
@@ -163,7 +163,7 @@ const CAS_DAYS = [
     "number": 14,
     "parts": [
       "Corrección",
-      "Devolución del segundo texto · texto real de 2016 (bloque 1 oficial) · el texto entero sobre la consigna de 2016, con la hoja A-1",
+      "Devolución del segundo texto · texto real de 2016 (bloque 1 oficial) · el texto entero sobre la consigna de 2016, con la hoja A-⁠1",
       "El verbo: formas no personales"
     ],
     "special": false,
@@ -319,7 +319,7 @@ const CAS_DAYS = [
     "number": 27,
     "parts": [
       "Corrección",
-      "Las preguntas abiertas: según-X, causa, efectos",
+      "Las preguntas abiertas: según-⁠X, causa, efectos",
       "Los sintagmas y sus funciones"
     ],
     "special": false,
