@@ -126,7 +126,7 @@ const PAU_DAYS = [
   "date": "2026-11-03",
   "number": 11,
   "parts": [
-   "Corregir lo que escribes: la relectura en tres pasadas, una clase de falta en cada pasada · se abre la lista de diez, con las palabras que cada alumno escribe mal en sus textos",
+   "Corregir lo que escribes: la relectura en tres pasadas, una clase de falta en cada pasada · se abre la lista de fallos, con las palabras que cada alumno escribe mal en sus textos",
    "Texto 2017s, Las tres bodas de Manolita, de Almudena Grandes · tercera redacción corta, con el enunciado 2.2 de ese examen · microtarea: un argumento a favor y otro en contra, con los fallos que más aparecen en ese ejercicio",
    "Tanda de figuras y sentido figurado: seis ítems propios, y cómo se distingue la personificación de la metonimia"
   ],
@@ -282,7 +282,7 @@ const PAU_DAYS = [
   "date": "2027-01-12",
   "number": 24,
   "parts": [
-   "Gimnasio: cinco formas verbales del censo y la lista de diez",
+   "Gimnasio: cinco formas verbales del censo y la lista de fallos",
    "Devolución del examen 1 con la clave y el baremo delante; lo que más falló · la hoja de la fase general: media de los cuatro exámenes, 4 por fase y 5 final, entregar todos los exámenes de una fase, reserva de nota",
    "Tanda: los seis ítems de reflexión del examen 1, rehechos"
   ],
@@ -306,7 +306,7 @@ const PAU_DAYS = [
   "date": "2027-01-19",
   "number": 26,
   "parts": [
-   "Gimnasio: cinco formas verbales del censo y la lista de diez",
+   "Gimnasio: cinco formas verbales del censo y la lista de fallos",
    "Comentario propio 1 (ensayo de 650 palabras): test y las tres preguntas. Redacción corta (2020t: comunicación directa o con rodeos)",
    "Tanda: sujeto e intransitivo, seis ítems reales"
   ],
@@ -330,7 +330,7 @@ const PAU_DAYS = [
   "date": "2027-01-26",
   "number": 28,
   "parts": [
-   "Gimnasio: cinco formas verbales del censo y la lista de diez",
+   "Gimnasio: cinco formas verbales del censo y la lista de fallos",
    "Texto 2019s. Redacción corta (2020s: neologismos y extranjerismos)",
    "Tanda: CD, CI y régimen, seis ítems reales"
   ],
@@ -378,7 +378,7 @@ const PAU_DAYS = [
   "date": "2027-02-09",
   "number": 32,
   "parts": [
-   "Gimnasio: cinco formas verbales del censo y la lista de diez",
+   "Gimnasio: cinco formas verbales del censo y la lista de fallos",
    "Comentario propio 2: entero. Redacción larga en clase",
    "Tanda: función sintáctica, seis ítems reales mezclados"
   ],
@@ -402,7 +402,7 @@ const PAU_DAYS = [
   "date": "2027-02-16",
   "number": 34,
   "parts": [
-   "Gimnasio: cinco formas verbales del censo y la lista de diez",
+   "Gimnasio: cinco formas verbales del censo y la lista de fallos",
    "Texto 2020s. Redacción corta (2021s: ventajas e inconvenientes del estrés)",
    "Tanda: se e impersonal, más función, seis ítems reales"
   ],
@@ -426,7 +426,7 @@ const PAU_DAYS = [
   "date": "2027-02-23",
   "number": 36,
   "parts": [
-   "Gimnasio: cinco formas verbales del censo y la lista de diez",
+   "Gimnasio: cinco formas verbales del censo y la lista de fallos",
    "Texto 2021t. Redacción corta (2022t: una sociedad sin empatía)",
    "Tanda: valor de que, seis ítems reales"
   ],
@@ -450,7 +450,7 @@ const PAU_DAYS = [
   "date": "2027-03-02",
   "number": 38,
   "parts": [
-   "Gimnasio: cinco formas verbales del censo y la lista de diez",
+   "Gimnasio: cinco formas verbales del censo y la lista de fallos",
    "Comentario 2026t: entero, cronometrado",
    "Tanda: tipo de subordinada y conectores, seis ítems reales"
   ],
@@ -474,7 +474,7 @@ const PAU_DAYS = [
   "date": "2027-03-09",
   "number": 40,
   "parts": [
-   "Gimnasio: cinco formas verbales del censo y la lista de diez",
+   "Gimnasio: cinco formas verbales del censo y la lista de fallos",
    "Texto 2021s. Redacción corta (2025t: las diferencias de clase en el vestir)",
    "Tanda: una transformación real de tiempo y una de persona"
   ],

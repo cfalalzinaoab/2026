@@ -104,7 +104,7 @@ const PAU_EJERCICIOS = {
   "pagina": "pau/dia-11.html",
   "ejercicios": 16,
   "carriles": [
-   "Corregir lo que escribes: la relectura en tres pasadas y tu lista de diez",
+   "Corregir lo que escribes: la relectura en tres pasadas y tu lista de fallos",
    "Las tres bodas de Manolita · la tercera redacción corta · devolución de a favor y en contra",
    "Las tres bodas de Manolita, de Almudena Grandes",
    "La tanda: figuras y sentido figurado"
