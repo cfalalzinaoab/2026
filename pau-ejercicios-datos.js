@@ -238,4 +238,410 @@ const PAU_DOSSIER = [
   "peso": "3,6 MB"
  }
 ];
-const PAU_CUADERNOS = [];
+const PAU_CUADERNOS = [
+ {
+  "orden": 1,
+  "titulo": "Pieza 1 · La sílaba y el acento",
+  "etiqueta": "Pieza 1",
+  "parte": "Parte 1 · Ortografía",
+  "archivo": "01-Pieza-1-La-silaba-y-el-acento.pdf",
+  "folios": [
+   4,
+   13
+  ],
+  "soluciones": {
+   "archivo": "01-Pieza-1-La-silaba-y-el-acento-soluciones.pdf",
+   "folios": [
+    217,
+    218
+   ],
+   "paginas": 3,
+   "peso": "390 KB",
+   "ruta": "pdf/pau/01-Pieza-1-La-silaba-y-el-acento-soluciones.pdf"
+  },
+  "paginas": 11,
+  "peso": "506 KB",
+  "ruta": "pdf/pau/01-Pieza-1-La-silaba-y-el-acento.pdf"
+ },
+ {
+  "orden": 2,
+  "titulo": "Pieza 2 · Vocales en contacto",
+  "etiqueta": "Pieza 2",
+  "parte": "Parte 1 · Ortografía",
+  "archivo": "02-Pieza-2-Vocales-en-contacto.pdf",
+  "folios": [
+   14,
+   22
+  ],
+  "soluciones": {
+   "archivo": "02-Pieza-2-Vocales-en-contacto-soluciones.pdf",
+   "folios": [
+    218,
+    219
+   ],
+   "paginas": 3,
+   "peso": "367 KB",
+   "ruta": "pdf/pau/02-Pieza-2-Vocales-en-contacto-soluciones.pdf"
+  },
+  "paginas": 10,
+  "peso": "487 KB",
+  "ruta": "pdf/pau/02-Pieza-2-Vocales-en-contacto.pdf"
+ },
+ {
+  "orden": 3,
+  "titulo": "Pieza 3 · La tilde diacrítica",
+  "etiqueta": "Pieza 3",
+  "parte": "Parte 1 · Ortografía",
+  "archivo": "03-Pieza-3-La-tilde-diacritica.pdf",
+  "folios": [
+   23,
+   30
+  ],
+  "soluciones": {
+   "archivo": "03-Pieza-3-La-tilde-diacritica-soluciones.pdf",
+   "folios": [
+    219,
+    220
+   ],
+   "paginas": 3,
+   "peso": "388 KB",
+   "ruta": "pdf/pau/03-Pieza-3-La-tilde-diacritica-soluciones.pdf"
+  },
+  "paginas": 9,
+  "peso": "475 KB",
+  "ruta": "pdf/pau/03-Pieza-3-La-tilde-diacritica.pdf"
+ },
+ {
+  "orden": 4,
+  "titulo": "Pieza 4 · Las letras, las palabras que se separan y corregir lo que escribes",
+  "etiqueta": "Pieza 4",
+  "parte": "Parte 1 · Ortografía",
+  "archivo": "04-Pieza-4-Las-letras-las-palabras-que-se-separan-y-corregir.pdf",
+  "folios": [
+   31,
+   44
+  ],
+  "soluciones": {
+   "archivo": "04-Pieza-4-Las-letras-las-palabras-que-se-separan-y-corregir-soluciones.pdf",
+   "folios": [
+    221,
+    222
+   ],
+   "paginas": 3,
+   "peso": "375 KB",
+   "ruta": "pdf/pau/04-Pieza-4-Las-letras-las-palabras-que-se-separan-y-corregir-soluciones.pdf"
+  },
+  "paginas": 15,
+  "peso": "512 KB",
+  "ruta": "pdf/pau/04-Pieza-4-Las-letras-las-palabras-que-se-separan-y-corregir.pdf"
+ },
+ {
+  "orden": 5,
+  "titulo": "Pieza 10 · Leer el texto entero y contestar el test",
+  "etiqueta": "Pieza 10",
+  "parte": "Parte 2 · El texto",
+  "archivo": "05-Pieza-10-Leer-el-texto-entero-y-contestar-el-test.pdf",
+  "folios": [
+   45,
+   61
+  ],
+  "soluciones": {
+   "archivo": "05-Pieza-10-Leer-el-texto-entero-y-contestar-el-test-soluciones.pdf",
+   "folios": [
+    222,
+    224
+   ],
+   "paginas": 4,
+   "peso": "383 KB",
+   "ruta": "pdf/pau/05-Pieza-10-Leer-el-texto-entero-y-contestar-el-test-soluciones.pdf"
+  },
+  "paginas": 18,
+  "peso": "515 KB",
+  "ruta": "pdf/pau/05-Pieza-10-Leer-el-texto-entero-y-contestar-el-test.pdf"
+ },
+ {
+  "orden": 6,
+  "titulo": "Pieza 11 · Escribir: el esqueleto y las dos extensiones",
+  "etiqueta": "Pieza 11",
+  "parte": "Parte 2 · El texto",
+  "archivo": "06-Pieza-11-Escribir-el-esqueleto-y-las-dos-extensiones.pdf",
+  "folios": [
+   62,
+   93
+  ],
+  "soluciones": {
+   "archivo": "06-Pieza-11-Escribir-el-esqueleto-y-las-dos-extensiones-soluciones.pdf",
+   "folios": [
+    224,
+    228
+   ],
+   "paginas": 6,
+   "peso": "394 KB",
+   "ruta": "pdf/pau/06-Pieza-11-Escribir-el-esqueleto-y-las-dos-extensiones-soluciones.pdf"
+  },
+  "paginas": 33,
+  "peso": "643 KB",
+  "ruta": "pdf/pau/06-Pieza-11-Escribir-el-esqueleto-y-las-dos-extensiones.pdf"
+ },
+ {
+  "orden": 7,
+  "titulo": "Pieza 12 · Los conectores y los marcadores del discurso",
+  "etiqueta": "Pieza 12",
+  "parte": "Parte 2 · El texto",
+  "archivo": "07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso.pdf",
+  "folios": [
+   94,
+   109
+  ],
+  "soluciones": {
+   "archivo": "07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso-soluciones.pdf",
+   "folios": [
+    228,
+    230
+   ],
+   "paginas": 4,
+   "peso": "419 KB",
+   "ruta": "pdf/pau/07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso-soluciones.pdf"
+  },
+  "paginas": 17,
+  "peso": "537 KB",
+  "ruta": "pdf/pau/07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso.pdf"
+ },
+ {
+  "orden": 8,
+  "titulo": "Los textos de cada sesión",
+  "etiqueta": "Los textos",
+  "parte": "Parte 2 · El texto",
+  "archivo": "08-Los-textos-de-cada-sesion.pdf",
+  "folios": [
+   110,
+   146
+  ],
+  "soluciones": {
+   "archivo": "08-Los-textos-de-cada-sesion-soluciones.pdf",
+   "folios": [
+    230,
+    243
+   ],
+   "paginas": 15,
+   "peso": "519 KB",
+   "ruta": "pdf/pau/08-Los-textos-de-cada-sesion-soluciones.pdf"
+  },
+  "paginas": 38,
+  "peso": "600 KB",
+  "ruta": "pdf/pau/08-Los-textos-de-cada-sesion.pdf"
+ },
+ {
+  "orden": 9,
+  "titulo": "Pieza 6 · Las nueve clases y la categoría de una palabra en su oración",
+  "etiqueta": "Pieza 6",
+  "parte": "Parte 3 · Lengua",
+  "archivo": "09-Pieza-6-Las-nueve-clases-y-la-categoria-de-una-palabra-en.pdf",
+  "folios": [
+   147,
+   158
+  ],
+  "soluciones": {
+   "archivo": "09-Pieza-6-Las-nueve-clases-y-la-categoria-de-una-palabra-en-soluciones.pdf",
+   "folios": [
+    243,
+    244
+   ],
+   "paginas": 3,
+   "peso": "377 KB",
+   "ruta": "pdf/pau/09-Pieza-6-Las-nueve-clases-y-la-categoria-de-una-palabra-en-soluciones.pdf"
+  },
+  "paginas": 13,
+  "peso": "540 KB",
+  "ruta": "pdf/pau/09-Pieza-6-Las-nueve-clases-y-la-categoria-de-una-palabra-en.pdf"
+ },
+ {
+  "orden": 10,
+  "titulo": "Pieza 5 · Significado, figuras y sentido figurado",
+  "etiqueta": "Pieza 5",
+  "parte": "Parte 3 · Lengua",
+  "archivo": "10-Pieza-5-Significado-figuras-y-sentido-figurado.pdf",
+  "folios": [
+   159,
+   171
+  ],
+  "soluciones": {
+   "archivo": "10-Pieza-5-Significado-figuras-y-sentido-figurado-soluciones.pdf",
+   "folios": [
+    244,
+    246
+   ],
+   "paginas": 4,
+   "peso": "406 KB",
+   "ruta": "pdf/pau/10-Pieza-5-Significado-figuras-y-sentido-figurado-soluciones.pdf"
+  },
+  "paginas": 14,
+  "peso": "512 KB",
+  "ruta": "pdf/pau/10-Pieza-5-Significado-figuras-y-sentido-figurado.pdf"
+ },
+ {
+  "orden": 11,
+  "titulo": "Pieza 7 · Nombre y adjetivo: plurales, femeninos, derivadas y primitivos",
+  "etiqueta": "Pieza 7",
+  "parte": "Parte 3 · Lengua",
+  "archivo": "11-Pieza-7-Nombre-y-adjetivo-plurales-femeninos-derivadas-y-p.pdf",
+  "folios": [
+   172,
+   184
+  ],
+  "soluciones": {
+   "archivo": "11-Pieza-7-Nombre-y-adjetivo-plurales-femeninos-derivadas-y-p-soluciones.pdf",
+   "folios": [
+    246,
+    247
+   ],
+   "paginas": 3,
+   "peso": "400 KB",
+   "ruta": "pdf/pau/11-Pieza-7-Nombre-y-adjetivo-plurales-femeninos-derivadas-y-p-soluciones.pdf"
+  },
+  "paginas": 14,
+  "peso": "479 KB",
+  "ruta": "pdf/pau/11-Pieza-7-Nombre-y-adjetivo-plurales-femeninos-derivadas-y-p.pdf"
+ },
+ {
+  "orden": 12,
+  "titulo": "Pieza 8 · Los pronombres: antecedente y función",
+  "etiqueta": "Pieza 8",
+  "parte": "Parte 3 · Lengua",
+  "archivo": "12-Pieza-8-Los-pronombres-antecedente-y-funcion.pdf",
+  "folios": [
+   185,
+   193
+  ],
+  "soluciones": {
+   "archivo": "12-Pieza-8-Los-pronombres-antecedente-y-funcion-soluciones.pdf",
+   "folios": [
+    247,
+    248
+   ],
+   "paginas": 3,
+   "peso": "393 KB",
+   "ruta": "pdf/pau/12-Pieza-8-Los-pronombres-antecedente-y-funcion-soluciones.pdf"
+  },
+  "paginas": 10,
+  "peso": "492 KB",
+  "ruta": "pdf/pau/12-Pieza-8-Los-pronombres-antecedente-y-funcion.pdf"
+ },
+ {
+  "orden": 13,
+  "titulo": "Pieza 9 · El verbo: morfología irregular y perífrasis",
+  "etiqueta": "Pieza 9",
+  "parte": "Parte 3 · Lengua",
+  "archivo": "13-Pieza-9-El-verbo-morfologia-irregular-y-perifrasis.pdf",
+  "folios": [
+   194,
+   206
+  ],
+  "soluciones": {
+   "archivo": "13-Pieza-9-El-verbo-morfologia-irregular-y-perifrasis-soluciones.pdf",
+   "folios": [
+    248,
+    249
+   ],
+   "paginas": 3,
+   "peso": "408 KB",
+   "ruta": "pdf/pau/13-Pieza-9-El-verbo-morfologia-irregular-y-perifrasis-soluciones.pdf"
+  },
+  "paginas": 14,
+  "peso": "543 KB",
+  "ruta": "pdf/pau/13-Pieza-9-El-verbo-morfologia-irregular-y-perifrasis.pdf"
+ },
+ {
+  "orden": 14,
+  "titulo": "Anexo A-1 · Redacciones puntuadas",
+  "etiqueta": "Anexo A-1",
+  "parte": "Anexos",
+  "archivo": "14-Anexo-A-1-Redacciones-puntuadas.pdf",
+  "folios": [
+   207,
+   211
+  ],
+  "soluciones": null,
+  "paginas": 6,
+  "peso": "416 KB",
+  "ruta": "pdf/pau/14-Anexo-A-1-Redacciones-puntuadas.pdf"
+ },
+ {
+  "orden": 15,
+  "titulo": "Anexo A-4 · De segundo orden: parónimos y verbos que más se fallan",
+  "etiqueta": "Anexo A-4",
+  "parte": "Anexos",
+  "archivo": "15-Anexo-A-4-De-segundo-orden-paronimos-y-verbos-que-mas-se-f.pdf",
+  "folios": [
+   212,
+   216
+  ],
+  "soluciones": null,
+  "paginas": 6,
+  "peso": "411 KB",
+  "ruta": "pdf/pau/15-Anexo-A-4-De-segundo-orden-paronimos-y-verbos-que-mas-se-f.pdf"
+ },
+ {
+  "orden": 16,
+  "titulo": "Anexo A-2 · Banco de textos con sus preguntas y su clave",
+  "etiqueta": "Anexo A-2",
+  "parte": "Para después",
+  "archivo": "16-Anexo-A-2-Banco-de-textos-con-sus-preguntas-y-su-clave.pdf",
+  "folios": [
+   282,
+   292
+  ],
+  "soluciones": {
+   "archivo": "16-Anexo-A-2-Banco-de-textos-con-sus-preguntas-y-su-clave-soluciones.pdf",
+   "folios": [
+    249,
+    268
+   ],
+   "paginas": 21,
+   "peso": "593 KB",
+   "ruta": "pdf/pau/16-Anexo-A-2-Banco-de-textos-con-sus-preguntas-y-su-clave-soluciones.pdf"
+  },
+  "paginas": 12,
+  "peso": "495 KB",
+  "ruta": "pdf/pau/16-Anexo-A-2-Banco-de-textos-con-sus-preguntas-y-su-clave.pdf"
+ },
+ {
+  "orden": 17,
+  "titulo": "Anexo A-3 · El gimnasio: sets de tildes y formas verbales",
+  "etiqueta": "Anexo A-3",
+  "parte": "Para después",
+  "archivo": "17-Anexo-A-3-El-gimnasio-sets-de-tildes-y-formas-verbales.pdf",
+  "folios": [
+   293,
+   301
+  ],
+  "soluciones": null,
+  "paginas": 10,
+  "peso": "475 KB",
+  "ruta": "pdf/pau/17-Anexo-A-3-El-gimnasio-sets-de-tildes-y-formas-verbales.pdf"
+ },
+ {
+  "orden": 18,
+  "titulo": "Tandas por tipo de ítem",
+  "etiqueta": "Tandas",
+  "parte": "Para después",
+  "archivo": "18-Tandas-por-tipo-de-item.pdf",
+  "folios": [
+   302,
+   309
+  ],
+  "soluciones": {
+   "archivo": "18-Tandas-por-tipo-de-item-soluciones.pdf",
+   "folios": [
+    268,
+    281
+   ],
+   "paginas": 15,
+   "peso": "518 KB",
+   "ruta": "pdf/pau/18-Tandas-por-tipo-de-item-soluciones.pdf"
+  },
+  "paginas": 9,
+  "peso": "434 KB",
+  "ruta": "pdf/pau/18-Tandas-por-tipo-de-item.pdf"
+ }
+];

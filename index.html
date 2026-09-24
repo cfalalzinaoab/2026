@@ -3224,8 +3224,7 @@ ol,ul{ margin:0; padding:0; list-style:none }
   display:inline-flex;
   align-items:center;
   gap:var(--e-3);
-  margin-bottom:var(--e-6);
-  padding:var(--e-3) var(--e-5);
+  padding:var(--e-4) var(--e-5);
   border:0;
   border-radius:999px;
   background:var(--f-0);
@@ -3258,6 +3257,74 @@ ol,ul{ margin:0; padding:0; list-style:none }
 }
 .juego .flecha{ margin-left:var(--e-2); color:var(--i); transition:transform .3s var(--paso-ease) }
 .juego:hover .flecha{ transform:translateX(3px) }
+
+/* LOS DOS BOTONES, SEPARADOS Y CON HALO (Osky, 24-09-2026). Iban pegados
+   —dos `inline-flex` sin nada entre ellos— y con el mismo peso que una
+   etiqueta. Ahora la zona es una fila con aire entre los dos, y cada botón
+   lleva un halo de la tinta de su materia. El de los días de clase es por
+   donde se entra a trabajar cada sesión, así que va primero, con fondo
+   entintado, título en negrita y un halo que late despacio; el del juego es
+   repaso y se queda con un halo quieto. Con «reducir movimiento», el latido
+   se para y el halo se queda en su punto medio.                           */
+#juegoZona{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:var(--e-5);
+  margin-bottom:var(--e-6);
+}
+#juegoZona:empty{ display:none }
+.juego{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--i) 42%, transparent),
+    inset 0 1px 0 var(--grabado-alto),
+    inset 0 -8px 14px -10px var(--grabado-bajo),
+    0 0 20px -6px color-mix(in srgb, var(--i) 45%, transparent);
+}
+.juego:hover{
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--i) 72%, transparent),
+    inset 0 1px 0 var(--grabado-alto),
+    inset 0 -8px 14px -10px var(--grabado-bajo),
+    0 0 28px -4px color-mix(in srgb, var(--i) 55%, transparent);
+}
+.juego--dias{
+  flex:1 1 22rem;
+  padding:var(--e-5) var(--e-6);
+  background:color-mix(in srgb, var(--i) 10%, var(--f-0));
+  font-size:var(--t-m);
+  animation:latido 3.6s ease-in-out infinite;
+}
+.juego--dias > span{ flex:1; font-weight:600 }
+.juego--dias small{ font-size:var(--t-2xs); font-weight:400 }
+.juego--dias svg{ width:26px; height:26px }
+@keyframes latido{
+  0%, 100%{
+    box-shadow:
+      0 0 0 1.5px color-mix(in srgb, var(--i) 62%, transparent),
+      inset 0 1px 0 var(--grabado-alto),
+      inset 0 -8px 14px -10px var(--grabado-bajo),
+      0 0 16px -2px color-mix(in srgb, var(--i) 40%, transparent);
+  }
+  50%{
+    box-shadow:
+      0 0 0 1.5px color-mix(in srgb, var(--i) 80%, transparent),
+      inset 0 1px 0 var(--grabado-alto),
+      inset 0 -8px 14px -10px var(--grabado-bajo),
+      0 0 34px 2px color-mix(in srgb, var(--i) 58%, transparent);
+  }
+}
+.juego--dias:hover{ animation-play-state:paused }
+@media (prefers-reduced-motion:reduce){
+  .juego--dias{
+    animation:none;
+    box-shadow:
+      0 0 0 1.5px color-mix(in srgb, var(--i) 70%, transparent),
+      inset 0 1px 0 var(--grabado-alto),
+      inset 0 -8px 14px -10px var(--grabado-bajo),
+      0 0 26px 0 color-mix(in srgb, var(--i) 50%, transparent);
+  }
+}
 
 /* --- el trayecto --------------------------------------------------------
    Cada unidad es una línea compuesta, y su número va sobre un TIPO DE PLOMO:
@@ -5304,6 +5371,9 @@ html.imprimiendo .registro{ animation-play-state:paused }
      fetch porque esta pagina se abre con doble clic y file:// bloquea el
      fetch, no la etiqueta. Si el archivo falta, la pagina sigue igual. -->
 <script src="cas-ejercicios-datos.js"></script>
+<!-- Y lo mismo de PAU +25, que desde el 24-09-2026 también enseña sus
+     cuadernos como unidades. Lo escribe su publicar-web.py. -->
+<script src="pau-ejercicios-datos.js"></script>
 
 <script>
 /* La luz, antes del primer pintado. Si esto bajara al script grande, quien
@@ -5899,20 +5969,29 @@ const MATERIAS = [
   }
 ];
 
-/* LAS UNIDADES DE CAS SON LOS CUADERNOS DEL DOSSIER.
-   CAS no se divide en ocho unidades y no se va a dividir: su material son las
-   sesiones -que van en cas-trimestres.html- y el dossier, partido en
-   diecisiete cuadernos con nombre propio. Antes habia ocho casillas sin
-   nombre cuya ficha abria tres «Pronto», y la puerta prometia «8 unidades» a
-   quien ni siquiera habia entrado. Los titulos y el reparto salen de
-   `cas-ejercicios-datos.js`: aqui no se escribe ninguno a mano. Si el archivo
-   no esta, CAS se queda como estaba.                                      */
-(function cuadernosDeCas(){
-  if (typeof CAS_CUADERNOS === 'undefined' || !CAS_CUADERNOS.length) return;
-  const cas = MATERIAS.find(function(x){ return x.id === 'cas'; });
-  if (!cas) return;
-  cas.unidades  = CAS_CUADERNOS.map(function(c){ return [c.titulo, c.parte]; });
-  cas.cuadernos = CAS_CUADERNOS;
+/* LAS UNIDADES DE CAS Y DE PAU +25 SON LOS CUADERNOS DEL DOSSIER.
+   Ninguna de las dos se divide en unidades: su material son las sesiones
+   -que van en cas-trimestres.html y pau-trimestres.html- y el dossier,
+   partido en cuadernos con nombre propio: los nudos y los anexos de CAS, y
+   las piezas y los anexos de PAU. Antes habia ocho casillas sin nombre cuya
+   ficha abria tres «Pronto» (en PAU, hasta el 24-09-2026). Cada cuaderno es
+   su trozo del PDF impreso, con los folios del libro, y su clave va en otro
+   PDF: los corta DOSSIER/_publicar/segmentar.py. Los titulos y el reparto
+   salen de `cas-ejercicios-datos.js` y `pau-ejercicios-datos.js`: aqui no se
+   escribe ninguno a mano. Si falta el archivo, la materia se queda como
+   estaba.                                                                 */
+(function cuadernosDelDossier(){
+  const listas = {
+    cas: typeof CAS_CUADERNOS === 'undefined' ? null : CAS_CUADERNOS,
+    pau: typeof PAU_CUADERNOS === 'undefined' ? null : PAU_CUADERNOS
+  };
+  Object.keys(listas).forEach(function(id){
+    const lista = listas[id];
+    const m = MATERIAS.find(function(x){ return x.id === id; });
+    if (!m || !lista || !lista.length) return;
+    m.unidades  = lista.map(function(c){ return [c.titulo, c.parte]; });
+    m.cuadernos = lista;
+  });
 })();
 
 
@@ -7589,7 +7668,7 @@ function girarDibujo(art, boca, puesta, eje){
 
 /* El juego, con su título completo. */
 const JUEGO = {
-  titulo:'Emma y el Profesor Don Ganso',
+  titulo:'La liga bodegueril contra el reino de los ratones antitildes',
   pie:'Ocho capítulos para repasar toda la acentuación jugando',
   url:'https://oscaralejandrobanos.github.io/emma-tildes/'
 };
@@ -8086,7 +8165,7 @@ function entrar(id){
   const ses = SESIONES[m.id];
   if (ses){
     const c = document.createElement('a');
-    c.className = 'juego';
+    c.className = 'juego juego--dias';
     c.href = ses.url;
     c.innerHTML = ICONOS.dias +
       '<span>' + ses.titulo + '<small>' + ses.pie + '</small></span>' +
@@ -8153,7 +8232,7 @@ function pintarAdmin(m){
     b.setAttribute('aria-pressed', dadasDe(m.id).includes(i) ? 'true' : 'false');
     /* el titulo de la unidad va en el aria-label y en el title: la casilla
        solo lleva el numero, y un numero no dice que unidad es. */
-    b.setAttribute('aria-label', 'Unidad ' + (i + 1) + ' · ' + u[0]);
+    b.setAttribute('aria-label', (m.cuadernos ? 'Cuaderno ' : 'Unidad ') + (i + 1) + ' · ' + u[0]);
     b.title = u[0];
     b.addEventListener('click', function(){
       alternarDada(m.id, i);
@@ -8243,24 +8322,38 @@ function pintarCuerpo(m, i){
 
   /* UN CUADERNO DEL DOSSIER NO ES UNA UNIDAD DE CASTELLANO 2, y su ficha no
      puede decir lo mismo. No tiene pagina propia con ejercicios que se
-     corrigen solos -los de CAS van por sesion, en cas-trimestres.html- ni
-     tiene una hoja de soluciones aparte: la clave va dentro, detras de sus
-     ejercicios, para que el PDF se imprima solo y se baste. Asi que la ficha
-     de CAS lleva una fila y es de verdad, en vez de tres que dicen «Pronto». */
+     corrigen solos -los de CAS y PAU van por sesion, en su calendario-, asi
+     que no lleva «Ficha de la unidad». Lleva el cuaderno, que es su trozo del
+     dossier impreso con los mismos folios, y, si tiene ejercicios con clave,
+     el PDF de soluciones, que es su trozo del cuaderno final de soluciones.
+     Hasta el 24-09-2026 el cuaderno de CAS se componia aparte, con la clave
+     dentro y el folio desde el uno, y no coincidia con el papel.           */
   const cuad = m.cuadernos && m.cuadernos[i];
   if (cuad){
+    const f = cuad.folios || [];
     const ap = document.createElement('div');
     ap.className = 'apuntes';
     ap.innerHTML = '<h4>Lo que te llevas</h4>' +
-      '<p>' + cuad.paginas + ' páginas: la teoría, los ejercicios con espacio ' +
-      'para contestarlos a mano y la clave al final. Se imprime solo.</p>';
+      '<p>' + (f.length
+        ? 'Las páginas ' + f[0] + ' a ' + f[1] + ' del dossier impreso, con los mismos números'
+        : 'Este cuaderno del dossier') +
+      (cuad.soluciones
+        ? ': la teoría y los ejercicios con espacio para contestarlos a mano. ' +
+          'La clave de esos ejercicios va en el PDF de soluciones.'
+        : '.') + '</p>';
     div.appendChild(ap);
 
     const rc = document.createElement('div');
     rc.className = 'recursos';
     rc.innerHTML = '<a class="rec" href="' + cuad.ruta + '">' + ICONOS.pdf +
-      '<span>' + cuad.titulo + '<small>Para descargar e imprimir · ' +
-      cuad.peso + '</small></span></a>';
+      '<span>El cuaderno en PDF<small>Para descargar e imprimir · ' +
+      cuad.paginas + ' páginas · ' + cuad.peso + '</small></span></a>' +
+      (cuad.soluciones
+        ? '<a class="rec" href="' + cuad.soluciones.ruta + '">' + ICONOS.pdf +
+          '<span>Soluciones<small>La clave de sus ejercicios · ' +
+          cuad.soluciones.paginas + ' páginas · ' + cuad.soluciones.peso +
+          '</small></span></a>'
+        : '');
     div.appendChild(rc);
     return div;
   }
