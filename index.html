@@ -3066,6 +3066,11 @@ ol,ul{ margin:0; padding:0; list-style:none }
 
 .aviso, .pista{ font-size:var(--t-2xs) }
 .aviso{ color:var(--corrector); font-weight:500 }
+/* el correo del aviso: la misma tinta de corrector, en negrita, y se pulsa
+   para escribir. Sin subrayado, que ya se distingue por el peso; sale al
+   pasar por encima, que es cuando hace falta saber que es un enlace.   */
+.aviso__correo{ color:var(--corrector); font-weight:700; text-decoration:none }
+.aviso__correo:hover{ text-decoration:underline }
 .pista{ color:var(--tinta-3) }
 
 @keyframes nego{
@@ -7824,6 +7829,8 @@ function poner(clave, alAplicar){
 /* ============================================================================
    Portada: las tres puertas
    ============================================================================ */
+/* el correo que da el aviso cuando la clave no abre. Si cambia, es esta línea */
+const CORREO = 'obanos@cfalalzina.cat';
 const elPuertas  = document.getElementById('puertas');
 const elPortada  = document.getElementById('portada');
 const elMateria  = document.getElementById('materia');
@@ -8090,14 +8097,24 @@ MATERIAS.forEach(function(m, i){
       const otra = escrita && MATERIAS.find(function(x){
         return x !== m && llana(x.clave) === escrita;
       });
-      p.textContent = otra
-        ? 'Esa es la clave de «' + otra.nombre + '»: escríbela en su puerta, ' +
-          (MATERIAS.indexOf(otra) > MATERIAS.indexOf(m) ? 'más abajo' : 'más arriba') + '.'
+      if (otra){
+        p.textContent = 'Esa es la clave de «' + otra.nombre + '»: escríbela en su puerta, ' +
+          (MATERIAS.indexOf(otra) > MATERIAS.indexOf(m) ? 'más abajo' : 'más arriba') + '.';
+      } else {
         /* LA LUPA, PORQUE LA LETRA NO SE VE. Un número que el teclado del
            ordenador saca como otra cosa, o algo rellenado de antes, solo se
-           descubre mirando, y la cuentahílos es la pieza para mirar.       */
-        : 'Esa no es. Escríbela otra vez y pulsa la lupa para ver lo que escribes. ' +
-          'Si sigue sin abrir, mírala en el aula virtual o pregúntame en clase.';
+           descubre mirando, y la cuentahílos es la pieza para mirar.
+           Y EL CORREO, para cuando ni así: se pulsa y sale el mensaje con el
+           asunto puesto, que ya dice de qué grupo es quien escribe.        */
+        const correo = document.createElement('a');
+        correo.className = 'aviso__correo';
+        correo.href = 'mailto:' + CORREO + '?subject=' +
+          encodeURIComponent('No puedo entrar en ' + m.nombre);
+        correo.textContent = CORREO;
+        p.append('Esa no es. Escríbela otra vez y pulsa la lupa para ver lo que escribes. ' +
+                 'Si sigue sin abrir, mírala en el aula virtual, pregúntame en clase o escríbeme a ',
+                 correo, '.');
+      }
       /* delante de la pista, no al final: lo que ha pasado se lee antes que
          la letra pequeña de siempre. */
       col.insertBefore(p, col.querySelector('.pista'));
