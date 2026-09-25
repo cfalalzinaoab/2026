@@ -2556,7 +2556,16 @@ ol,ul{ margin:0; padding:0; list-style:none }
      cambie el cuerpo del texto dejarian de casar sin dar ningun error.   */
   --regla-alto:calc(var(--e-3) * 2 + 1.2em);
 }
-.campo label{ display:block; margin-bottom:var(--e-2) }
+/* LA TILDE DE LA Ñ NO CABÍA. El rótulo va con interlínea 1 y la tilde de
+   «CONTRASEÑA» sube por encima de su línea; la cerradura lleva
+   overflow:hidden para poder desplegarse, así que cuando el rótulo queda
+   pegado a su borde de arriba —en el móvil siempre, y en el ordenador en
+   cuanto sale el aviso y la columna pasa a ser lo más alto— la tilde se
+   cortaba entera y se leía «CONTRASENA». Medido con Archivo: sobresalía de
+   1 a 2 px; con .35em de aire queda de 2 a 3,4 px por dentro. Con la
+   columna abajo, que es lo de siempre en el ordenador, el texto no se mueve:
+   el aire crece hacia arriba.                                            */
+.campo label{ display:block; margin-bottom:var(--e-2); padding-top:.35em }
 
 /* ===== EL COMPONEDOR ======================================================
    La contraseña no se escribe en una caja de texto: SE COMPONE EN PLOMO.
@@ -2748,6 +2757,10 @@ ol,ul{ margin:0; padding:0; list-style:none }
    otra pagina. El ancla es el sitio, no el tipo.                         */
 .campo input{
   position:absolute;
+  /* las cuatro a mano ANTES de `inset`: Safari no entiende `inset` hasta el
+     14.1, y sin ellas el campo de verdad caía por debajo de la regla, fuera
+     de ella — el clic en el plomo no llegaba al campo.                   */
+  top:0; right:0; bottom:0; left:0;
   inset:0;
   width:100%;
   padding:var(--e-3) var(--e-4);
@@ -3062,6 +3075,11 @@ ol,ul{ margin:0; padding:0; list-style:none }
 
 .aviso, .pista{ font-size:var(--t-2xs) }
 .aviso{ color:var(--corrector); font-weight:500 }
+/* el correo del aviso: la misma tinta de corrector, en negrita, y se pulsa
+   para escribir. Sin subrayado, que ya se distingue por el peso; sale al
+   pasar por encima, que es cuando hace falta saber que es un enlace.   */
+.aviso__correo{ color:var(--corrector); font-weight:700; text-decoration:none }
+.aviso__correo:hover{ text-decoration:underline }
 .pista{ color:var(--tinta-3) }
 
 @keyframes nego{
@@ -7739,13 +7757,20 @@ function marcar(k, id){
 /* La contraseña se compara sin mayúsculas ni tildes: «Árbol7», «arbol7» y
    «ÁRBOL7» abren la misma puerta. En un móvil con el teclado en otro idioma,
    la tilde obliga a buscar la letra en una pulsación larga, y quien sabe la
-   contraseña se quedaría fuera por no encontrarla.                        */
+   contraseña se quedaría fuera por no encontrarla.
+
+   Y SOLO CUENTAN LAS LETRAS Y LOS NÚMEROS, por la misma razón. Un espacio en
+   medio, o el punto y las comillas que se traen al copiarla de un mensaje,
+   dejaban fuera a quien la sabía, con el mismo «Esa no es» que a quien no:
+   «Lince 2627», «Lince2627.» y «"Lince2627"» abren la misma puerta.      */
 function llana(s){
   /* NFD separa la tilde de su letra; los signos combinados van del 0x300
-     al 0x36f y se quitan. */
-  return Array.from(String(s).trim().toLowerCase().normalize('NFD'))
+     al 0x36f y se quitan. Después se va todo lo que no sea a-z o 0-9:
+     espacios, puntuación, comillas y los invisibles de copiar y pegar. */
+  return Array.from(String(s).toLowerCase().normalize('NFD'))
     .filter(function(c){ const n = c.charCodeAt(0); return n < 0x300 || n > 0x36f; })
-    .join('');
+    .join('')
+    .replace(/[^a-z0-9]/g, '');
 }
 
 /* --- EL PROGRESO DEL CURSO ------------------------------------------------
@@ -7813,6 +7838,8 @@ function poner(clave, alAplicar){
 /* ============================================================================
    Portada: las tres puertas
    ============================================================================ */
+/* el correo que da el aviso cuando la clave no abre. Si cambia, es esta línea */
+const CORREO = 'obanos@cfalalzina.cat';
 const elPuertas  = document.getElementById('puertas');
 const elPortada  = document.getElementById('portada');
 const elMateria  = document.getElementById('materia');
@@ -8018,6 +8045,16 @@ MATERIAS.forEach(function(m, i){
     if (!yaPedia){
       art.classList.add('pidiendo');
       boton.setAttribute('aria-expanded','true');
+      /* LA CASILLA SE ABRE VACÍA. La letra del campo no se pinta —se ve el
+         plomo—, así que lo que el gestor de contraseñas rellene al cargar la
+         página, o lo que quedara de otra vez, está ahí sin que nadie lo vea,
+         y lo que se teclea va DETRÁS: «Lince2627» llegaría como
+         «xxxxLince2627» y no abriría. El aviso de la vez anterior se va con
+         ello: una casilla vacía con un «Esa no es» debajo no cuenta nada. */
+      input.value = '';
+      componer(false);
+      const viejo = col.querySelector('.aviso');
+      if (viejo) viejo.remove();
       setTimeout(function(){ input.focus(); }, 140);
       /* 520 ms: lo que tarda la cerradura en acabar de desplegarse. Antes de
          eso el destino todavia se mueve y la llave aterriza en el aire.  */
@@ -8030,7 +8067,9 @@ MATERIAS.forEach(function(m, i){
     const viejo = col.querySelector('.aviso');
     if (viejo) viejo.remove();
 
-    if (llana(input.value) === llana(m.clave)){
+    /* vacía no abre nunca: sin letras ni números no hay nada que comparar */
+    const escrita = llana(input.value);
+    if (escrita && escrita === llana(m.clave)){
       art.classList.add('abierta');
       marcar(K_ABIERTAS, m.id);
       /* LA ESPERA LA DICE EL GIRO, NO ESTA LINEA. El giro dura 820 ms con el
@@ -8059,7 +8098,32 @@ MATERIAS.forEach(function(m, i){
       }, 400);
       const p = document.createElement('span');
       p.className = 'aviso';
-      p.textContent = 'Esa no es. Mírala en el aula virtual o pregúntame en clase.';
+      /* ¿ES LA CLAVE DE OTRA PUERTA? Las tres bandas se parecen, y «CAS
+         Castellano» está justo encima de PAU +25: quien teclea bien la suya
+         en la banda de al lado no se ha equivocado de clave sino de puerta,
+         y «Esa no es» le mandaba a buscar el fallo donde no estaba. Las
+         bandas van siempre apiladas, así que el orden dice arriba o abajo. */
+      const otra = escrita && MATERIAS.find(function(x){
+        return x !== m && llana(x.clave) === escrita;
+      });
+      if (otra){
+        p.textContent = 'Esa es la clave de «' + otra.nombre + '»: escríbela en su puerta, ' +
+          (MATERIAS.indexOf(otra) > MATERIAS.indexOf(m) ? 'más abajo' : 'más arriba') + '.';
+      } else {
+        /* LA LUPA, PORQUE LA LETRA NO SE VE. Un número que el teclado del
+           ordenador saca como otra cosa, o algo rellenado de antes, solo se
+           descubre mirando, y la cuentahílos es la pieza para mirar.
+           Y EL CORREO, para cuando ni así: se pulsa y sale el mensaje con el
+           asunto puesto, que ya dice de qué grupo es quien escribe.        */
+        const correo = document.createElement('a');
+        correo.className = 'aviso__correo';
+        correo.href = 'mailto:' + CORREO + '?subject=' +
+          encodeURIComponent('No puedo entrar en ' + m.nombre);
+        correo.textContent = CORREO;
+        p.append('Esa no es. Escríbela otra vez y pulsa la lupa para ver lo que escribes. ' +
+                 'Si sigue sin abrir, mírala en el aula virtual, pregúntame en clase o escríbeme a ',
+                 correo, '.');
+      }
       /* delante de la pista, no al final: lo que ha pasado se lee antes que
          la letra pequeña de siempre. */
       col.insertBefore(p, col.querySelector('.pista'));
@@ -8159,7 +8223,10 @@ function entrar(id){
   document.getElementById('m-marca').innerHTML = svgMarca(m.marca, 'meta__reg');
 
   const zj = document.getElementById('juegoZona');
-  zj.replaceChildren();
+  /* `textContent = ''` y no `replaceChildren()`: vacían lo mismo, pero
+     replaceChildren no existe en Safari hasta el 14, y ahí la clave buena
+     giraría la llave sin llegar a abrir nunca la materia.                */
+  zj.textContent = '';
   /* el calendario va DELANTE del juego: es donde se trabaja, y el juego es
      para repasar. Se abre en la misma pestaña porque es la misma web */
   const ses = SESIONES[m.id];
@@ -8192,7 +8259,7 @@ function entrar(id){
   cab.style.removeProperty('--lam-materia');
   poner(m.lamina, function(u){ cab.style.setProperty('--lam-materia', u); });
 
-  elTrayecto.replaceChildren();
+  elTrayecto.textContent = '';                 /* ver `zj`, arriba */
   m.unidades.forEach(function(u, i){ elTrayecto.appendChild(pintarParada(m, u, i)); });
   pintarAvance(m);
   pintarAdmin(m);
@@ -8605,7 +8672,14 @@ document.getElementById('adminCopiar').addEventListener('click', function(){
    otra cosa y va por el botón de cargar, dentro de la unidad.
    ========================================================================== */
 const LLAVE_ALF = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
-const LLAVE_MEZCLA = 0x2B7E151628AED2A6n;
+/* SIN LITERALES BigInt, Y NO ES MANÍA. `0x2B7E…n` o `5n` son SINTAXIS: un
+   navegador sin BigInt —Safari hasta el 13, o sea los Mac que se quedaron en
+   High Sierra y los iPhone con iOS 13— no los lee, y un error de sintaxis no
+   rompe esta función: tumba el <script> ENTERO. La portada salía sin las tres
+   puertas y el alumno no tenía dónde poner la contraseña. Con `BigInt()`
+   llamado dentro de la función, en ese navegador solo deja de ir esto, que
+   es cosa del panel de administración. La cuenta es la misma.            */
+const LLAVE_MEZCLA = '0x2B7E151628AED2A6';
 const LLAVE_ESTADO = ['sin empezar', 'a medias', 'terminado'];
 
 function llaveControl(n, nombre){
@@ -8628,11 +8702,14 @@ function descifrarLlave(cod, nombre){
   const s = String(cod).toUpperCase().replace(/[\s .\-_]/g, '')
     .replace(/[IL]/g, '1').replace(/O/g, '0').replace(/U/g, 'V');
   if (!s) return { error: 'Escribe la llave.' };
-  let n = 0n;
+  if (typeof BigInt !== 'function')
+    return { error: 'Este navegador es demasiado antiguo para descifrar llaves: ábrelo en Chrome, Firefox o un Safari al día.' };
+  const B = BigInt;
+  let n = B(0);
   for (const c of s){
     const k = LLAVE_ALF.indexOf(c);
     if (k < 0) return { error: 'La llave lleva un carácter que no existe en el código: ' + c + '.' };
-    n = (n << 5n) | BigInt(k);
+    n = (n << B(5)) | B(k);
   }
   const nom = String(nombre).trim().toLowerCase();
   if (!nom) return { error: 'Falta el nombre: la llave no se puede comprobar sin él.' };
@@ -8647,14 +8724,14 @@ function descifrarLlave(cod, nombre){
     const LARGO = Math.ceil((ANCHO + 8) / 5);
     if (LARGO !== s.length) continue;
     largoConocido = true;
-    const entero = (n ^ LLAVE_MEZCLA) & ((1n << BigInt(ANCHO + 8)) - 1n);
-    const carga = entero & ((1n << BigInt(ANCHO)) - 1n);
-    const ctl = entero >> BigInt(ANCHO);
-    const unidad = Number(carga >> BigInt(2 * NB));
+    const entero = (n ^ B(LLAVE_MEZCLA)) & ((B(1) << B(ANCHO + 8)) - B(1));
+    const carga = entero & ((B(1) << B(ANCHO)) - B(1));
+    const ctl = entero >> B(ANCHO);
+    const unidad = Number(carga >> B(2 * NB));
     if (String(unidad) !== k.split(':')[1]) continue;
     if (llaveControl(carga, nom) !== ctl) continue;
     const estados = [];
-    for (let i = NB - 1; i >= 0; i--) estados.push(Number((carga >> BigInt(2 * i)) & 3n));
+    for (let i = NB - 1; i >= 0; i--) estados.push(Number((carga >> B(2 * i)) & B(3)));
     return { unidad: unidad, bloques: bloques, estados: estados };
   }
   return { error: largoConocido
