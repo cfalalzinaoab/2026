@@ -2748,6 +2748,10 @@ ol,ul{ margin:0; padding:0; list-style:none }
    otra pagina. El ancla es el sitio, no el tipo.                         */
 .campo input{
   position:absolute;
+  /* las cuatro a mano ANTES de `inset`: Safari no entiende `inset` hasta el
+     14.1, y sin ellas el campo de verdad caía por debajo de la regla, fuera
+     de ella — el clic en el plomo no llegaba al campo.                   */
+  top:0; right:0; bottom:0; left:0;
   inset:0;
   width:100%;
   padding:var(--e-3) var(--e-4);
@@ -8159,7 +8163,10 @@ function entrar(id){
   document.getElementById('m-marca').innerHTML = svgMarca(m.marca, 'meta__reg');
 
   const zj = document.getElementById('juegoZona');
-  zj.replaceChildren();
+  /* `textContent = ''` y no `replaceChildren()`: vacían lo mismo, pero
+     replaceChildren no existe en Safari hasta el 14, y ahí la clave buena
+     giraría la llave sin llegar a abrir nunca la materia.                */
+  zj.textContent = '';
   /* el calendario va DELANTE del juego: es donde se trabaja, y el juego es
      para repasar. Se abre en la misma pestaña porque es la misma web */
   const ses = SESIONES[m.id];
@@ -8192,7 +8199,7 @@ function entrar(id){
   cab.style.removeProperty('--lam-materia');
   poner(m.lamina, function(u){ cab.style.setProperty('--lam-materia', u); });
 
-  elTrayecto.replaceChildren();
+  elTrayecto.textContent = '';                 /* ver `zj`, arriba */
   m.unidades.forEach(function(u, i){ elTrayecto.appendChild(pintarParada(m, u, i)); });
   pintarAvance(m);
   pintarAdmin(m);
@@ -8605,7 +8612,14 @@ document.getElementById('adminCopiar').addEventListener('click', function(){
    otra cosa y va por el botón de cargar, dentro de la unidad.
    ========================================================================== */
 const LLAVE_ALF = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
-const LLAVE_MEZCLA = 0x2B7E151628AED2A6n;
+/* SIN LITERALES BigInt, Y NO ES MANÍA. `0x2B7E…n` o `5n` son SINTAXIS: un
+   navegador sin BigInt —Safari hasta el 13, o sea los Mac que se quedaron en
+   High Sierra y los iPhone con iOS 13— no los lee, y un error de sintaxis no
+   rompe esta función: tumba el <script> ENTERO. La portada salía sin las tres
+   puertas y el alumno no tenía dónde poner la contraseña. Con `BigInt()`
+   llamado dentro de la función, en ese navegador solo deja de ir esto, que
+   es cosa del panel de administración. La cuenta es la misma.            */
+const LLAVE_MEZCLA = '0x2B7E151628AED2A6';
 const LLAVE_ESTADO = ['sin empezar', 'a medias', 'terminado'];
 
 function llaveControl(n, nombre){
@@ -8628,11 +8642,14 @@ function descifrarLlave(cod, nombre){
   const s = String(cod).toUpperCase().replace(/[\s .\-_]/g, '')
     .replace(/[IL]/g, '1').replace(/O/g, '0').replace(/U/g, 'V');
   if (!s) return { error: 'Escribe la llave.' };
-  let n = 0n;
+  if (typeof BigInt !== 'function')
+    return { error: 'Este navegador es demasiado antiguo para descifrar llaves: ábrelo en Chrome, Firefox o un Safari al día.' };
+  const B = BigInt;
+  let n = B(0);
   for (const c of s){
     const k = LLAVE_ALF.indexOf(c);
     if (k < 0) return { error: 'La llave lleva un carácter que no existe en el código: ' + c + '.' };
-    n = (n << 5n) | BigInt(k);
+    n = (n << B(5)) | B(k);
   }
   const nom = String(nombre).trim().toLowerCase();
   if (!nom) return { error: 'Falta el nombre: la llave no se puede comprobar sin él.' };
@@ -8647,14 +8664,14 @@ function descifrarLlave(cod, nombre){
     const LARGO = Math.ceil((ANCHO + 8) / 5);
     if (LARGO !== s.length) continue;
     largoConocido = true;
-    const entero = (n ^ LLAVE_MEZCLA) & ((1n << BigInt(ANCHO + 8)) - 1n);
-    const carga = entero & ((1n << BigInt(ANCHO)) - 1n);
-    const ctl = entero >> BigInt(ANCHO);
-    const unidad = Number(carga >> BigInt(2 * NB));
+    const entero = (n ^ B(LLAVE_MEZCLA)) & ((B(1) << B(ANCHO + 8)) - B(1));
+    const carga = entero & ((B(1) << B(ANCHO)) - B(1));
+    const ctl = entero >> B(ANCHO);
+    const unidad = Number(carga >> B(2 * NB));
     if (String(unidad) !== k.split(':')[1]) continue;
     if (llaveControl(carga, nom) !== ctl) continue;
     const estados = [];
-    for (let i = NB - 1; i >= 0; i--) estados.push(Number((carga >> BigInt(2 * i)) & 3n));
+    for (let i = NB - 1; i >= 0; i--) estados.push(Number((carga >> B(2 * i)) & B(3)));
     return { unidad: unidad, bloques: bloques, estados: estados };
   }
   return { error: largoConocido
