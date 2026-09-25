@@ -7743,13 +7743,20 @@ function marcar(k, id){
 /* La contraseña se compara sin mayúsculas ni tildes: «Árbol7», «arbol7» y
    «ÁRBOL7» abren la misma puerta. En un móvil con el teclado en otro idioma,
    la tilde obliga a buscar la letra en una pulsación larga, y quien sabe la
-   contraseña se quedaría fuera por no encontrarla.                        */
+   contraseña se quedaría fuera por no encontrarla.
+
+   Y SOLO CUENTAN LAS LETRAS Y LOS NÚMEROS, por la misma razón. Un espacio en
+   medio, o el punto y las comillas que se traen al copiarla de un mensaje,
+   dejaban fuera a quien la sabía, con el mismo «Esa no es» que a quien no:
+   «Lince 2627», «Lince2627.» y «"Lince2627"» abren la misma puerta.      */
 function llana(s){
   /* NFD separa la tilde de su letra; los signos combinados van del 0x300
-     al 0x36f y se quitan. */
-  return Array.from(String(s).trim().toLowerCase().normalize('NFD'))
+     al 0x36f y se quitan. Después se va todo lo que no sea a-z o 0-9:
+     espacios, puntuación, comillas y los invisibles de copiar y pegar. */
+  return Array.from(String(s).toLowerCase().normalize('NFD'))
     .filter(function(c){ const n = c.charCodeAt(0); return n < 0x300 || n > 0x36f; })
-    .join('');
+    .join('')
+    .replace(/[^a-z0-9]/g, '');
 }
 
 /* --- EL PROGRESO DEL CURSO ------------------------------------------------
@@ -8022,6 +8029,16 @@ MATERIAS.forEach(function(m, i){
     if (!yaPedia){
       art.classList.add('pidiendo');
       boton.setAttribute('aria-expanded','true');
+      /* LA CASILLA SE ABRE VACÍA. La letra del campo no se pinta —se ve el
+         plomo—, así que lo que el gestor de contraseñas rellene al cargar la
+         página, o lo que quedara de otra vez, está ahí sin que nadie lo vea,
+         y lo que se teclea va DETRÁS: «Lince2627» llegaría como
+         «xxxxLince2627» y no abriría. El aviso de la vez anterior se va con
+         ello: una casilla vacía con un «Esa no es» debajo no cuenta nada. */
+      input.value = '';
+      componer(false);
+      const viejo = col.querySelector('.aviso');
+      if (viejo) viejo.remove();
       setTimeout(function(){ input.focus(); }, 140);
       /* 520 ms: lo que tarda la cerradura en acabar de desplegarse. Antes de
          eso el destino todavia se mueve y la llave aterriza en el aire.  */
@@ -8034,7 +8051,9 @@ MATERIAS.forEach(function(m, i){
     const viejo = col.querySelector('.aviso');
     if (viejo) viejo.remove();
 
-    if (llana(input.value) === llana(m.clave)){
+    /* vacía no abre nunca: sin letras ni números no hay nada que comparar */
+    const escrita = llana(input.value);
+    if (escrita && escrita === llana(m.clave)){
       art.classList.add('abierta');
       marcar(K_ABIERTAS, m.id);
       /* LA ESPERA LA DICE EL GIRO, NO ESTA LINEA. El giro dura 820 ms con el
@@ -8063,7 +8082,22 @@ MATERIAS.forEach(function(m, i){
       }, 400);
       const p = document.createElement('span');
       p.className = 'aviso';
-      p.textContent = 'Esa no es. Mírala en el aula virtual o pregúntame en clase.';
+      /* ¿ES LA CLAVE DE OTRA PUERTA? Las tres bandas se parecen, y «CAS
+         Castellano» está justo encima de PAU +25: quien teclea bien la suya
+         en la banda de al lado no se ha equivocado de clave sino de puerta,
+         y «Esa no es» le mandaba a buscar el fallo donde no estaba. Las
+         bandas van siempre apiladas, así que el orden dice arriba o abajo. */
+      const otra = escrita && MATERIAS.find(function(x){
+        return x !== m && llana(x.clave) === escrita;
+      });
+      p.textContent = otra
+        ? 'Esa es la clave de «' + otra.nombre + '»: escríbela en su puerta, ' +
+          (MATERIAS.indexOf(otra) > MATERIAS.indexOf(m) ? 'más abajo' : 'más arriba') + '.'
+        /* LA LUPA, PORQUE LA LETRA NO SE VE. Un número que el teclado del
+           ordenador saca como otra cosa, o algo rellenado de antes, solo se
+           descubre mirando, y la cuentahílos es la pieza para mirar.       */
+        : 'Esa no es. Escríbela otra vez y pulsa la lupa para ver lo que escribes. ' +
+          'Si sigue sin abrir, mírala en el aula virtual o pregúntame en clase.';
       /* delante de la pista, no al final: lo que ha pasado se lee antes que
          la letra pequeña de siempre. */
       col.insertBefore(p, col.querySelector('.pista'));
