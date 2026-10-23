@@ -34,6 +34,8 @@ main{display:grid;gap:22px;padding-top:28px}
 .privado svg{flex:none;width:20px;height:20px;margin-top:2px;color:var(--si)}
 .privado strong{color:var(--ink)}
 .campos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.campos.cuatro{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:900px){.campos.cuatro{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .campos label{display:grid;gap:6px;align-content:start;font-size:14px;font-weight:600;color:var(--muted)}
 input[type=text],input[type=date],input[type=number],select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%;min-height:46px}
 .mas{margin-top:18px;border-top:1px solid var(--soft);padding-top:14px}
@@ -98,7 +100,7 @@ input[type=text],input[type=date],input[type=number],select{font:inherit;font-si
   .cabecera{flex-direction:column;align-items:flex-start;gap:14px}
   .sello{width:68px;height:68px}
   .paso{padding:18px 16px}
-  .campos{grid-template-columns:minmax(0,1fr)}
+  .campos,.campos.cuatro{grid-template-columns:minmax(0,1fr)}
   .grupo{grid-template-columns:minmax(0,1fr)}
   .botones{grid-column:1;grid-row:auto;padding-left:30px}
   .tabla.valores thead{display:none}
@@ -134,10 +136,11 @@ input[type=text],input[type=date],input[type=number],select{font:inherit;font-si
 
 <section class="paso" id="paso-ajustes" hidden>
   <h2><span class="n">2</span> Para qué es la lista</h2>
-  <div class="campos">
+  <div class="campos cuatro">
     <label>Fiesta o actividad<input id="evento" type="text" placeholder="Fiesta de Navidad" autocomplete="off"></label>
     <label>Fecha<input id="fecha" type="date"></label>
     <label>Orden de la lista<select id="orden"><option value="excel">Como en el Excel</option><option value="alfa">Alfabético</option></select></label>
+    <label>Impresión<select id="tinta"><option value="color">En color</option><option value="bn">Blanco y negro (fotocopias)</option></select></label>
   </div>
   <details class="mas">
     <summary>Columnas y filas</summary>
@@ -193,6 +196,7 @@ const st = {
   colBaja: 15,                // P (Motiu_baixa_canvi_espera); -1 = no mirar
   fila: 0,                    // 0 = automática
   orden: 'excel', evento: '', fecha: '',
+  bn: false,                  // PDF en blanco y negro, para fotocopiar
   veredicto: {},              // respuesta normalizada → 'si' | 'no' | 'rev', cuando se cambia a mano
   fuera: new Set(),           // pestañas desmarcadas
   abiertos: new Set(),        // listas desplegadas
@@ -366,10 +370,38 @@ function cargar(file) {
 
 /* ---------- PDF ---------- */
 
-const C = {
-  tinta: '#2b2620', gris: '#74695a', raya: '#e6dfd2', acento: '#73551b', cabeza: '#3b3129', cebra: '#f7f3ec', neutro: '#f1ece2',
-  si: '#1d6a33', siFondo: '#e3f0e5', no: '#b3261e', noFondo: '#fbe4e1', rev: '#8a5a00', revFondo: '#fcefcc'
+// Dos juegos de tinta. En blanco y negro nada depende del color: el NO va en negro macizo con letra
+// blanca, lo que hay que revisar en gris, y las cifras y los avisos llevan borde en vez de fondo.
+const COLOR = {
+  tinta: '#2b2620', gris: '#74695a', raya: '#e6dfd2', acento: '#73551b', cabeza: '#3b3129', cabezaTexto: '#ffffff', cebra: '#f7f3ec', neutro: '#f1ece2',
+  si: '#1d6a33', siFondo: '#e3f0e5', no: '#b3261e', noFondo: '#fbe4e1', noRaya: '#f1c9c3', noNombre: '#b3261e', noMarca: 'rojo',
+  rev: '#8a5a00', revFondo: '#fcefcc', revCaja: '#fcefcc', revRaya: '#ecd9a6', revMarca: 'ámbar', borde: null
 };
+const BN = {
+  tinta: '#000000', gris: '#4d4d4d', raya: '#a6a6a6', acento: '#000000', cabeza: null, cabezaTexto: '#000000', cebra: null, neutro: '#ffffff',
+  si: '#000000', siFondo: '#ffffff', no: '#000000', noFondo: null, noRaya: '#a6a6a6', noNombre: '#000000', noMarca: 'negro',
+  rev: '#000000', revFondo: '#c8c8c8', revCaja: null, revRaya: '#a6a6a6', revMarca: 'gris', borde: '#000000'
+};
+let C = COLOR;
+
+// El sello en grises, para el PDF en blanco y negro.
+let selloBN;
+function sello() {
+  if (!st.bn) return SELLO;
+  if (!selloBN) {
+    try {
+      const img = $('#sello'), lienzo = document.createElement('canvas');
+      lienzo.width = img.naturalWidth; lienzo.height = img.naturalHeight;
+      const ctx = lienzo.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const datos = ctx.getImageData(0, 0, lienzo.width, lienzo.height), px = datos.data;
+      for (let i = 0; i < px.length; i += 4) px[i] = px[i + 1] = px[i + 2] = Math.round(px[i] * .299 + px[i + 1] * .587 + px[i + 2] * .114);
+      ctx.putImageData(datos, 0, 0);
+      selloBN = lienzo.toDataURL('image/jpeg', 0.9);
+    } catch (e) { selloBN = SELLO; }
+  }
+  return selloBN;
+}
 
 function fechaLarga() {
   if (!st.fecha) return '';
@@ -382,6 +414,11 @@ const chip = (n, txt, fondo, color, mini) => ({
   stack: [{ text: String(n), fontSize: mini ? 14 : 18, bold: true, color }, { text: txt, fontSize: 8, color, margin: [0, -1, 0, 0] }],
   fillColor: fondo, margin: mini ? [9, 4, 9, 5] : [10, 6, 10, 7]
 });
+const rayasTabla = {
+  hLineWidth: (i, node) => i === 0 ? 0 : i === 1 ? (C.borde ? 1.2 : 0) : i === node.table.body.length ? (C.borde ? 0.8 : 0) : 0.6,
+  hLineColor: (i, node) => (i === 1 || i === node.table.body.length) && C.borde ? C.borde : C.raya,
+  vLineWidth: () => 0
+};
 const sinBordes = { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 0, paddingRight: () => 0, paddingTop: () => 0, paddingBottom: () => 0 };
 
 // Nombres seguidos en un párrafo, separados por puntos; cada nombre (y su nota, si es corta) va entero, sin partirse entre dos líneas.
@@ -408,7 +445,7 @@ function caja(titulo, items, color, fondo, seguido, marca, resumir) {
   };
 }
 
-const bordeCaja = color => ({ hLineWidth: () => 0, vLineWidth: i => i === 0 ? 3.5 : 0, vLineColor: () => color,
+const bordeCaja = color => ({ hLineWidth: () => C.borde ? 0.8 : 0, hLineColor: () => C.borde, vLineWidth: i => i === 0 ? 3.5 : C.borde ? 0.8 : 0, vLineColor: () => color,
   paddingLeft: () => 12, paddingRight: () => 10, paddingTop: () => 8, paddingBottom: () => 9 });
 
 // La caja del resumen: una línea por grupo, con sus nombres seguidos.
@@ -433,7 +470,7 @@ function cajaPorGrupo(titulo, grupos, color, fondo, raya) {
 
 // La respuesta original, cuando hace falta, va debajo del nombre: ahí tiene sitio para una sola línea.
 function celdaNombre(f, fs) {
-  const nom = { text: f.nombre, fontSize: fs, bold: f.v === 'no', color: f.v === 'no' ? C.no : C.tinta };
+  const nom = { text: f.nombre, fontSize: fs, bold: f.v === 'no', color: f.v === 'no' ? C.noNombre : C.tinta };
   return conNota(f) ? { stack: [nom, { text: 'En el Excel: «' + f.crudo + '»', fontSize: 7.5, italics: true, color: C.gris }] } : nom;
 }
 
@@ -462,7 +499,7 @@ function cabecera(titulo, { mini, salto, id } = {}) {
         { text: titulo, id, fontSize: mini ? 19 : 24, bold: true, margin: [0, 3, 0, 0] },
         ...(fecha ? [{ text: fecha, fontSize: 10.5, color: C.gris, margin: [0, 2, 0, 0] }] : [])
       ] },
-      { width: mini ? 42 : 52, image: SELLO, fit: mini ? [42, 42] : [52, 52] }
+      { width: mini ? 42 : 52, image: sello(), fit: mini ? [42, 42] : [52, 52] }
     ],
     columnGap: 12,
     ...(salto ? { pageBreak: 'before' } : {})
@@ -477,9 +514,8 @@ function cifras(alumnos, n, mini) {
     n.no ? chip(n.no, 'NO pueden salir', C.no, '#ffffff', mini) : chip(0, 'no pueden salir', C.neutro, C.gris, mini)
   ];
   if (n.rev) chips.push(chip(n.rev, 'por confirmar', C.revFondo, C.rev, mini));
-  return { table: { widths: chips.map(() => '*'), body: [chips] },
-    layout: { ...sinBordes, vLineWidth: (i, node) => (i === 0 || i === node.table.widths.length) ? 0 : 6, vLineColor: () => '#ffffff' },
-    margin: [0, 0, 0, mini ? 8 : 12] };
+  const marco = C.borde ? { ...sinBordes, hLineWidth: () => 0.8, vLineWidth: () => 0.8, hLineColor: () => C.borde, vLineColor: () => C.borde } : sinBordes;
+  return { columns: chips.map(c => ({ table: { widths: ['*'], body: [[c]] }, layout: marco })), columnGap: 6, margin: [0, 0, 0, mini ? 8 : 12] };
 }
 
 // La primera hoja del PDF con todos los grupos: los totales, dónde está cada grupo y,
@@ -489,33 +525,31 @@ function portada(grupos) {
   const tot = { si: 0, no: 0, rev: 0 };
   let alumnos = 0;
   datos.forEach(d => { alumnos += d.filas.length; tot.si += d.n.si; tot.no += d.n.no; tot.rev += d.n.rev; });
-  const num = (v, color, extra) => ({ text: String(v), alignment: 'center', color: v ? color : C.gris, bold: !!v && color !== C.tinta, ...extra });
+  const num = (v, color, negrita) => ({ text: String(v), alignment: 'center', color: v ? color : C.gris, bold: !!v && negrita });
   const body = [[
     { text: 'GRUPO', style: 'th' }, { text: 'ALUMNOS', style: 'th', alignment: 'center' }, { text: 'SÍ', style: 'th', alignment: 'center' },
     { text: 'NO', style: 'th', alignment: 'center' }, { text: 'CONFIRMAR', style: 'th', alignment: 'center' }, { text: 'HOJA', style: 'th', alignment: 'right' }
   ]];
   datos.forEach((d, i) => body.push([
-    { text: d.g.nombre, bold: true }, num(d.filas.length, C.tinta), num(d.n.si, C.si), num(d.n.no, C.no), num(d.n.rev, C.rev),
+    { text: d.g.nombre, bold: true }, num(d.filas.length, C.tinta, false), num(d.n.si, C.si, true), num(d.n.no, C.no, true), num(d.n.rev, C.rev, true),
     { pageReference: 'grupo-' + i, alignment: 'right', color: C.gris }
   ]));
-  const negrita = { bold: true };
-  body.push([{ text: 'Total', bold: true }, num(alumnos, C.tinta, negrita), num(tot.si, C.si), num(tot.no, C.no), num(tot.rev, C.rev), '']);
+  body.push([{ text: 'Total', bold: true }, num(alumnos, C.tinta, true), num(tot.si, C.si, true), num(tot.no, C.no, true), num(tot.rev, C.rev, true), '']);
   const out = [...cabecera('Todos los grupos'), cifras(alumnos, tot), {
     table: { headerRows: 1, dontBreakRows: true, widths: ['*', 56, 44, 44, 70, 38], body },
     layout: {
       fillColor: r => r === 0 ? C.cabeza : r === body.length - 1 ? C.neutro : r % 2 === 0 ? C.cebra : null,
-      hLineWidth: (i, node) => (i <= 1 || i === node.table.body.length) ? 0 : 0.6,
-      hLineColor: () => C.raya, vLineWidth: () => 0,
+      ...rayasTabla,
       paddingTop: () => 5, paddingBottom: () => 5, paddingLeft: () => 7, paddingRight: () => 7
     },
     margin: [0, 0, 0, 14]
   }];
   const porGrupo = (v, item) => datos.filter(d => d.n[v]).map(d => [d.g.nombre, d.filas.filter(f => f.v === v).map(item)]);
   if (tot.no) out.push(cajaPorGrupo('NO PUEDEN SALIR EN LAS FOTOS  ·  TODOS LOS GRUPOS',
-    porGrupo('no', f => [{ text: f.nombre, bold: true }]), C.no, C.noFondo, '#f1c9c3'));
+    porGrupo('no', f => [{ text: f.nombre, bold: true }]), C.no, C.noFondo, C.noRaya));
   if (tot.rev) out.push(cajaPorGrupo('CONFIRMAR ANTES DE HACER FOTOS  ·  TODOS LOS GRUPOS',
     porGrupo('rev', f => [{ text: f.nombre, bold: true }, { text: '  (' + (f.crudo ? '«' + f.crudo + '»' : 'sin dato') + ')', fontSize: 8.5, color: C.gris }]),
-    C.rev, C.revFondo, '#ecd9a6'));
+    C.rev, C.revCaja, C.revRaya));
   return out;
 }
 
@@ -525,9 +559,9 @@ function bloqueGrupo(g, salto, { fs, pad, seguido, mini, resumir }, id) {
   const out = [...cabecera(g.nombre, { mini, salto, id }), cifras(filas.length, n, mini)];
 
   if (n.no) out.push(caja('NO PUEDEN SALIR EN LAS FOTOS', filas.filter(f => f.v === 'no').map(f => [
-    { text: f.nombre, bold: true, fontSize: fsCaja }]), C.no, C.noFondo, seguido, 'rojo', resumir));
+    { text: f.nombre, bold: true, fontSize: fsCaja }]), C.no, C.noFondo, seguido, C.noMarca, resumir));
   if (n.rev) out.push(caja('CONFIRMAR ANTES DE HACER FOTOS', filas.filter(f => f.v === 'rev').map(f => [
-    { text: f.nombre, bold: true, fontSize: fsCaja }, { text: '  —  ' + (f.crudo || 'sin dato'), fontSize: fsCaja - 2, color: C.gris }]), C.rev, C.revFondo, seguido, 'ámbar', resumir));
+    { text: f.nombre, bold: true, fontSize: fsCaja }, { text: '  —  ' + (f.crudo || 'sin dato'), fontSize: fsCaja - 2, color: C.gris }]), C.rev, C.revCaja, seguido, C.revMarca, resumir));
 
   const body = [[
     { text: 'Nº', style: 'th', alignment: 'right' },
@@ -543,8 +577,7 @@ function bloqueGrupo(g, salto, { fs, pad, seguido, mini, resumir }, id) {
     table: { headerRows: 1, dontBreakRows: true, widths: [20, '*', 84], body },
     layout: {
       fillColor: r => r === 0 ? C.cabeza : filas[r - 1].v === 'no' ? C.noFondo : r % 2 === 0 ? C.cebra : null,
-      hLineWidth: (i, node) => (i <= 1 || i === node.table.body.length) ? 0 : 0.6,
-      hLineColor: () => C.raya, vLineWidth: () => 0,
+      ...rayasTabla,
       paddingTop: () => pad, paddingBottom: () => pad, paddingLeft: () => 7, paddingRight: () => 7
     }
   });
@@ -552,12 +585,13 @@ function bloqueGrupo(g, salto, { fs, pad, seguido, mini, resumir }, id) {
 }
 
 function documento(grupos, escalas, conPortada) {
+  C = st.bn ? BN : COLOR;
   const hoy = new Date().toLocaleDateString('es-ES');
   return {
     pageSize: 'A4', pageMargins: [40, 36, 40, 50],
     info: { title: 'Derecho de imagen · ' + (grupos.length === 1 ? grupos[0].nombre : 'todos los grupos') + (st.evento.trim() ? ' · ' + st.evento.trim() : '') },
     defaultStyle: { font: 'Roboto', fontSize: 10.5, color: C.tinta, lineHeight: 1.15 },
-    styles: { th: { fontSize: 7.5, bold: true, color: '#ffffff', characterSpacing: 0.8, margin: [0, 2, 0, 2] } },
+    styles: { th: { fontSize: 7.5, bold: true, color: C.cabezaTexto, characterSpacing: 0.8, margin: [0, 2, 0, 2] } },
     footer: (pag, tot) => ({ margin: [40, 18, 40, 0], columns: [
       { text: `Uso interno · contiene datos personales: no difundir ni dejar a la vista · generado el ${hoy}`, fontSize: 7.5, color: C.gris },
       { text: `${pag} / ${tot}`, width: 50, alignment: 'right', fontSize: 7.5, color: C.gris }
@@ -570,7 +604,7 @@ function documento(grupos, escalas, conPortada) {
 }
 
 const limpio = s => s.replace(/[\\/:*?"<>|]+/g, '-').replace(/\s+/g, ' ').trim();
-const nombrePDF = nombre => limpio(`Derecho de imagen - ${nombre}${st.evento.trim() ? ' - ' + st.evento.trim() : ''}`) + '.pdf';
+const nombrePDF = nombre => limpio(`Derecho de imagen - ${nombre}${st.evento.trim() ? ' - ' + st.evento.trim() : ''}${st.bn ? ' - BN' : ''}`) + '.pdf';
 const pdfBlob = dd => new Promise((ok, ko) => { try { pdfMake.createPdf(dd).getBlob(ok); } catch (e) { ko(e); } });
 
 // Cuántas hojas ocupa un documento: lo dice el pie, que se pinta con el total en cada hoja.
@@ -627,6 +661,7 @@ $('#fila').addEventListener('input', e => { const v = parseInt(e.target.value, 1
 $('#evento').addEventListener('input', e => { st.evento = e.target.value; });
 $('#fecha').addEventListener('change', e => { st.fecha = e.target.value; });
 $('#orden').addEventListener('change', e => { st.orden = e.target.value; pintarGrupos(); });
+$('#tinta').addEventListener('change', e => { st.bn = e.target.value === 'bn'; });
 
 $('#valores').addEventListener('change', e => {
   const k = e.target.dataset.k;
@@ -671,7 +706,7 @@ $('#todo-zip').addEventListener('click', e => conBoton(e.currentTarget, async ()
     usados.add(nombre);
     zip.file(nombre, await pdfDe([g]));
   }
-  bajar(await zip.generateAsync({ type: 'blob' }), limpio(`Derecho de imagen${st.evento.trim() ? ' - ' + st.evento.trim() : ''}`) + '.zip');
+  bajar(await zip.generateAsync({ type: 'blob' }), limpio(`Derecho de imagen${st.evento.trim() ? ' - ' + st.evento.trim() : ''}${st.bn ? ' - BN' : ''}`) + '.zip');
 }));
 
 if (!window.XLSX || !window.pdfMake) aviso('No se han podido cargar las herramientas de la página. Hace falta conexión a internet: recarga cuando la tengas.', 'error');
