@@ -20,7 +20,7 @@ cuadernos para imprimir solo lo que se está dando—.
 | `pdf/` | los dossieres de alumnado y los diecisiete cuadernos sueltos de CAS |
 | `img/`, `audio/` | láminas, texturas, el sello del centro (lo escribe `_sello-cfa.py`, en la carpeta de arriba) y las pistas de la unidad 1 |
 | `unidad-01.html` | la unidad 1 de Castellà 2 |
-| `derechos-imagen.html` | quién puede salir en las fotos de las fiestas: lee el Excel de los grupos (columna B, el nombre; H, el derecho de imagen; P, si está de baja, ha cambiado de grupo o en lista de espera, y entonces no cuenta) y saca un PDF por grupo, de una hoja cada uno, o uno con todos que empieza con una hoja de resumen; en color o en blanco y negro para fotocopiar. Las pestañas de ESTADÍSTIQUES no se leen. El Excel se lee en el navegador y no se sube a ningún sitio |
+| `derechos-imagen.html` | quién puede salir en las fotos de las fiestas: lee el Excel de los grupos (columna B, el nombre; la columna titulada «Dret imatge», esté donde esté, el derecho de imagen; la de «Motiu_baixa_canvi_espera», si está de baja, ha cambiado de grupo o en lista de espera, y entonces no cuenta) y saca un PDF por grupo, de una hoja cada uno, o uno con todos que empieza con una hoja de resumen; en color o en blanco y negro para fotocopiar. No toma por grupos las pestañas sin «Dret imatge», las de ESTADÍSTIQUES, Llistes, equiv, Taula_auxiliar ni las de más de 60 nombres. El Excel se lee en el navegador y no se sube a ningún sitio |
 
 Es HTML estático. No hay servidor ni compilación: se abre `index.html` y
 funciona.
