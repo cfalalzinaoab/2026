@@ -58,6 +58,7 @@ input[type=text],input[type=date],input[type=number],select{font:inherit;font-si
 .seg .rev input:checked+span{background:var(--rev-bg);color:var(--rev)}
 .seg input:checked+span:before{content:'● ';font-size:.8em}
 .resumen{margin:-4px 0 16px;color:var(--muted)}
+.apartadas{margin:-8px 0 16px}
 .resumen strong{color:var(--ink)}
 .grupo{border:1px solid var(--soft);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:center;background:var(--bg)}
 .grupo+.grupo{margin-top:10px}
@@ -159,6 +160,7 @@ input[type=text],input[type=date],input[type=number],select{font:inherit;font-si
 <section class="paso" id="paso-grupos" hidden>
   <h2><span class="n">4</span> Los grupos</h2>
   <p class="resumen" id="resumen"></p>
+  <p class="nota apartadas" id="apartadas" hidden></p>
   <div id="grupos"></div>
   <div class="acciones">
     <button class="btn primario" id="todo-uno" type="button">Un PDF con todos los grupos</button>
@@ -224,6 +226,10 @@ const OPCIONES = [['si', 'Puede salir'], ['no', 'No puede salir'], ['rev', 'Revi
 const RX_CAB_NOM = /^(nom|noms|nombre|nombres|cognom|cognoms|apellido|apellidos|alumn[aeo]s?|alumnat|alumnado|estudiant|estudiante|estudiantes|name)\b/;
 const RX_CAB_DRET = /^(dret|drets|derecho|derechos|imatge|imagen|foto|fotos|fotografia|fotografies|fotografias)\b/;
 const RX_TOTAL = /^(total|totals|totales|suma)\b/;
+// Pestañas que no son grupos (las de ESTADÍSTIQUES): ni se leen ni se ofrecen.
+const RX_NO_GRUPO = /estadist/;
+const pestanasGrupo = () => st.wb.SheetNames.filter(n => !RX_NO_GRUPO.test(clave(n)));
+const pestanasApartadas = () => st.wb.SheetNames.filter(n => RX_NO_GRUPO.test(clave(n)));
 // En la columna de baja, cambio o espera, cualquier cosa escrita deja al alumno fuera, salvo estas, que es como no poner nada.
 const RX_SIN_BAJA = /^(-+|—|–|cap|ninguno|ninguna|no|n\/a)$/;
 
@@ -235,7 +241,7 @@ function texto(ws, r, c) {
 }
 
 function leerGrupos() {
-  return st.wb.SheetNames.map(nombre => {
+  return pestanasGrupo().map(nombre => {
     const ws = st.wb.Sheets[nombre], g = { nombre, filas: [], bajas: [], ini: 0 };
     if (!ws || !ws['!ref']) return g;
     const rg = XLSX.utils.decode_range(ws['!ref']);
@@ -322,6 +328,9 @@ function pintarGrupos() {
       <div class="lista" id="lista-${i}"${abierto ? '' : ' hidden'}>${listaHTML(filas, g.bajas)}</div>`}
     </article>`;
   }).join('');
+  const apartadas = pestanasApartadas();
+  $('#apartadas').hidden = !apartadas.length;
+  $('#apartadas').textContent = `No se tienen en cuenta ${apartadas.length === 1 ? 'la pestaña' : `las ${apartadas.length} pestañas`} de estadísticas: ${apartadas.join(', ')}.`;
   $('#resumen').innerHTML = inc.length
     ? `<strong>${inc.length} ${inc.length === 1 ? 'grupo' : 'grupos'}</strong> · ${total.al} alumnos · <strong>${total.no}</strong> no pueden salir${total.rev ? ` · <strong>${total.rev}</strong> por revisar` : ''}${total.bajas ? ` · ${total.bajas} no cuentan por baja, cambio o espera` : ''}`
     : 'No hay ningún grupo marcado.';
