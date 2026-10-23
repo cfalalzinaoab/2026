@@ -164,6 +164,7 @@ input[type=text],input[type=date],input[type=number],select{font:inherit;font-si
     <button class="btn primario" id="todo-uno" type="button">Un PDF con todos los grupos</button>
     <button class="btn" id="todo-zip" type="button">Un PDF por grupo (.zip)</button>
   </div>
+  <p class="nota">El PDF con todos los grupos empieza con una hoja de resumen: cuántos hay en cada grupo, en qué hoja está y, de todo el centro, quién no puede salir y a quién hay que confirmar. Detrás va cada grupo en su hoja.</p>
 </section>
 </main>
 
@@ -374,6 +375,10 @@ const chip = (n, txt, fondo, color, mini) => ({
 });
 const sinBordes = { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 0, paddingRight: () => 0, paddingTop: () => 0, paddingBottom: () => 0 };
 
+// Nombres seguidos en un párrafo, separados por puntos; cada nombre (y su nota, si es corta) va entero, sin partirse entre dos líneas.
+const pegar = t => t.map((x, i) => i === 0 || x.text.length <= 24 ? { ...x, text: x.text.replace(/ /g, '\u00a0') } : x);
+const seguidos = (items, color) => items.flatMap((t, i) => i ? [{ text: '   •   ', color }, ...pegar(t)] : pegar(t));
+
 // Cada item es una lista de trozos de texto. En lista van uno por línea (a dos columnas si son
 // más de cinco); seguidos, en un solo párrafo, para cuando el grupo no cabe de otra manera.
 // Pasados los diez nombres, o si ni así cabe la hoja, el aviso solo los cuenta: ya van marcados en la lista.
@@ -381,7 +386,7 @@ function caja(titulo, items, color, fondo, seguido, marca, resumir) {
   const lista = xs => ({ ul: xs.map(t => ({ text: t })), markerColor: color, margin: [0, 5, 0, 0] });
   const mitad = Math.ceil(items.length / 2);
   const cuerpo = items.length > 10 || resumir ? { text: `Son ${items.length}: van marcados en ${marca} en la lista.`, bold: true, fontSize: 10.5, margin: [0, 4, 0, 0] }
-    : seguido ? { text: items.flatMap((t, i) => i ? [{ text: '   •   ', color }, ...t] : t), margin: [0, 4, 0, 0] }
+    : seguido ? { text: seguidos(items, color), margin: [0, 4, 0, 0] }
     : items.length > 5 ? { columns: [lista(items.slice(0, mitad)), lista(items.slice(mitad))], columnGap: 16 }
     : lista(items);
   return {
@@ -389,8 +394,30 @@ function caja(titulo, items, color, fondo, seguido, marca, resumir) {
       stack: [{ text: titulo, bold: true, fontSize: 8.5, color, characterSpacing: 1 }, cuerpo],
       fillColor: fondo
     }]] },
-    layout: { hLineWidth: () => 0, vLineWidth: i => i === 0 ? 3.5 : 0, vLineColor: () => color,
-      paddingLeft: () => 12, paddingRight: () => 10, paddingTop: () => 8, paddingBottom: () => 9 },
+    layout: bordeCaja(color),
+    margin: [0, 0, 0, 10]
+  };
+}
+
+const bordeCaja = color => ({ hLineWidth: () => 0, vLineWidth: i => i === 0 ? 3.5 : 0, vLineColor: () => color,
+  paddingLeft: () => 12, paddingRight: () => 10, paddingTop: () => 8, paddingBottom: () => 9 });
+
+// La caja del resumen: una línea por grupo, con sus nombres seguidos.
+function cajaPorGrupo(titulo, grupos, color, fondo, raya) {
+  return {
+    table: { widths: ['*'], body: [[{
+      stack: [
+        { text: titulo, bold: true, fontSize: 8.5, color, characterSpacing: 1 },
+        { table: { widths: [104, '*'], body: grupos.map(([nombre, items]) => [
+            { text: nombre, bold: true, fontSize: 9, color },
+            { text: seguidos(items, color), fontSize: 10.5 }]) },
+          layout: { hLineWidth: (i, node) => (i === 0 || i === node.table.body.length) ? 0 : 0.6, hLineColor: () => raya, vLineWidth: () => 0,
+            paddingLeft: i => i ? 8 : 0, paddingRight: () => 0, paddingTop: () => 4, paddingBottom: () => 4 },
+          margin: [0, 4, 0, 0] }
+      ],
+      fillColor: fondo
+    }]] },
+    layout: bordeCaja(color),
     margin: [0, 0, 0, 10]
   };
 }
@@ -416,16 +443,14 @@ const ESCALAS = [
   { fs: 9, pad: 1.5, mini: true, resumir: true }
 ];
 
-function bloqueGrupo(g, salto, { fs, pad, seguido, mini, resumir }) {
-  const filas = filasDe(g), n = cuenta(filas);
-  const fsCaja = Math.min(11, fs + 0.5);
+function cabecera(titulo, { mini, salto, id } = {}) {
   const kicker = ['DERECHO DE IMAGEN', st.evento.trim().toUpperCase()].filter(Boolean).join('   ·   ');
   const fecha = fechaLarga();
-  const out = [{
+  return [{
     columns: [
       { width: '*', stack: [
         { text: kicker, fontSize: 8.5, bold: true, color: C.acento, characterSpacing: 1.2 },
-        { text: g.nombre, fontSize: mini ? 19 : 24, bold: true, margin: [0, 3, 0, 0] },
+        { text: titulo, id, fontSize: mini ? 19 : 24, bold: true, margin: [0, 3, 0, 0] },
         ...(fecha ? [{ text: fecha, fontSize: 10.5, color: C.gris, margin: [0, 2, 0, 0] }] : [])
       ] },
       { width: mini ? 42 : 52, image: SELLO, fit: mini ? [42, 42] : [52, 52] }
@@ -434,16 +459,61 @@ function bloqueGrupo(g, salto, { fs, pad, seguido, mini, resumir }) {
     ...(salto ? { pageBreak: 'before' } : {})
   },
   { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.2, lineColor: C.acento }], margin: mini ? [0, 6, 0, 8] : [0, 10, 0, 12] }];
+}
 
+function cifras(alumnos, n, mini) {
   const chips = [
-    chip(filas.length, 'alumnos en la lista', C.neutro, C.tinta, mini),
+    chip(alumnos, 'alumnos en la lista', C.neutro, C.tinta, mini),
     chip(n.si, 'pueden salir', C.siFondo, C.si, mini),
     n.no ? chip(n.no, 'NO pueden salir', C.no, '#ffffff', mini) : chip(0, 'no pueden salir', C.neutro, C.gris, mini)
   ];
   if (n.rev) chips.push(chip(n.rev, 'por confirmar', C.revFondo, C.rev, mini));
-  out.push({ table: { widths: chips.map(() => '*'), body: [chips] },
+  return { table: { widths: chips.map(() => '*'), body: [chips] },
     layout: { ...sinBordes, vLineWidth: (i, node) => (i === 0 || i === node.table.widths.length) ? 0 : 6, vLineColor: () => '#ffffff' },
-    margin: [0, 0, 0, mini ? 8 : 12] });
+    margin: [0, 0, 0, mini ? 8 : 12] };
+}
+
+// La primera hoja del PDF con todos los grupos: los totales, dónde está cada grupo y,
+// de todo el centro, quién no puede salir y a quién hay que confirmar.
+function portada(grupos) {
+  const datos = grupos.map(g => { const filas = filasDe(g); return { g, filas, n: cuenta(filas) }; });
+  const tot = { si: 0, no: 0, rev: 0 };
+  let alumnos = 0;
+  datos.forEach(d => { alumnos += d.filas.length; tot.si += d.n.si; tot.no += d.n.no; tot.rev += d.n.rev; });
+  const num = (v, color, extra) => ({ text: String(v), alignment: 'center', color: v ? color : C.gris, bold: !!v && color !== C.tinta, ...extra });
+  const body = [[
+    { text: 'GRUPO', style: 'th' }, { text: 'ALUMNOS', style: 'th', alignment: 'center' }, { text: 'SÍ', style: 'th', alignment: 'center' },
+    { text: 'NO', style: 'th', alignment: 'center' }, { text: 'CONFIRMAR', style: 'th', alignment: 'center' }, { text: 'HOJA', style: 'th', alignment: 'right' }
+  ]];
+  datos.forEach((d, i) => body.push([
+    { text: d.g.nombre, bold: true }, num(d.filas.length, C.tinta), num(d.n.si, C.si), num(d.n.no, C.no), num(d.n.rev, C.rev),
+    { pageReference: 'grupo-' + i, alignment: 'right', color: C.gris }
+  ]));
+  const negrita = { bold: true };
+  body.push([{ text: 'Total', bold: true }, num(alumnos, C.tinta, negrita), num(tot.si, C.si), num(tot.no, C.no), num(tot.rev, C.rev), '']);
+  const out = [...cabecera('Todos los grupos'), cifras(alumnos, tot), {
+    table: { headerRows: 1, dontBreakRows: true, widths: ['*', 56, 44, 44, 70, 38], body },
+    layout: {
+      fillColor: r => r === 0 ? C.cabeza : r === body.length - 1 ? C.neutro : r % 2 === 0 ? C.cebra : null,
+      hLineWidth: (i, node) => (i <= 1 || i === node.table.body.length) ? 0 : 0.6,
+      hLineColor: () => C.raya, vLineWidth: () => 0,
+      paddingTop: () => 5, paddingBottom: () => 5, paddingLeft: () => 7, paddingRight: () => 7
+    },
+    margin: [0, 0, 0, 14]
+  }];
+  const porGrupo = (v, item) => datos.filter(d => d.n[v]).map(d => [d.g.nombre, d.filas.filter(f => f.v === v).map(item)]);
+  if (tot.no) out.push(cajaPorGrupo('NO PUEDEN SALIR EN LAS FOTOS  ·  TODOS LOS GRUPOS',
+    porGrupo('no', f => [{ text: f.nombre, bold: true }]), C.no, C.noFondo, '#f1c9c3'));
+  if (tot.rev) out.push(cajaPorGrupo('CONFIRMAR ANTES DE HACER FOTOS  ·  TODOS LOS GRUPOS',
+    porGrupo('rev', f => [{ text: f.nombre, bold: true }, { text: '  (' + (f.crudo ? '«' + f.crudo + '»' : 'sin dato') + ')', fontSize: 8.5, color: C.gris }]),
+    C.rev, C.revFondo, '#ecd9a6'));
+  return out;
+}
+
+function bloqueGrupo(g, salto, { fs, pad, seguido, mini, resumir }, id) {
+  const filas = filasDe(g), n = cuenta(filas);
+  const fsCaja = Math.min(11, fs + 0.5);
+  const out = [...cabecera(g.nombre, { mini, salto, id }), cifras(filas.length, n, mini)];
 
   if (n.no) out.push(caja('NO PUEDEN SALIR EN LAS FOTOS', filas.filter(f => f.v === 'no').map(f => [
     { text: f.nombre, bold: true, fontSize: fsCaja }]), C.no, C.noFondo, seguido, 'rojo', resumir));
@@ -472,7 +542,7 @@ function bloqueGrupo(g, salto, { fs, pad, seguido, mini, resumir }) {
   return out;
 }
 
-function documento(grupos, escalas) {
+function documento(grupos, escalas, conPortada) {
   const hoy = new Date().toLocaleDateString('es-ES');
   return {
     pageSize: 'A4', pageMargins: [40, 36, 40, 50],
@@ -483,7 +553,10 @@ function documento(grupos, escalas) {
       { text: `Uso interno · contiene datos personales: no difundir ni dejar a la vista · generado el ${hoy}`, fontSize: 7.5, color: C.gris },
       { text: `${pag} / ${tot}`, width: 50, alignment: 'right', fontSize: 7.5, color: C.gris }
     ] }),
-    content: grupos.flatMap((g, i) => bloqueGrupo(g, i > 0, escalas[i]))
+    content: [
+      ...(conPortada ? portada(grupos) : []),
+      ...grupos.flatMap((g, i) => bloqueGrupo(g, conPortada || i > 0, escalas[i], 'grupo-' + i))
+    ]
   };
 }
 
@@ -504,10 +577,10 @@ async function escalaQueCabe(g) {
   return ESCALAS[1];   // no cabe ni apretado: se queda cómodo y sigue en la hoja siguiente
 }
 
-async function pdfDe(grupos) {
+async function pdfDe(grupos, conPortada) {
   const escalas = [];
   for (const g of grupos) escalas.push(await escalaQueCabe(g));
-  return pdfBlob(documento(grupos, escalas));
+  return pdfBlob(documento(grupos, escalas, conPortada));
 }
 
 function bajar(blob, nombre) {
@@ -577,7 +650,7 @@ $('#grupos').addEventListener('click', e => {
 });
 
 $('#todo-uno').addEventListener('click', e => conBoton(e.currentTarget, async () => {
-  bajar(await pdfDe(incluidos()), nombrePDF('todos los grupos'));
+  bajar(await pdfDe(incluidos(), true), nombrePDF('todos los grupos'));
 }));
 
 $('#todo-zip').addEventListener('click', e => conBoton(e.currentTarget, async () => {
