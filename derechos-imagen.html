@@ -371,16 +371,17 @@ function cargar(file) {
 /* ---------- PDF ---------- */
 
 // Dos juegos de tinta. En blanco y negro nada depende del color: el NO va en negro macizo con letra
-// blanca, lo que hay que revisar en gris, y las cifras y los avisos llevan borde en vez de fondo.
+// blanca, lo que hay que revisar en gris medio, las filas alternan con un gris tenue para seguir la
+// línea, y las cifras y los avisos llevan borde en vez de fondo.
 const COLOR = {
   tinta: '#2b2620', gris: '#74695a', raya: '#e6dfd2', acento: '#73551b', cabeza: '#3b3129', cabezaTexto: '#ffffff', cebra: '#f7f3ec', neutro: '#f1ece2',
   si: '#1d6a33', siFondo: '#e3f0e5', no: '#b3261e', noFondo: '#fbe4e1', noRaya: '#f1c9c3', noNombre: '#b3261e', noMarca: 'rojo',
   rev: '#8a5a00', revFondo: '#fcefcc', revCaja: '#fcefcc', revRaya: '#ecd9a6', revMarca: 'ámbar', borde: null
 };
 const BN = {
-  tinta: '#000000', gris: '#4d4d4d', raya: '#a6a6a6', acento: '#000000', cabeza: null, cabezaTexto: '#000000', cebra: null, neutro: '#ffffff',
+  tinta: '#000000', gris: '#4d4d4d', raya: '#a6a6a6', acento: '#000000', cabeza: null, cabezaTexto: '#000000', cebra: '#ececec', neutro: '#ffffff',
   si: '#000000', siFondo: '#ffffff', no: '#000000', noFondo: null, noRaya: '#a6a6a6', noNombre: '#000000', noMarca: 'negro',
-  rev: '#000000', revFondo: '#c8c8c8', revCaja: null, revRaya: '#a6a6a6', revMarca: 'gris', borde: '#000000'
+  rev: '#000000', revFondo: '#bdbdbd', revCaja: null, revRaya: '#a6a6a6', revMarca: 'gris', borde: '#000000'
 };
 let C = COLOR;
 
@@ -576,7 +577,7 @@ function bloqueGrupo(g, salto, { fs, pad, seguido, mini, resumir }, id) {
   out.push({
     table: { headerRows: 1, dontBreakRows: true, widths: [20, '*', 84], body },
     layout: {
-      fillColor: r => r === 0 ? C.cabeza : filas[r - 1].v === 'no' ? C.noFondo : r % 2 === 0 ? C.cebra : null,
+      fillColor: r => r === 0 ? C.cabeza : filas[r - 1].v === 'no' && C.noFondo ? C.noFondo : r % 2 === 0 ? C.cebra : null,
       ...rayasTabla,
       paddingTop: () => pad, paddingBottom: () => pad, paddingLeft: () => 7, paddingRight: () => 7
     }
