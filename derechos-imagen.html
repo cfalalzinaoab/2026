@@ -77,6 +77,9 @@ input[type=text],input[type=date],input[type=number],select{font:inherit;font-si
 .estado.no{background:#b3261e;color:#fff}
 .estado.rev{background:var(--rev-bg);color:var(--rev)}
 .nom small{display:block;font-weight:400;font-style:italic;font-size:12.5px;color:var(--muted)}
+.bajas{margin:10px 0 2px;font-size:14.5px;color:var(--muted)}
+.bajas strong{color:var(--ink)}
+.bajas span{font-size:13px}
 .tabla tr.no td{background:var(--no-bg)}
 .tabla tr.no .nom{font-weight:700;color:var(--no)}
 .btn{font:600 15px/1.1 Archivo,sans-serif;padding:11px 16px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;min-height:44px}
@@ -112,7 +115,7 @@ input[type=text],input[type=date],input[type=number],select{font:inherit;font-si
   <div>
     <p class="kicker">Fiestas y salidas · uso interno</p>
     <h1>Quién puede salir en las fotos</h1>
-    <p class="intro">Sube el Excel de los grupos y saca de cada pestaña la lista de nombres (columna&nbsp;B) con su derecho de imagen (columna&nbsp;H): un PDF por grupo, listo para imprimir y llevar el día de la fiesta.</p>
+    <p class="intro">Sube el Excel de los grupos y saca de cada pestaña la lista de nombres (columna&nbsp;B) con su derecho de imagen (columna&nbsp;H): un PDF por grupo, listo para imprimir y llevar el día de la fiesta. Quien tenga algo en la columna&nbsp;P (baja, cambio de grupo o lista de espera) no cuenta.</p>
   </div>
 </header>
 
@@ -140,9 +143,10 @@ input[type=text],input[type=date],input[type=number],select{font:inherit;font-si
     <div class="campos">
       <label>Columna del nombre<select id="col-nombre"></select></label>
       <label>Columna del derecho de imagen<select id="col-dret"></select></label>
+      <label>Columna de baja, cambio o espera<select id="col-baja"></select></label>
       <label>Primera fila de alumnos<input id="fila" type="number" min="1" step="1" inputmode="numeric" placeholder="Automática"></label>
     </div>
-    <p class="nota">Si la dejas en «Automática», en cada pestaña se busca la fila de títulos (Nom, Nombre, Alumne…, o Dret d'imatge, Derecho de imagen…) y se empieza en la siguiente. Las filas sin nombre se saltan.</p>
+    <p class="nota">Si la dejas en «Automática», en cada pestaña se busca la fila de títulos (Nom, Nombre, Alumne…, o Dret d'imatge, Derecho de imagen…) y se empieza en la siguiente. Las filas sin nombre se saltan, y también las que tienen algo escrito en la columna de baja, cambio o espera.</p>
   </details>
 </section>
 
@@ -183,6 +187,7 @@ const coll = new Intl.Collator('es', { sensitivity: 'base', numeric: true });
 const st = {
   wb: null, archivo: '',
   colNombre: 1, colDret: 7,   // B y H
+  colBaja: 15,                // P (Motiu_baixa_canvi_espera); -1 = no mirar
   fila: 0,                    // 0 = automática
   orden: 'excel', evento: '', fecha: '',
   veredicto: {},              // respuesta normalizada → 'si' | 'no' | 'rev', cuando se cambia a mano
@@ -192,7 +197,7 @@ const st = {
 };
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const clave = v => String(v ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+const clave = v => String(v ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
   .replace(/[.,;:!¡?¿()"'«»]+/g, ' ').replace(/\s+/g, ' ').trim();
 
 /* ---------- Qué quiere decir cada respuesta de la columna H ---------- */
@@ -218,6 +223,8 @@ const OPCIONES = [['si', 'Puede salir'], ['no', 'No puede salir'], ['rev', 'Revi
 const RX_CAB_NOM = /^(nom|noms|nombre|nombres|cognom|cognoms|apellido|apellidos|alumn[aeo]s?|alumnat|alumnado|estudiant|estudiante|estudiantes|name)\b/;
 const RX_CAB_DRET = /^(dret|drets|derecho|derechos|imatge|imagen|foto|fotos|fotografia|fotografies|fotografias)\b/;
 const RX_TOTAL = /^(total|totals|totales|suma)\b/;
+// En la columna de baja, cambio o espera, cualquier cosa escrita deja al alumno fuera, salvo estas, que es como no poner nada.
+const RX_SIN_BAJA = /^(-+|—|–|cap|ninguno|ninguna|no|n\/a)$/;
 
 function texto(ws, r, c) {
   const cel = ws[XLSX.utils.encode_cell({ r, c })];
@@ -228,7 +235,7 @@ function texto(ws, r, c) {
 
 function leerGrupos() {
   return st.wb.SheetNames.map(nombre => {
-    const ws = st.wb.Sheets[nombre], g = { nombre, filas: [], ini: 0 };
+    const ws = st.wb.Sheets[nombre], g = { nombre, filas: [], bajas: [], ini: 0 };
     if (!ws || !ws['!ref']) return g;
     const rg = XLSX.utils.decode_range(ws['!ref']);
     let ini = rg.s.r;
@@ -240,6 +247,8 @@ function leerGrupos() {
     for (let r = ini; r <= rg.e.r; r++) {
       const nom = texto(ws, r, st.colNombre);
       if (!nom || RX_TOTAL.test(clave(nom))) continue;
+      const baja = st.colBaja < 0 ? '' : texto(ws, r, st.colBaja);
+      if (baja && !RX_SIN_BAJA.test(clave(baja))) { g.bajas.push({ fila: r + 1, nombre: nom, motivo: baja }); continue; }
       const crudo = texto(ws, r, st.colDret);
       g.filas.push({ fila: r + 1, nombre: nom, crudo, k: clave(crudo) });
     }
@@ -286,32 +295,34 @@ function pintarValores() {
       }</div></td></tr>`).join('')}</tbody></table>`;
 }
 
-function listaHTML(filas) {
+function listaHTML(filas, bajas) {
   return `<table class="tabla"><thead><tr><th class="num">Nº</th><th>Nombre</th><th>Fotos</th><th class="fila">Fila</th></tr></thead><tbody>${
     filas.map((f, i) => `<tr class="${f.v}"><td class="num">${i + 1}</td><td class="nom">${esc(f.nombre)}${conNota(f) ? `<small>En el Excel: «${esc(f.crudo)}»</small>` : ''}</td>
       <td><span class="estado ${f.v}">${etiqueta(f)}</span></td>
-      <td class="fila">${f.fila}</td></tr>`).join('')}</tbody></table>`;
+      <td class="fila">${f.fila}</td></tr>`).join('')}</tbody></table>${bajas.length ? `
+    <p class="bajas"><strong>No cuentan (columna ${LETRAS[st.colBaja]}):</strong> ${bajas.map(b => `${esc(b.nombre)} <span>(${esc(b.motivo)}, fila ${b.fila})</span>`).join(' · ')}</p>` : ''}`;
 }
 
 function pintarGrupos() {
-  const total = { al: 0, si: 0, no: 0, rev: 0 }, inc = incluidos();
+  const total = { al: 0, si: 0, no: 0, rev: 0, bajas: 0 }, inc = incluidos();
   $('#grupos').innerHTML = st.grupos.map((g, i) => {
     const filas = filasDe(g), n = cuenta(filas), vacio = !filas.length, fuera = vacio || st.fuera.has(g.nombre);
-    if (!fuera) { total.al += filas.length; total.si += n.si; total.no += n.no; total.rev += n.rev; }
+    if (!fuera) { total.al += filas.length; total.si += n.si; total.no += n.no; total.rev += n.rev; total.bajas += g.bajas.length; }
+    const bajas = g.bajas.length ? `<span class="chip">${g.bajas.length} de baja, cambio o espera</span>` : '';
     const abierto = st.abiertos.has(i);
     return `<article class="grupo${fuera ? ' apagado' : ''}">
       <label class="incl"><input type="checkbox" data-incl="${i}"${fuera ? '' : ' checked'}${vacio ? ' disabled' : ''}><span>${esc(g.nombre)}</span></label>
       <div class="cifras">${vacio
-        ? `<span class="chip">Sin nombres en la columna ${LETRAS[st.colNombre]}</span>`
-        : `<span class="chip">${filas.length} ${filas.length === 1 ? 'alumno' : 'alumnos'}</span><span class="chip si">${n.si} sí</span><span class="chip${n.no ? ' no' : ''}">${n.no} no</span>${n.rev ? `<span class="chip rev">${n.rev} por revisar</span>` : ''}<span class="chip">desde la fila ${g.ini + 1}</span>`}</div>
+        ? (g.bajas.length ? `<span class="chip">Todos de baja, cambio o espera (${g.bajas.length})</span>` : `<span class="chip">Sin nombres en la columna ${LETRAS[st.colNombre]}</span>`)
+        : `<span class="chip">${filas.length} ${filas.length === 1 ? 'alumno' : 'alumnos'}</span><span class="chip si">${n.si} sí</span><span class="chip${n.no ? ' no' : ''}">${n.no} no</span>${n.rev ? `<span class="chip rev">${n.rev} por revisar</span>` : ''}${bajas}<span class="chip">desde la fila ${g.ini + 1}</span>`}</div>
       ${vacio ? '' : `<div class="botones">
         <button class="btn chico" type="button" data-ver="${i}" aria-expanded="${abierto}" aria-controls="lista-${i}">${abierto ? 'Ocultar' : 'Ver lista'}</button>
         <button class="btn chico primario" type="button" data-pdf="${i}">PDF</button></div>
-      <div class="lista" id="lista-${i}"${abierto ? '' : ' hidden'}>${listaHTML(filas)}</div>`}
+      <div class="lista" id="lista-${i}"${abierto ? '' : ' hidden'}>${listaHTML(filas, g.bajas)}</div>`}
     </article>`;
   }).join('');
   $('#resumen').innerHTML = inc.length
-    ? `<strong>${inc.length} ${inc.length === 1 ? 'grupo' : 'grupos'}</strong> · ${total.al} alumnos · <strong>${total.no}</strong> no pueden salir${total.rev ? ` · <strong>${total.rev}</strong> por revisar` : ''}`
+    ? `<strong>${inc.length} ${inc.length === 1 ? 'grupo' : 'grupos'}</strong> · ${total.al} alumnos · <strong>${total.no}</strong> no pueden salir${total.rev ? ` · <strong>${total.rev}</strong> por revisar` : ''}${total.bajas ? ` · ${total.bajas} no cuentan por baja, cambio o espera` : ''}`
     : 'No hay ningún grupo marcado.';
   $('#todo-uno').disabled = $('#todo-zip').disabled = !inc.length;
 }
@@ -526,8 +537,10 @@ drop.addEventListener('drop', e => cargar(e.dataTransfer.files[0]));
 const opcionesColumna = () => LETRAS.map(l => `<option value="${l}">${l}</option>`).join('');
 $('#col-nombre').innerHTML = opcionesColumna(); $('#col-nombre').value = LETRAS[st.colNombre];
 $('#col-dret').innerHTML = opcionesColumna(); $('#col-dret').value = LETRAS[st.colDret];
+$('#col-baja').innerHTML = '<option value="">Ninguna</option>' + opcionesColumna(); $('#col-baja').value = LETRAS[st.colBaja];
 $('#col-nombre').addEventListener('change', e => { st.colNombre = LETRAS.indexOf(e.target.value); rehacer(); });
 $('#col-dret').addEventListener('change', e => { st.colDret = LETRAS.indexOf(e.target.value); st.veredicto = {}; rehacer(); });
+$('#col-baja').addEventListener('change', e => { st.colBaja = LETRAS.indexOf(e.target.value); rehacer(); });
 $('#fila').addEventListener('input', e => { const v = parseInt(e.target.value, 10); st.fila = v > 0 ? v : 0; rehacer(); });
 $('#evento').addEventListener('input', e => { st.evento = e.target.value; });
 $('#fecha').addEventListener('change', e => { st.fecha = e.target.value; });
