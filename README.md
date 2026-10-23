@@ -20,6 +20,7 @@ cuadernos para imprimir solo lo que se está dando—.
 | `pdf/` | los dossieres de alumnado y los diecisiete cuadernos sueltos de CAS |
 | `img/`, `audio/` | láminas, texturas, el sello del centro (lo escribe `_sello-cfa.py`, en la carpeta de arriba) y las pistas de la unidad 1 |
 | `unidad-01.html` | la unidad 1 de Castellà 2 |
+| `derechos-imagen.html` | quién puede salir en las fotos de las fiestas: lee el Excel de los grupos (columna B, el nombre; H, el derecho de imagen) y saca un PDF por grupo, de una hoja cada uno. El Excel se lee en el navegador y no se sube a ningún sitio |
 
 Es HTML estático. No hay servidor ni compilación: se abre `index.html` y
 funciona.

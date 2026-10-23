@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Derecho de imagen — Listas para las fotos</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&display=swap">
+<style>
+:root{color-scheme:light;--bg:#e9e3d6;--paper:#f7f1e5;--paper2:#efe7d7;--ink:#302b24;--muted:#655947;--line:#a89a80;--soft:#d8cdb9;--accent:#73551b;--on-accent:#fbf6ec;--shadow:#392d222a;--si:#1d6a33;--si-bg:#dcecdc;--no:#b3261e;--no-bg:#f6dbd7;--rev:#865600;--rev-bg:#f5e5bd}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#242522;--paper:#30312c;--paper2:#393a33;--ink:#f0e8d8;--muted:#c9bea8;--line:#81745a;--soft:#4b4a40;--accent:#e0c58b;--on-accent:#2a2318;--shadow:#10110e80;--si:#93d3a1;--si-bg:#24402b;--no:#ffa196;--no-bg:#4d2420;--rev:#f1c86e;--rev-bg:#473a1b}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#242522;--paper:#30312c;--paper2:#393a33;--ink:#f0e8d8;--muted:#c9bea8;--line:#81745a;--soft:#4b4a40;--accent:#e0c58b;--on-accent:#2a2318;--shadow:#10110e80;--si:#93d3a1;--si-bg:#24402b;--no:#ffa196;--no-bg:#4d2420;--rev:#f1c86e;--rev-bg:#473a1b}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 Archivo,system-ui,Arial,sans-serif;-webkit-text-size-adjust:100%}
+body:before{content:'';position:fixed;inset:0;background:url('img/tex-verjurado.webp');opacity:.055;pointer-events:none;z-index:9}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.shell{max-width:1000px;margin:0 auto;padding:36px 24px 48px}
+.cabecera{display:flex;gap:26px;align-items:center;padding-bottom:28px;border-bottom:1px solid var(--line)}
+.sello{width:96px;height:96px;border-radius:50%;flex:none;box-shadow:0 3px 12px var(--shadow)}
+.kicker{margin:0 0 6px;font:600 13px/1.2 Archivo,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:600 clamp(32px,5vw,50px)/1.08 Fraunces,Georgia,serif;margin:0 0 12px}
+h2{font:600 24px/1.2 Fraunces,Georgia,serif;margin:0 0 16px;display:flex;align-items:center;gap:12px}
+.n{display:inline-grid;place-items:center;flex:none;width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--on-accent);font:700 16px/1 Archivo,sans-serif}
+.intro{margin:0;color:var(--muted);max-width:64ch}
+main{display:grid;gap:22px;padding-top:28px}
+.paso{background:var(--paper);border:1px solid var(--soft);border-radius:16px;padding:24px;box-shadow:0 2px 0 var(--shadow);min-width:0}
+.drop{position:relative;display:grid;justify-items:center;gap:6px;text-align:center;padding:36px 20px;border:2px dashed var(--line);border-radius:14px;cursor:pointer;transition:background .15s,border-color .15s}
+.drop:hover,.drop.encima{background:var(--paper2);border-color:var(--accent)}
+.drop:focus-within{outline:3px solid var(--accent);outline-offset:3px}
+.drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.drop svg{width:42px;height:42px;color:var(--accent)}
+.drop strong{font-size:19px;overflow-wrap:anywhere}
+.drop span{color:var(--muted);font-size:15px}
+.drop.cargado{border-style:solid;border-color:var(--si)}
+.drop.cargado svg{color:var(--si)}
+.privado{display:flex;gap:10px;align-items:flex-start;margin:16px 0 0;font-size:15px;color:var(--muted)}
+.privado svg{flex:none;width:20px;height:20px;margin-top:2px;color:var(--si)}
+.privado strong{color:var(--ink)}
+.campos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.campos label{display:grid;gap:6px;align-content:start;font-size:14px;font-weight:600;color:var(--muted)}
+input[type=text],input[type=date],input[type=number],select{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%;min-height:46px}
+.mas{margin-top:18px;border-top:1px solid var(--soft);padding-top:14px}
+.mas summary{cursor:pointer;font-weight:600;color:var(--accent);width:max-content;max-width:100%}
+.mas[open] summary{margin-bottom:14px}
+.nota{color:var(--muted);font-size:14.5px;margin:12px 0 0}
+.paso > .nota:first-of-type{margin:-6px 0 16px}
+.tabla{width:100%;border-collapse:collapse;font-size:15.5px}
+.tabla th{text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line)}
+.tabla td{padding:8px 10px;border-bottom:1px solid var(--soft);vertical-align:middle}
+.tabla .num{text-align:right;font-variant-numeric:tabular-nums;width:1%;white-space:nowrap}
+.tabla .fila{color:var(--muted);font-size:13.5px;white-space:nowrap;width:1%}
+.vacia{color:var(--muted)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.seg span{display:block;padding:7px 12px;font-size:14px;font-weight:600;color:var(--muted);border-left:1px solid var(--line);white-space:nowrap}
+.seg label:first-child span{border-left:0}
+.seg input:focus-visible+span{outline:3px solid var(--accent);outline-offset:-3px}
+.seg .si input:checked+span{background:var(--si-bg);color:var(--si)}
+.seg .no input:checked+span{background:var(--no-bg);color:var(--no)}
+.seg .rev input:checked+span{background:var(--rev-bg);color:var(--rev)}
+.seg input:checked+span:before{content:'● ';font-size:.8em}
+.resumen{margin:-4px 0 16px;color:var(--muted)}
+.resumen strong{color:var(--ink)}
+.grupo{border:1px solid var(--soft);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:center;background:var(--bg)}
+.grupo+.grupo{margin-top:10px}
+.grupo.apagado .cifras,.grupo.apagado .incl span{opacity:.55}
+.incl{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;cursor:pointer;min-width:0}
+.incl span{overflow-wrap:anywhere}
+.incl input{flex:none;width:20px;height:20px;margin:0;accent-color:var(--accent)}
+.cifras{grid-column:1;display:flex;flex-wrap:wrap;gap:6px;padding-left:30px}
+.botones{grid-column:2;grid-row:1/3;display:flex;gap:8px}
+.lista{grid-column:1/-1;margin-top:8px;overflow-x:auto}
+.chip{display:inline-block;padding:2px 10px;border-radius:999px;font-size:13.5px;font-weight:600;background:var(--paper2);color:var(--muted)}
+.chip.si{background:var(--si-bg);color:var(--si)}
+.chip.no{background:var(--no-bg);color:var(--no)}
+.chip.rev{background:var(--rev-bg);color:var(--rev)}
+.estado{display:inline-block;min-width:84px;text-align:center;padding:3px 10px;border-radius:7px;font-weight:700;font-size:13.5px}
+.estado.si{color:var(--si);background:var(--si-bg)}
+.estado.no{background:#b3261e;color:#fff}
+.estado.rev{background:var(--rev-bg);color:var(--rev)}
+.nom small{display:block;font-weight:400;font-style:italic;font-size:12.5px;color:var(--muted)}
+.tabla tr.no td{background:var(--no-bg)}
+.tabla tr.no .nom{font-weight:700;color:var(--no)}
+.btn{font:600 15px/1.1 Archivo,sans-serif;padding:11px 16px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;min-height:44px}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn.primario{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primario:hover:not(:disabled){filter:brightness(1.08)}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.chico{padding:8px 14px;min-height:38px;font-size:14px}
+.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;padding-top:18px;border-top:1px solid var(--soft)}
+.aviso{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);width:max-content;max-width:min(560px,calc(100% - 32px));background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;box-shadow:0 6px 24px #0004;z-index:20;font-size:15px}
+.aviso.error{background:var(--no-bg);color:var(--no);border:1px solid var(--no)}
+.pie{margin-top:30px;color:var(--muted);font-size:14px;text-align:center}
+@media(max-width:720px){
+  .shell{padding:22px 16px 36px}
+  .cabecera{flex-direction:column;align-items:flex-start;gap:14px}
+  .sello{width:68px;height:68px}
+  .paso{padding:18px 16px}
+  .campos{grid-template-columns:minmax(0,1fr)}
+  .grupo{grid-template-columns:minmax(0,1fr)}
+  .botones{grid-column:1;grid-row:auto;padding-left:30px}
+  .tabla.valores thead{display:none}
+  .tabla.valores tr{display:grid;grid-template-columns:minmax(0,1fr) auto;border-bottom:1px solid var(--soft);padding:6px 0}
+  .tabla.valores td{border:0;padding:4px 0}
+  .tabla.valores td:last-child{grid-column:1/-1}
+  .tabla .fila{display:none}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="cabecera">
+  <img id="sello" class="sello" alt="" src="data:image/jpeg;base64,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">
+  <div>
+    <p class="kicker">Fiestas y salidas · uso interno</p>
+    <h1>Quién puede salir en las fotos</h1>
+    <p class="intro">Sube el Excel de los grupos y saca de cada pestaña la lista de nombres (columna&nbsp;B) con su derecho de imagen (columna&nbsp;H): un PDF por grupo, listo para imprimir y llevar el día de la fiesta.</p>
+  </div>
+</header>
+
+<main>
+<section class="paso">
+  <h2><span class="n">1</span> El Excel</h2>
+  <label class="drop" id="drop">
+    <input type="file" id="archivo" accept=".xlsx,.xlsm,.xls,.ods,.csv">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 17v-6"/><path d="m9 13 3-3 3 3"/></svg>
+    <strong id="drop-titulo">Arrastra aquí el Excel o haz clic para elegirlo</strong>
+    <span id="drop-detalle">.xlsx, .xls u .ods · cada pestaña es un grupo</span>
+  </label>
+  <p class="privado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span><strong>El archivo no sale de este ordenador.</strong> Se lee aquí mismo, en el navegador: no se sube a ningún servidor y no se guarda nada. Al cerrar la pestaña, desaparece.</span></p>
+</section>
+
+<section class="paso" id="paso-ajustes" hidden>
+  <h2><span class="n">2</span> Para qué es la lista</h2>
+  <div class="campos">
+    <label>Fiesta o actividad<input id="evento" type="text" placeholder="Fiesta de Navidad" autocomplete="off"></label>
+    <label>Fecha<input id="fecha" type="date"></label>
+    <label>Orden de la lista<select id="orden"><option value="excel">Como en el Excel</option><option value="alfa">Alfabético</option></select></label>
+  </div>
+  <details class="mas">
+    <summary>Columnas y filas</summary>
+    <div class="campos">
+      <label>Columna del nombre<select id="col-nombre"></select></label>
+      <label>Columna del derecho de imagen<select id="col-dret"></select></label>
+      <label>Primera fila de alumnos<input id="fila" type="number" min="1" step="1" inputmode="numeric" placeholder="Automática"></label>
+    </div>
+    <p class="nota">Si la dejas en «Automática», en cada pestaña se busca la fila de títulos (Nom, Nombre, Alumne…, o Dret d'imatge, Derecho de imagen…) y se empieza en la siguiente. Las filas sin nombre se saltan.</p>
+  </details>
+</section>
+
+<section class="paso" id="paso-valores" hidden>
+  <h2><span class="n">3</span><span>Qué pone en la columna <span class="letra-dret">H</span></span></h2>
+  <p class="nota">Estas son las respuestas distintas que hay en el Excel. Comprueba que cada una cuenta como toca: lo que no está claro queda en «Revisar» y sale en ámbar en el PDF.</p>
+  <div id="valores"></div>
+</section>
+
+<section class="paso" id="paso-grupos" hidden>
+  <h2><span class="n">4</span> Los grupos</h2>
+  <p class="resumen" id="resumen"></p>
+  <div id="grupos"></div>
+  <div class="acciones">
+    <button class="btn primario" id="todo-uno" type="button">Un PDF con todos los grupos</button>
+    <button class="btn" id="todo-zip" type="button">Un PDF por grupo (.zip)</button>
+  </div>
+</section>
+</main>
+
+<p class="pie">Se puede guardar esta página (Ctrl+S) y abrirla desde el ordenador. Solo necesita internet para cargar sus herramientas; el Excel nunca viaja.</p>
+</div>
+
+<p class="aviso" id="aviso" role="status" hidden></p>
+<noscript><p class="aviso error">Esta página necesita JavaScript.</p></noscript>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfmake@0.2.23/build/pdfmake.min.js" integrity="sha384-8Fgcdr1c4x0qG8ByTWhXwvf1iBa6tQReFeLNBSkvCN9F+/RZuP1ha8RUydfLSGeG" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfmake@0.2.23/build/vfs_fonts.js" integrity="sha384-ZiMMZvHUP692kyJimOQHoH2VdTrbcEwHaQfitnsxsR8tY0ntoRbPxIA6p+9yNNbz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js" integrity="sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG" crossorigin="anonymous"></script>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const SELLO = $('#sello').src;
+const LETRAS = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+const coll = new Intl.Collator('es', { sensitivity: 'base', numeric: true });
+
+const st = {
+  wb: null, archivo: '',
+  colNombre: 1, colDret: 7,   // B y H
+  fila: 0,                    // 0 = automática
+  orden: 'excel', evento: '', fecha: '',
+  veredicto: {},              // respuesta normalizada → 'si' | 'no' | 'rev', cuando se cambia a mano
+  fuera: new Set(),           // pestañas desmarcadas
+  abiertos: new Set(),        // listas desplegadas
+  grupos: []
+};
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clave = v => String(v ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+  .replace(/[.,;:!¡?¿()"'«»]+/g, ' ').replace(/\s+/g, ' ').trim();
+
+/* ---------- Qué quiere decir cada respuesta de la columna H ---------- */
+
+const RX_NO = /^(no|n|0|false|falso|fals|cap|ninguno|ninguna|denegado|denegada|denegat|✗|✘|×)$/;
+const RX_NO_FRASE = /^no\b|\b(no|sense|sin) (autori|accept|acept|consent|dona|da\b)|denega|rebutj|rechaz/;
+const RX_MATIZ = /\b(excep\w*|menys|salvo|nomes|solo|sols|pero|sense|sin|limitad\w*|parcial\w*|intern[oa]?|xarxes|redes|web)\b/;
+const RX_SI = /^(si|s|yes|y|ok|1|true|verdadero|cert|vertader|✓|✔)$|^si\b/;
+const RX_SI_FRASE = /autori|accept|acept|conforme|consent/;
+
+function adivina(k) {
+  if (!k) return 'rev';
+  if (RX_NO.test(k) || RX_NO_FRASE.test(k)) return 'no';
+  if (RX_MATIZ.test(k)) return 'rev';
+  if (RX_SI.test(k) || RX_SI_FRASE.test(k)) return 'si';
+  return 'rev';
+}
+const veredicto = k => st.veredicto[k] || adivina(k);
+const OPCIONES = [['si', 'Puede salir'], ['no', 'No puede salir'], ['rev', 'Revisar']];
+
+/* ---------- Lectura del Excel ---------- */
+
+const RX_CAB_NOM = /^(nom|noms|nombre|nombres|cognom|cognoms|apellido|apellidos|alumn[aeo]s?|alumnat|alumnado|estudiant|estudiante|estudiantes|name)\b/;
+const RX_CAB_DRET = /^(dret|drets|derecho|derechos|imatge|imagen|foto|fotos|fotografia|fotografies|fotografias)\b/;
+const RX_TOTAL = /^(total|totals|totales|suma)\b/;
+
+function texto(ws, r, c) {
+  const cel = ws[XLSX.utils.encode_cell({ r, c })];
+  if (!cel || cel.v == null) return '';
+  if (cel.t === 'b') return cel.v ? 'VERDADERO' : 'FALSO';
+  return String(cel.w != null ? cel.w : cel.v).replace(/\s+/g, ' ').trim();
+}
+
+function leerGrupos() {
+  return st.wb.SheetNames.map(nombre => {
+    const ws = st.wb.Sheets[nombre], g = { nombre, filas: [], ini: 0 };
+    if (!ws || !ws['!ref']) return g;
+    const rg = XLSX.utils.decode_range(ws['!ref']);
+    let ini = rg.s.r;
+    if (st.fila) ini = st.fila - 1;
+    else for (let r = rg.s.r; r <= Math.min(rg.e.r, rg.s.r + 15); r++) {
+      if (RX_CAB_NOM.test(clave(texto(ws, r, st.colNombre))) || RX_CAB_DRET.test(clave(texto(ws, r, st.colDret)))) { ini = r + 1; break; }
+    }
+    g.ini = ini;
+    for (let r = ini; r <= rg.e.r; r++) {
+      const nom = texto(ws, r, st.colNombre);
+      if (!nom || RX_TOTAL.test(clave(nom))) continue;
+      const crudo = texto(ws, r, st.colDret);
+      g.filas.push({ fila: r + 1, nombre: nom, crudo, k: clave(crudo) });
+    }
+    return g;
+  });
+}
+
+function filasDe(g) {
+  const f = g.filas.map(x => ({ ...x, v: veredicto(x.k) }));
+  return st.orden === 'alfa' ? f.sort((a, b) => coll.compare(a.nombre, b.nombre)) : f;
+}
+const cuenta = filas => filas.reduce((n, x) => (n[x.v]++, n), { si: 0, no: 0, rev: 0 });
+const incluidos = () => st.grupos.filter(g => g.filas.length && !st.fuera.has(g.nombre));
+// La respuesta original se enseña cuando dice algo más que un sí o un no.
+const conNota = f => f.crudo && (f.v === 'rev' || f.crudo.split(' ').length > 3);
+const etiqueta = f => f.v === 'si' ? 'Sí' : f.v === 'no' ? 'NO' : f.crudo ? 'Revisar' : 'Sin dato';
+
+/* ---------- Pantalla ---------- */
+
+function rehacer() { st.grupos = leerGrupos(); pintar(); }
+
+function pintar() {
+  ['#paso-ajustes', '#paso-valores', '#paso-grupos'].forEach(s => { $(s).hidden = !st.wb; });
+  if (!st.wb) return;
+  document.querySelectorAll('.letra-dret').forEach(e => { e.textContent = LETRAS[st.colDret]; });
+  pintarValores();
+  pintarGrupos();
+}
+
+function pintarValores() {
+  const mapa = new Map();
+  incluidos().forEach(g => g.filas.forEach(f => {
+    const e = mapa.get(f.k) || { k: f.k, txt: f.crudo, n: 0 };
+    e.n++; mapa.set(f.k, e);
+  }));
+  const lista = [...mapa.values()].sort((a, b) => b.n - a.n || coll.compare(a.txt, b.txt));
+  if (!lista.length) { $('#valores').innerHTML = '<p class="nota">No hay nombres en las pestañas marcadas.</p>'; return; }
+  $('#valores').innerHTML = `<table class="tabla valores"><thead><tr><th>Respuesta</th><th class="num">Veces</th><th>Se cuenta como</th></tr></thead><tbody>${
+    lista.map((e, i) => `<tr>
+      <td>${e.k ? esc(e.txt) : '<em class="vacia">(celda vacía)</em>'}</td>
+      <td class="num">${e.n}</td>
+      <td><div class="seg" role="radiogroup" aria-label="${esc(e.k ? e.txt : 'Celda vacía')}">${
+        OPCIONES.map(([v, t]) => `<label class="${v}"><input type="radio" name="v${i}" value="${v}" data-k="${esc(e.k)}"${veredicto(e.k) === v ? ' checked' : ''}><span>${t}</span></label>`).join('')
+      }</div></td></tr>`).join('')}</tbody></table>`;
+}
+
+function listaHTML(filas) {
+  return `<table class="tabla"><thead><tr><th class="num">Nº</th><th>Nombre</th><th>Fotos</th><th class="fila">Fila</th></tr></thead><tbody>${
+    filas.map((f, i) => `<tr class="${f.v}"><td class="num">${i + 1}</td><td class="nom">${esc(f.nombre)}${conNota(f) ? `<small>En el Excel: «${esc(f.crudo)}»</small>` : ''}</td>
+      <td><span class="estado ${f.v}">${etiqueta(f)}</span></td>
+      <td class="fila">${f.fila}</td></tr>`).join('')}</tbody></table>`;
+}
+
+function pintarGrupos() {
+  const total = { al: 0, si: 0, no: 0, rev: 0 }, inc = incluidos();
+  $('#grupos').innerHTML = st.grupos.map((g, i) => {
+    const filas = filasDe(g), n = cuenta(filas), vacio = !filas.length, fuera = vacio || st.fuera.has(g.nombre);
+    if (!fuera) { total.al += filas.length; total.si += n.si; total.no += n.no; total.rev += n.rev; }
+    const abierto = st.abiertos.has(i);
+    return `<article class="grupo${fuera ? ' apagado' : ''}">
+      <label class="incl"><input type="checkbox" data-incl="${i}"${fuera ? '' : ' checked'}${vacio ? ' disabled' : ''}><span>${esc(g.nombre)}</span></label>
+      <div class="cifras">${vacio
+        ? `<span class="chip">Sin nombres en la columna ${LETRAS[st.colNombre]}</span>`
+        : `<span class="chip">${filas.length} ${filas.length === 1 ? 'alumno' : 'alumnos'}</span><span class="chip si">${n.si} sí</span><span class="chip${n.no ? ' no' : ''}">${n.no} no</span>${n.rev ? `<span class="chip rev">${n.rev} por revisar</span>` : ''}<span class="chip">desde la fila ${g.ini + 1}</span>`}</div>
+      ${vacio ? '' : `<div class="botones">
+        <button class="btn chico" type="button" data-ver="${i}" aria-expanded="${abierto}" aria-controls="lista-${i}">${abierto ? 'Ocultar' : 'Ver lista'}</button>
+        <button class="btn chico primario" type="button" data-pdf="${i}">PDF</button></div>
+      <div class="lista" id="lista-${i}"${abierto ? '' : ' hidden'}>${listaHTML(filas)}</div>`}
+    </article>`;
+  }).join('');
+  $('#resumen').innerHTML = inc.length
+    ? `<strong>${inc.length} ${inc.length === 1 ? 'grupo' : 'grupos'}</strong> · ${total.al} alumnos · <strong>${total.no}</strong> no pueden salir${total.rev ? ` · <strong>${total.rev}</strong> por revisar` : ''}`
+    : 'No hay ningún grupo marcado.';
+  $('#todo-uno').disabled = $('#todo-zip').disabled = !inc.length;
+}
+
+let avisoT;
+function aviso(msg, tipo) {
+  const a = $('#aviso');
+  a.textContent = msg; a.className = 'aviso' + (tipo ? ' ' + tipo : ''); a.hidden = false;
+  clearTimeout(avisoT); avisoT = setTimeout(() => { a.hidden = true; }, tipo === 'error' ? 9000 : 4500);
+}
+
+function cargar(file) {
+  if (!file) return;
+  if (!window.XLSX) { aviso('No se ha podido cargar el lector de Excel. Comprueba la conexión a internet y recarga la página.', 'error'); return; }
+  const lector = new FileReader();
+  lector.onload = e => {
+    let wb;
+    try { wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' }); }
+    catch (err) { console.error(err); aviso('No he podido leer ese archivo. ¿Es un Excel (.xlsx, .xls u .ods)?', 'error'); return; }
+    st.wb = wb; st.archivo = file.name; st.veredicto = {}; st.abiertos = new Set();
+    // Las pestañas ocultas del Excel empiezan desmarcadas.
+    st.fuera = new Set(((wb.Workbook && wb.Workbook.Sheets) || []).map((s, i) => s.Hidden ? wb.SheetNames[i] : null).filter(Boolean));
+    $('#drop').classList.add('cargado');
+    $('#drop-titulo').textContent = file.name;
+    $('#drop-detalle').textContent = `${wb.SheetNames.length} ${wb.SheetNames.length === 1 ? 'pestaña' : 'pestañas'} · haz clic o arrastra otro para cambiarlo`;
+    rehacer();
+  };
+  lector.onerror = () => aviso('No he podido abrir el archivo.', 'error');
+  lector.readAsArrayBuffer(file);
+}
+
+/* ---------- PDF ---------- */
+
+const C = {
+  tinta: '#2b2620', gris: '#74695a', raya: '#e6dfd2', acento: '#73551b', cabeza: '#3b3129', cebra: '#f7f3ec', neutro: '#f1ece2',
+  si: '#1d6a33', siFondo: '#e3f0e5', no: '#b3261e', noFondo: '#fbe4e1', rev: '#8a5a00', revFondo: '#fcefcc'
+};
+
+function fechaLarga() {
+  if (!st.fecha) return '';
+  const [y, m, d] = st.fecha.split('-').map(Number);
+  const t = new Date(y, m - 1, d).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
+const chip = (n, txt, fondo, color, mini) => ({
+  stack: [{ text: String(n), fontSize: mini ? 14 : 18, bold: true, color }, { text: txt, fontSize: 8, color, margin: [0, -1, 0, 0] }],
+  fillColor: fondo, margin: mini ? [9, 4, 9, 5] : [10, 6, 10, 7]
+});
+const sinBordes = { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 0, paddingRight: () => 0, paddingTop: () => 0, paddingBottom: () => 0 };
+
+// Cada item es una lista de trozos de texto. En lista van uno por línea (a dos columnas si son
+// más de cinco); seguidos, en un solo párrafo, para cuando el grupo no cabe de otra manera.
+// Pasados los diez nombres, o si ni así cabe la hoja, el aviso solo los cuenta: ya van marcados en la lista.
+function caja(titulo, items, color, fondo, seguido, marca, resumir) {
+  const lista = xs => ({ ul: xs.map(t => ({ text: t })), markerColor: color, margin: [0, 5, 0, 0] });
+  const mitad = Math.ceil(items.length / 2);
+  const cuerpo = items.length > 10 || resumir ? { text: `Son ${items.length}: van marcados en ${marca} en la lista.`, bold: true, fontSize: 10.5, margin: [0, 4, 0, 0] }
+    : seguido ? { text: items.flatMap((t, i) => i ? [{ text: '   •   ', color }, ...t] : t), margin: [0, 4, 0, 0] }
+    : items.length > 5 ? { columns: [lista(items.slice(0, mitad)), lista(items.slice(mitad))], columnGap: 16 }
+    : lista(items);
+  return {
+    table: { widths: ['*'], body: [[{
+      stack: [{ text: titulo, bold: true, fontSize: 8.5, color, characterSpacing: 1 }, cuerpo],
+      fillColor: fondo
+    }]] },
+    layout: { hLineWidth: () => 0, vLineWidth: i => i === 0 ? 3.5 : 0, vLineColor: () => color,
+      paddingLeft: () => 12, paddingRight: () => 10, paddingTop: () => 8, paddingBottom: () => 9 },
+    margin: [0, 0, 0, 10]
+  };
+}
+
+// La respuesta original, cuando hace falta, va debajo del nombre: ahí tiene sitio para una sola línea.
+function celdaNombre(f, fs) {
+  const nom = { text: f.nombre, fontSize: fs, bold: f.v === 'no', color: f.v === 'no' ? C.no : C.tinta };
+  return conNota(f) ? { stack: [nom, { text: 'En el Excel: «' + f.crudo + '»', fontSize: 7.5, italics: true, color: C.gris }] } : nom;
+}
+
+function celdaEstado(f, fs) {
+  const col = { si: [C.si, null], no: ['#ffffff', C.no], rev: [C.rev, C.revFondo] }[f.v];
+  const cel = { text: etiqueta(f), bold: true, fontSize: fs - 0.5, color: col[0], alignment: 'center' };
+  if (col[1]) cel.fillColor = col[1];
+  return cel;
+}
+
+// De la más holgada a la más apretada: letra y aire de cada fila, y si los nombres de los avisos
+// van en lista o seguidos. Cada grupo sale con la primera con la que cabe en una sola hoja.
+const ESCALAS = [
+  { fs: 11, pad: 5.5 }, { fs: 10.5, pad: 4.3 }, { fs: 10, pad: 3.3 }, { fs: 9.5, pad: 2.5 },
+  { fs: 9.5, pad: 2.5, seguido: true }, { fs: 9, pad: 1.8, seguido: true }, { fs: 9, pad: 1.5, seguido: true, mini: true },
+  { fs: 9, pad: 1.5, mini: true, resumir: true }
+];
+
+function bloqueGrupo(g, salto, { fs, pad, seguido, mini, resumir }) {
+  const filas = filasDe(g), n = cuenta(filas);
+  const fsCaja = Math.min(11, fs + 0.5);
+  const kicker = ['DERECHO DE IMAGEN', st.evento.trim().toUpperCase()].filter(Boolean).join('   ·   ');
+  const fecha = fechaLarga();
+  const out = [{
+    columns: [
+      { width: '*', stack: [
+        { text: kicker, fontSize: 8.5, bold: true, color: C.acento, characterSpacing: 1.2 },
+        { text: g.nombre, fontSize: mini ? 19 : 24, bold: true, margin: [0, 3, 0, 0] },
+        ...(fecha ? [{ text: fecha, fontSize: 10.5, color: C.gris, margin: [0, 2, 0, 0] }] : [])
+      ] },
+      { width: mini ? 42 : 52, image: SELLO, fit: mini ? [42, 42] : [52, 52] }
+    ],
+    columnGap: 12,
+    ...(salto ? { pageBreak: 'before' } : {})
+  },
+  { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.2, lineColor: C.acento }], margin: mini ? [0, 6, 0, 8] : [0, 10, 0, 12] }];
+
+  const chips = [
+    chip(filas.length, 'alumnos en la lista', C.neutro, C.tinta, mini),
+    chip(n.si, 'pueden salir', C.siFondo, C.si, mini),
+    n.no ? chip(n.no, 'NO pueden salir', C.no, '#ffffff', mini) : chip(0, 'no pueden salir', C.neutro, C.gris, mini)
+  ];
+  if (n.rev) chips.push(chip(n.rev, 'por confirmar', C.revFondo, C.rev, mini));
+  out.push({ table: { widths: chips.map(() => '*'), body: [chips] },
+    layout: { ...sinBordes, vLineWidth: (i, node) => (i === 0 || i === node.table.widths.length) ? 0 : 6, vLineColor: () => '#ffffff' },
+    margin: [0, 0, 0, mini ? 8 : 12] });
+
+  if (n.no) out.push(caja('NO PUEDEN SALIR EN LAS FOTOS', filas.filter(f => f.v === 'no').map(f => [
+    { text: f.nombre, bold: true, fontSize: fsCaja }]), C.no, C.noFondo, seguido, 'rojo', resumir));
+  if (n.rev) out.push(caja('CONFIRMAR ANTES DE HACER FOTOS', filas.filter(f => f.v === 'rev').map(f => [
+    { text: f.nombre, bold: true, fontSize: fsCaja }, { text: '  —  ' + (f.crudo || 'sin dato'), fontSize: fsCaja - 2, color: C.gris }]), C.rev, C.revFondo, seguido, 'ámbar', resumir));
+
+  const body = [[
+    { text: 'Nº', style: 'th', alignment: 'right' },
+    { text: 'NOMBRE', style: 'th' },
+    { text: 'FOTOS', style: 'th', alignment: 'center' }
+  ]];
+  filas.forEach((f, i) => body.push([
+    { text: String(i + 1), fontSize: fs - 1.5, color: C.gris, alignment: 'right' },
+    celdaNombre(f, fs),
+    celdaEstado(f, fs)
+  ]));
+  out.push({
+    table: { headerRows: 1, dontBreakRows: true, widths: [20, '*', 84], body },
+    layout: {
+      fillColor: r => r === 0 ? C.cabeza : filas[r - 1].v === 'no' ? C.noFondo : r % 2 === 0 ? C.cebra : null,
+      hLineWidth: (i, node) => (i <= 1 || i === node.table.body.length) ? 0 : 0.6,
+      hLineColor: () => C.raya, vLineWidth: () => 0,
+      paddingTop: () => pad, paddingBottom: () => pad, paddingLeft: () => 7, paddingRight: () => 7
+    }
+  });
+  return out;
+}
+
+function documento(grupos, escalas) {
+  const hoy = new Date().toLocaleDateString('es-ES');
+  return {
+    pageSize: 'A4', pageMargins: [40, 36, 40, 50],
+    info: { title: 'Derecho de imagen · ' + (grupos.length === 1 ? grupos[0].nombre : 'todos los grupos') + (st.evento.trim() ? ' · ' + st.evento.trim() : '') },
+    defaultStyle: { font: 'Roboto', fontSize: 10.5, color: C.tinta, lineHeight: 1.15 },
+    styles: { th: { fontSize: 7.5, bold: true, color: '#ffffff', characterSpacing: 0.8, margin: [0, 2, 0, 2] } },
+    footer: (pag, tot) => ({ margin: [40, 18, 40, 0], columns: [
+      { text: `Uso interno · contiene datos personales: no difundir ni dejar a la vista · generado el ${hoy}`, fontSize: 7.5, color: C.gris },
+      { text: `${pag} / ${tot}`, width: 50, alignment: 'right', fontSize: 7.5, color: C.gris }
+    ] }),
+    content: grupos.flatMap((g, i) => bloqueGrupo(g, i > 0, escalas[i]))
+  };
+}
+
+const limpio = s => s.replace(/[\\/:*?"<>|]+/g, '-').replace(/\s+/g, ' ').trim();
+const nombrePDF = nombre => limpio(`Derecho de imagen - ${nombre}${st.evento.trim() ? ' - ' + st.evento.trim() : ''}`) + '.pdf';
+const pdfBlob = dd => new Promise((ok, ko) => { try { pdfMake.createPdf(dd).getBlob(ok); } catch (e) { ko(e); } });
+
+// Cuántas hojas ocupa un documento: lo dice el pie, que se pinta con el total en cada hoja.
+const hojas = dd => new Promise((ok, ko) => {
+  let total = 0;
+  const pie = dd.footer;
+  dd.footer = (pag, tot) => { total = tot; return pie(pag, tot); };
+  try { pdfMake.createPdf(dd).getBuffer(() => ok(total)); } catch (e) { ko(e); }
+});
+
+async function escalaQueCabe(g) {
+  for (const e of ESCALAS) if (await hojas(documento([g], [e])) === 1) return e;
+  return ESCALAS[1];   // no cabe ni apretado: se queda cómodo y sigue en la hoja siguiente
+}
+
+async function pdfDe(grupos) {
+  const escalas = [];
+  for (const g of grupos) escalas.push(await escalaQueCabe(g));
+  return pdfBlob(documento(grupos, escalas));
+}
+
+function bajar(blob, nombre) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = nombre;
+  document.body.append(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+}
+
+async function conBoton(btn, fn) {
+  if (!window.pdfMake) { aviso('No se ha podido cargar el generador de PDF. Comprueba la conexión a internet y recarga la página.', 'error'); return; }
+  const txt = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Generando…';
+  try { await fn(); }
+  catch (e) { console.error(e); aviso('No se ha podido generar el PDF: ' + (e && e.message || e), 'error'); }
+  finally { btn.disabled = false; btn.textContent = txt; }
+}
+
+/* ---------- Eventos ---------- */
+
+const drop = $('#drop');
+$('#archivo').addEventListener('change', e => { cargar(e.target.files[0]); e.target.value = ''; });
+['dragenter', 'dragover'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.add('encima'); }));
+['dragleave', 'drop'].forEach(t => drop.addEventListener(t, e => { e.preventDefault(); drop.classList.remove('encima'); }));
+drop.addEventListener('drop', e => cargar(e.dataTransfer.files[0]));
+
+const opcionesColumna = () => LETRAS.map(l => `<option value="${l}">${l}</option>`).join('');
+$('#col-nombre').innerHTML = opcionesColumna(); $('#col-nombre').value = LETRAS[st.colNombre];
+$('#col-dret').innerHTML = opcionesColumna(); $('#col-dret').value = LETRAS[st.colDret];
+$('#col-nombre').addEventListener('change', e => { st.colNombre = LETRAS.indexOf(e.target.value); rehacer(); });
+$('#col-dret').addEventListener('change', e => { st.colDret = LETRAS.indexOf(e.target.value); st.veredicto = {}; rehacer(); });
+$('#fila').addEventListener('input', e => { const v = parseInt(e.target.value, 10); st.fila = v > 0 ? v : 0; rehacer(); });
+$('#evento').addEventListener('input', e => { st.evento = e.target.value; });
+$('#fecha').addEventListener('change', e => { st.fecha = e.target.value; });
+$('#orden').addEventListener('change', e => { st.orden = e.target.value; pintarGrupos(); });
+
+$('#valores').addEventListener('change', e => {
+  const k = e.target.dataset.k;
+  if (k == null) return;
+  st.veredicto[k] = e.target.value;
+  pintarGrupos();
+});
+
+$('#grupos').addEventListener('change', e => {
+  const i = e.target.dataset.incl;
+  if (i == null) return;
+  const nombre = st.grupos[i].nombre;
+  e.target.checked ? st.fuera.delete(nombre) : st.fuera.add(nombre);
+  pintarValores(); pintarGrupos();
+});
+
+$('#grupos').addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.dataset.ver != null) {
+    const i = +b.dataset.ver, abrir = !st.abiertos.has(i);
+    abrir ? st.abiertos.add(i) : st.abiertos.delete(i);
+    $('#lista-' + i).hidden = !abrir;
+    b.textContent = abrir ? 'Ocultar' : 'Ver lista';
+    b.setAttribute('aria-expanded', abrir);
+  } else if (b.dataset.pdf != null) {
+    const g = st.grupos[+b.dataset.pdf];
+    conBoton(b, async () => bajar(await pdfDe([g]), nombrePDF(g.nombre)));
+  }
+});
+
+$('#todo-uno').addEventListener('click', e => conBoton(e.currentTarget, async () => {
+  bajar(await pdfDe(incluidos()), nombrePDF('todos los grupos'));
+}));
+
+$('#todo-zip').addEventListener('click', e => conBoton(e.currentTarget, async () => {
+  if (!window.JSZip) throw new Error('no se ha podido cargar el compresor .zip');
+  const zip = new JSZip(), usados = new Set();
+  for (const g of incluidos()) {
+    let nombre = nombrePDF(g.nombre);
+    for (let k = 2; usados.has(nombre); k++) nombre = nombrePDF(`${g.nombre} (${k})`);
+    usados.add(nombre);
+    zip.file(nombre, await pdfDe([g]));
+  }
+  bajar(await zip.generateAsync({ type: 'blob' }), limpio(`Derecho de imagen${st.evento.trim() ? ' - ' + st.evento.trim() : ''}`) + '.zip');
+}));
+
+if (!window.XLSX || !window.pdfMake) aviso('No se han podido cargar las herramientas de la página. Hace falta conexión a internet: recarga cuando la tengas.', 'error');
+</script>
+</body>
+</html>
