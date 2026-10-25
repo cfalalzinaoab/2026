@@ -1060,7 +1060,13 @@ function pintarEjercicio(e, b){
     if(p.rotulo) zona.appendChild(el('p','parte__r', p.rotulo));
     /* UNA PARTE PUEDE TENER SU PROPIA TABLA DE DATOS: el 72 de la unidad 3 son
        dos anuncios, y cada uno tiene su ficha. */
-    if(p.ficha) zona.appendChild(tablaFicha(p.fichaCab, p.ficha));
+    /* PERO UN EJERCICIO SIMPLE ES SU PROPIA PARTE. `partesDe(e)` devuelve
+       `[e]`, así que la tabla del ejercicio, ya pintada arriba, salía otra vez
+       aquí: el 18, el 29 y el 36 de la unidad 2 enseñaban la agenda, la
+       encuesta y las respuestas de Mei dos veces seguidas (Oscar, 25 de
+       octubre de 2026). Es la misma puerta que ya tenía el recuadro, justo
+       debajo. */
+    if(p !== e && p.ficha) zona.appendChild(tablaFicha(p.fichaCab, p.ficha));
     /* Y SU PROPIO RECUADRO, QUE NO SE PINTABA. Solo salía el del ejercicio
        entero, y catorce partes de las tres unidades tienen el suyo: el rótulo
        decía «Completa el correo con las palabras del recuadro» (el 58 de la
