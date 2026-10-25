@@ -360,6 +360,17 @@ input.hueco,select.hueco,textarea.hueco{
   font:500 var(--t-m)/1 Archivo,sans-serif; width:7.5em;
 }
 input.hueco.ancho,textarea.hueco.ancho{ width:100%; margin-top:var(--e-2) }
+/* EL DESPLEGABLE MIDE LO QUE SU OPCION MAS LARGA. Con el ancho fijo de los
+   campos, 7,5 em, la opcion elegida se cortaba: en el 6 de la unidad 3 «es de
+   cristal y de madera» salia a medias y no se leia lo que se habia elegido
+   (Oscar, 25 de octubre de 2026). El suelo sigue siendo el del campo, y el
+   techo, la linea: en un movil estrecho no empuja la pagina hacia el lado. */
+select.hueco{ width:auto; min-width:7.5em; max-width:100% }
+/* EL CUADRADITO DE COLOR del 10 de la unidad 3: el color se ve y no se
+   escribe. El color es el del propio dibujo; el borde, el de la casa, para
+   que el blanco se vea sobre el papel y el negro sobre la noche. */
+.muestra{ display:inline-block; width:1.6em; height:1.1em; margin:0 .15em;
+  vertical-align:-.12em; border:1px solid var(--hilo-f); border-radius:3px }
 textarea.hueco{
   display:block; resize:none; overflow:hidden;
   line-height:1.5; font-family:Archivo,sans-serif;
@@ -570,6 +581,7 @@ input.casi,select.casi,textarea.casi{ background-image:none }
 .cloze{ line-height:2.6; margin:0 0 var(--e-3); color:var(--tinta) }
 .cloze .linea{ display:inline-flex; vertical-align:baseline }
 .cloze input.hueco,.cloze select.hueco{ width:8.5em; margin:0 .15em }
+.cloze select.hueco{ width:auto; min-width:8.5em }
 .cloze .marca,.cloze .solucion{ margin-left:.3em }
 /* el número de renglón de un texto que la parte B pregunta por renglones */
 .cloze__n{ display:inline-block; min-width:1.8em; color:var(--tinta-3); font:600 var(--t-xs)/1 Archivo,sans-serif; font-variant-numeric:tabular-nums }
@@ -877,7 +889,25 @@ function formas(escrito, soluciones, mayus){
   const st = xs => xs.map(sinTilde).sort();
   for(const s of soluciones) if(igual(dado, trozosDe(s, mayus))) return 'bien';
   for(const s of soluciones) if(igual(st(dado), st(trozosDe(s, mayus)))) return 'casi';
+  for(const s of soluciones) if(estanTodas(escrito, trozosDe(s, mayus), mayus, x => x)) return 'bien';
+  for(const s of soluciones) if(estanTodas(escrito, trozosDe(s, mayus), mayus, sinTilde)) return 'casi';
   return 'mal';
+}
+/* Y LO DE EN MEDIO NO CUENTA. El 8 de la unidad 3 pide las dos fórmulas de
+   la forma —«La mesa es cuadrada» y «La mesa tiene forma cuadrada»—, y Oscar
+   pidió el 25 de octubre de 2026 que valga en cuanto estén las dos,
+   «independientemente del resto»: con barra o sin ella, con coma, con «y» o
+   con un guion en medio. Se quitan del renglón las formas de la clave, de la
+   más larga a la más corta, y lo que queda tiene que ser solo signos y las
+   conjunciones que unen. Una palabra con carga que sobre lo deja mal. */
+function estanTodas(escrito, piezas, mayus, f){
+  let resto = ' ' + f(norm(sinRaya(escrito), mayus)) + ' ';
+  for(const p of piezas.map(f).sort((a, b) => b.length - a.length)){
+    const k = p ? resto.indexOf(p) : -1;
+    if(k < 0) return false;
+    resto = resto.slice(0, k) + ' ' + resto.slice(k + p.length);
+  }
+  return /^[\s.,;:\/|·\-]*(?:(?:y|e|o)[\s.,;:\/|·\-]+)*$/.test(resto);
 }
 /* CONJUNTO · el tercer modo, y existe por una razón concreta: hay fichas cuya
    clave admite «tercera persona o sujeto elidido». Ahí el DATO es único y la
