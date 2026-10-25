@@ -3370,9 +3370,15 @@ ol,ul{ margin:0; padding:0; list-style:none }
   --sangre:clamp(5px, .55vw, 8px);
   --orla:calc(var(--corte) + var(--sangre));
   --trazo:var(--hilo-f);
+  /* el tope de la lámina y la medida del texto de al lado (ver abajo) */
+  --lamina:25rem;
+  --texto:22rem;
   display:grid;
   align-items:center;
   gap:calc(var(--orla) + var(--e-4));
+  justify-self:start;
+  width:100%;
+  max-width:calc(var(--lamina) + 2 * (var(--orla) + var(--e-3)) + 2px);
   padding:calc(var(--orla) + var(--e-3));
   background:var(--f-0);
   background-image:var(--tersa);
@@ -3490,7 +3496,8 @@ ol,ul{ margin:0; padding:0; list-style:none }
 }
 
 /* la columna del texto: antetítulo con su filete, el título en la didona de
-   la casa y en la tinta de la materia, lo que hay dentro y el botón */
+   la casa y en la tinta de la materia, y el botón. Sin descripción: la quitó
+   Oscar el mismo 25-10-2026, con el recuadro ya publicado. */
 .video__txt{
   display:grid;
   gap:var(--e-3);
@@ -3501,18 +3508,12 @@ ol,ul{ margin:0; padding:0; list-style:none }
   font-family:var(--display);
   font-variation-settings:var(--opsz);
   font-weight:500;
-  font-size:var(--t-2xl);
+  font-size:var(--t-xl);
   line-height:1.04;
   letter-spacing:-.012em;
   color:var(--i);
   text-shadow:var(--relieve);
   text-wrap:balance;
-}
-.video__pie{
-  font-size:var(--t-s);
-  line-height:1.55;
-  color:var(--tinta-2);
-  text-wrap:pretty;
 }
 .video__ver{
   display:flex;
@@ -3563,17 +3564,18 @@ ol,ul{ margin:0; padding:0; list-style:none }
     var(--apoyo-alto),
     0 0 28px -4px color-mix(in srgb, var(--i) 55%, transparent);
 }
-/* DOS COLUMNAS SOLO DESDE 1100, Y LA DEL TEXTO A SU MEDIDA. Una lámina de
-   16:9 es baja: a 800 px, con las dos columnas a partes casi iguales, la
-   imagen medía 176 px de alto y la hoja 436, porque mandaba el texto, y la
-   lámina se quedaba flotando en medio. En estrecho va apilada y centrada a 36rem,
-   como una lámina con su pie en la página de un libro; en ancho el texto
-   tiene su medida fija y la imagen se lleva todo lo demás. */
-.video > *{ width:100%; max-width:36rem; justify-self:center }
-@media (min-width:1100px){
-  .video{ grid-template-columns:minmax(0, 1fr) minmax(16rem, 23rem) }
-  .video > *{ max-width:none }
-  .video__tit{ font-size:var(--t-xl) }
+/* LA HOJA MIDE LO QUE LLEVA, NO TODO EL ANCHO. Oscar la vio publicada y
+   pidió el rectángulo más pequeño: a 1280 la lámina medía 592 × 333 y la
+   hoja se llevaba los 1.082 px de la medida. Ahora la lámina tiene un tope
+   de 25rem y la hoja se ajusta a lo que lleva y se arrima a la izquierda,
+   como los botones de arriba. Desde 1000 px el texto va al lado, a su
+   medida; por debajo, bajo la lámina. */
+@media (min-width:1000px){
+  .video{
+    grid-template-columns:minmax(0, var(--lamina)) minmax(15rem, var(--texto));
+    max-width:calc(var(--lamina) + var(--texto) + var(--orla) + var(--e-4)
+                   + 2 * (var(--orla) + var(--e-3)) + 2px);
+  }
 }
 @media (max-width:560px){
   .video__reg, .video__slug{ display:none }
@@ -7979,9 +7981,6 @@ const SESIONES = {
 const VIDEO_INTERROGATIVAS = {
   rotulo:'Vídeo de clase',
   titulo:'Las interrogativas indirectas',
-  pie:'Preguntas que pierden los signos y conservan la tilde: qué son, ' +
-      'cuándo llevan tilde, cómo se comprueban y cómo se analizan, con ' +
-      'seis frases para resolver.',
   duracion:'10 min',
   url:'video/interrogativas-indirectas.mp4',
   noche:'video/interrogativas-indirectas-noche.webp',
@@ -8535,7 +8534,6 @@ function pintarVideo(m, v){
     '<span class="video__txt">' +
       '<span class="rotulo">' + v.rotulo + '</span>' +
       '<span class="video__tit">' + v.titulo + '</span>' +
-      '<span class="video__pie">' + v.pie + '</span>' +
       '<span class="video__ver">' +
         '<span class="video__play" aria-hidden="true">' +
           '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>' +

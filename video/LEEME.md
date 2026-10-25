@@ -55,7 +55,8 @@ lleven «PAU +25» escrito si el vídeo sale también en CAS.
    };
    ```
 
-   Los campos son `rotulo`, `titulo`, `pie`, `duracion`, `url`, `noche` y
-   `dia`. El orden de la lista es el orden en la página.
+   Los campos son `rotulo`, `titulo`, `duracion`, `url`, `noche` y `dia`.
+   No lleva descripción: Oscar la quitó. El orden de la lista es el orden en
+   la página.
 
 Lo que hay que publicar después es `index.html` y los tres archivos nuevos.
