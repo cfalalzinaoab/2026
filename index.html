@@ -1192,11 +1192,12 @@ ol,ul{ margin:0; padding:0; list-style:none }
    luz del labio) y muere por el final con una máscara, para que no choque
    de canto contra la plancha de la banda ni contra la columna de la
    derecha. Y va SÓLO donde después viene el nombre grande: en la banda de
-   cada puerta y en la cabecera de la materia. En «Elige tu grupo» o en la
-   etiqueta «Pronto» no hay nada grande detrás, así que no hay cabeza que
-   componer.                                                              */
+   cada puerta, en la cabecera de la materia y en la prueba de un vídeo. En
+   «Elige tu grupo» o en la etiqueta «Pronto» no hay nada grande detrás, así
+   que no hay cabeza que componer.                                        */
 .puerta__btn .rotulo,
-.materia__cab .rotulo{
+.materia__cab .rotulo,
+.video .rotulo{
   display:flex;
   align-items:center;
   /* SE PARTE COMO UNA LINEA COMPUESTA, no como una caja rigida. En estrecho
@@ -1210,7 +1211,8 @@ ol,ul{ margin:0; padding:0; list-style:none }
   row-gap:var(--e-2);
 }
 .puerta__btn .rotulo::after,
-.materia__cab .rotulo::after{
+.materia__cab .rotulo::after,
+.video .rotulo::after{
   content:"";
   flex:1 0 auto;
   min-width:72px;
@@ -3324,6 +3326,261 @@ ol,ul{ margin:0; padding:0; list-style:none }
       inset 0 -8px 14px -10px var(--grabado-bajo),
       0 0 26px 0 color-mix(in srgb, var(--i) 50%, transparent);
   }
+}
+
+/* --- LOS VÍDEOS DE CLASE: LA PRUEBA DE LA LÁMINA (Osky, 25-10-2026) ------
+   Van debajo de los días y del juego, a todo lo ancho, y no como un botón
+   más: como una PRUEBA DE IMPRENTA, que es lo que se tira antes de dar una
+   lámina por buena. La imagen va en medio de una hoja más grande, con las
+   marcas de corte en las cuatro esquinas, la marca de registro de la plancha
+   en el margen de arriba y, al pie, la cuña de tono y la línea del pliego.
+   Es el único rectángulo adornado de la página, y puede serlo porque cada
+   adorno es una pieza que una prueba lleva de verdad y dice algo: por dónde
+   se corta, dónde casa la plancha, cuánta tinta lleva.
+
+   LAS PIEZAS NO SE ESTRENAN: son las de la marca de registro de la casa.
+   Las esquinas son dos trazos que apuntan al vértice y no lo tocan, como
+   ESCUADRAS; la cuña lleva las cinco DENSIDADES de CUNA; la marca es la de
+   svgMarca(), con la forma de la materia. Y la hoja es una ficha con la
+   receta de .rec: --tersa encima y --apoyo debajo.
+
+   LA LÁMINA ES UN FOTOGRAMA DEL PROPIO VÍDEO, Y HAY DOS, uno por hora del
+   día, cada uno de una diapositiva de su color. Una foto oscura sobre el
+   papel crema no es una lámina, es una sombra (ver --lam-tono), y aquí no
+   se le puede bajar el tono: tiene que parecerse a lo que se ve al pulsar.
+
+   LA PRUEBA ENTERA ES UN SOLO ENLACE y abre el MP4 en otra pestaña, con el
+   reproductor del navegador: así lo pidió Oscar. El botón de reproducir va
+   en la columna del texto y no encima del fotograma, porque encima tapaba
+   la frase o la muñeca según el ancho, y una prueba no se estampa.        */
+#videoZona{
+  display:grid;
+  gap:var(--e-5);
+  margin-bottom:var(--e-6);
+}
+#videoZona:empty{ display:none }
+
+.video{
+  /* LAS MEDIDAS DE LA PRUEBA, en un sitio. --corte es el largo de cada
+     marca de corte; --sangre, el hueco que deja antes del vértice, que es
+     lo que enseña dónde cae el corte; --orla, la franja de papel que las
+     lleva. De --orla cuelgan el relleno de la hoja y la calle entre las dos
+     columnas: si cambia una marca, el sitio para ella la sigue.          */
+  --corte:clamp(9px, 1.5vw, 20px);
+  --sangre:clamp(5px, .55vw, 8px);
+  --orla:calc(var(--corte) + var(--sangre));
+  --trazo:var(--hilo-f);
+  display:grid;
+  align-items:center;
+  gap:calc(var(--orla) + var(--e-4));
+  padding:calc(var(--orla) + var(--e-3));
+  background:var(--f-0);
+  background-image:var(--tersa);
+  border:1px solid var(--hilo);
+  border-radius:var(--curva);
+  box-shadow:var(--apoyo);
+  color:var(--tinta);
+  text-decoration:none;
+  transition:border-color .3s, transform .3s var(--paso-ease), box-shadow .3s var(--paso-ease);
+}
+.video:hover{
+  border-color:var(--i);
+  transform:translateY(-2px);
+  box-shadow:var(--apoyo-alto);
+}
+
+/* la lámina: el fotograma con su filo, y todo lo de la prueba por fuera */
+.video__lamina{
+  position:relative;
+  aspect-ratio:16 / 9;
+}
+.video__ventana{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  /* si el fotograma no llega, la lámina es un hueco oscuro y no un agujero
+     en la hoja: la página se tiene que ver entera sin ninguna imagen */
+  background:var(--hueco);
+}
+/* EL FILO VA ENCIMA DE LA IMAGEN, en su primera fila de píxeles, que es la
+   que señalan las marcas de corte. Puesto por fuera quedaba un píxel más
+   allá de donde apuntan. */
+.video__ventana::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  box-shadow:inset 0 0 0 1px var(--trazo);
+  pointer-events:none;
+}
+.video__ventana img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .6s var(--paso-ease);
+}
+.video:hover .video__ventana img{ transform:scale(1.025) }
+/* las dos horas del día: la lámpara cambia también de fotograma */
+.video__noche{ display:block }
+.video__dia{ display:none }
+:root[data-theme="light"] .video__noche{ display:none }
+:root[data-theme="light"] .video__dia{ display:block }
+
+/* LAS MARCAS DE CORTE. Ocho filetes de 1 px, dos por esquina, pintados en
+   una sola capa con degradados en vez de ocho elementos vacíos. La capa se
+   sale de la lámina lo que mide la orla, así que cada trazo empieza en el
+   canto de la capa y se queda a una sangre del vértice.                  */
+.video__lamina::before{
+  --l:linear-gradient(var(--trazo), var(--trazo));
+  content:"";
+  position:absolute;
+  inset:calc(-1 * var(--orla));
+  pointer-events:none;
+  background:
+    var(--l) left  0           top    var(--orla) / var(--corte) 1px no-repeat,
+    var(--l) left  var(--orla) top    0           / 1px var(--corte) no-repeat,
+    var(--l) right 0           top    var(--orla) / var(--corte) 1px no-repeat,
+    var(--l) right var(--orla) top    0           / 1px var(--corte) no-repeat,
+    var(--l) left  0           bottom var(--orla) / var(--corte) 1px no-repeat,
+    var(--l) left  var(--orla) bottom 0           / 1px var(--corte) no-repeat,
+    var(--l) right 0           bottom var(--orla) / var(--corte) 1px no-repeat,
+    var(--l) right var(--orla) bottom 0           / 1px var(--corte) no-repeat;
+}
+/* la marca de registro de la plancha, centrada en el margen de arriba. A
+   este tamaño se ven las escuadras y la diana, que es lo que svgMarca deja
+   encendido por defecto. */
+.video__reg{
+  position:absolute;
+  left:50%;
+  bottom:100%;
+  width:var(--orla);
+  height:var(--orla);
+  transform:translateX(-50%);
+  color:var(--i);
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2.2;          /* en un viewBox de 48: ~1,1 px a 24 px */
+  stroke-linecap:butt;
+  stroke-linejoin:miter;
+  overflow:visible;
+}
+/* la cuña de tono, al pie y a la izquierda: los cinco parches en la tinta de
+   la materia, apoyados en su línea, como los de CUNA. */
+.video__cuna{
+  position:absolute;
+  left:var(--e-3);
+  top:calc(100% + var(--sangre));
+  display:flex;
+  gap:1px;
+  padding-bottom:2px;
+  border-bottom:1px solid var(--trazo);
+}
+.video__cuna i{
+  width:calc(var(--corte) * .62);
+  height:calc(var(--corte) * .62);
+  background:var(--i);
+}
+/* y al otro lado, la línea del pliego. Es micro-texto que no informa: por
+   eso se puede ir en estrecho, donde no cabe al lado de la cuña. */
+.video__slug{
+  position:absolute;
+  right:var(--e-3);
+  top:calc(100% + var(--sangre));
+  line-height:1;
+  white-space:nowrap;
+}
+
+/* la columna del texto: antetítulo con su filete, el título en la didona de
+   la casa y en la tinta de la materia, lo que hay dentro y el botón */
+.video__txt{
+  display:grid;
+  gap:var(--e-3);
+  align-content:center;
+  min-width:0;
+}
+.video__tit{
+  font-family:var(--display);
+  font-variation-settings:var(--opsz);
+  font-weight:500;
+  font-size:var(--t-2xl);
+  line-height:1.04;
+  letter-spacing:-.012em;
+  color:var(--i);
+  text-shadow:var(--relieve);
+  text-wrap:balance;
+}
+.video__pie{
+  font-size:var(--t-s);
+  line-height:1.55;
+  color:var(--tinta-2);
+  text-wrap:pretty;
+}
+.video__ver{
+  display:flex;
+  align-items:center;
+  gap:var(--e-4);
+  margin-top:var(--e-2);
+  font:600 var(--t-m)/1.25 Archivo,sans-serif;
+  color:var(--tinta);
+}
+.video__ver small{
+  display:block;
+  margin-top:3px;
+  font-size:var(--t-2xs);
+  font-weight:400;
+  color:var(--tinta-3);
+}
+/* EL BOTÓN DE REPRODUCIR es una chapita de acero, la de «volver», con la
+   tinta de la materia en el triángulo y en el halo. Quieto: el que late es
+   el de los días, que es por donde se entra a trabajar. */
+.video__play{
+  flex:none;
+  display:grid;
+  place-items:center;
+  width:clamp(44px, 2.2rem + 1vw, 56px);
+  aspect-ratio:1;
+  border-radius:50%;
+  background-color:var(--f-0);
+  background-image:var(--u-tex5), var(--tersa);
+  background-size:96px 96px, auto;
+  background-blend-mode:overlay, normal;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--i) 55%, transparent),
+    var(--apoyo),
+    0 0 20px -6px color-mix(in srgb, var(--i) 45%, transparent);
+  color:var(--i);
+  transition:transform .3s var(--paso-ease), box-shadow .3s var(--paso-ease);
+}
+.video__play svg{
+  width:42%;
+  height:42%;
+  margin-left:9%;            /* el centro de un triángulo no es el de su caja */
+  fill:currentColor;
+}
+.video:hover .video__play{
+  transform:scale(1.06);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--i) 80%, transparent),
+    var(--apoyo-alto),
+    0 0 28px -4px color-mix(in srgb, var(--i) 55%, transparent);
+}
+/* DOS COLUMNAS SOLO DESDE 1100, Y LA DEL TEXTO A SU MEDIDA. Una lámina de
+   16:9 es baja: a 800 px, con las dos columnas a partes casi iguales, la
+   imagen medía 176 px de alto y la hoja 436, porque mandaba el texto, y la
+   lámina se quedaba flotando en medio. En estrecho va apilada y centrada a 36rem,
+   como una lámina con su pie en la página de un libro; en ancho el texto
+   tiene su medida fija y la imagen se lleva todo lo demás. */
+.video > *{ width:100%; max-width:36rem; justify-self:center }
+@media (min-width:1100px){
+  .video{ grid-template-columns:minmax(0, 1fr) minmax(16rem, 23rem) }
+  .video > *{ max-width:none }
+  .video__tit{ font-size:var(--t-xl) }
+}
+@media (max-width:560px){
+  .video__reg, .video__slug{ display:none }
+}
+@media (prefers-reduced-motion:reduce){
+  .video, .video__ventana img, .video__play{ transition:none }
+  .video:hover .video__ventana img{ transform:none }
 }
 
 /* --- el trayecto --------------------------------------------------------
@@ -5747,6 +6004,11 @@ try{
 
     <div id="juegoZona"></div>
 
+    <!-- LOS VIDEOS DE CLASE, debajo de los dias y del juego. Los pinta
+         entrar() desde VIDEOS: la materia que no tiene ninguno deja la zona
+         vacia, y vacia no ocupa. -->
+    <div id="videoZona"></div>
+
     <ol class="trayecto" id="trayecto"></ol>
 
     <div class="meta">
@@ -6110,7 +6372,10 @@ const OJOS = {
    como un esquema; en cuanto hay un solido, se lee como algo impreso.
 
    Cinco parches de 3,04 con 0,2 de calle: 5x3,04 + 4x0,2 = 16 exactos.  */
-const CUNA = [0.26, 0.45, 0.64, 0.82, 1].map(function(o, i){
+/* las cinco densidades, en un sitio: las usan esta cuña y la de la prueba
+   de cada vídeo (ver pintarVideo) */
+const DENSIDADES = [0.26, 0.45, 0.64, 0.82, 1];
+const CUNA = DENSIDADES.map(function(o, i){
   return '<rect x="' + (16 + i * 3.24).toFixed(2) + '" y="41.9" ' +
          'width="3.04" height="2.9" fill-opacity="' + o + '"/>';
 }).join('') +
@@ -7705,6 +7970,28 @@ const SESIONES = {
   }
 };
 
+/* LOS VIDEOS DE CLASE · debajo de los dias y del juego (Osky, 25-10-2026).
+   Cada materia lleva su lista y una misma pieza puede ir en las dos: el de
+   las interrogativas indirectas es de la pieza 3 del dossier de PAU +25 y
+   Oscar lo quiere tambien en CAS. El MP4 y sus dos fotogramas, el de noche
+   y el de plena luz, viven en `video/`; como se cuelga otro, en
+   `video/LEEME.md`. Castellano 2 no tiene entrada y no pinta nada.        */
+const VIDEO_INTERROGATIVAS = {
+  rotulo:'Vídeo de clase',
+  titulo:'Las interrogativas indirectas',
+  pie:'Preguntas que pierden los signos y conservan la tilde: qué son, ' +
+      'cuándo llevan tilde, cómo se comprueban y cómo se analizan, con ' +
+      'seis frases para resolver.',
+  duracion:'10 min',
+  url:'video/interrogativas-indirectas.mp4',
+  noche:'video/interrogativas-indirectas-noche.webp',
+  dia:'video/interrogativas-indirectas-dia.webp'
+};
+const VIDEOS = {
+  cas:[VIDEO_INTERROGATIVAS],
+  pau:[VIDEO_INTERROGATIVAS]
+};
+
 /* LO QUE LA FICHA ENSEÑA DE CADA UNIDAD, ANTES DE ENTRAR.
    Lo escribe `_unidad.py` entre las dos marcas: no se teclea a mano. Antes
    aquí había un `MUESTRA` con tres párrafos de acentuación y una pregunta
@@ -8200,6 +8487,11 @@ function entrar(id){
     zj.appendChild(a);
   }
 
+  /* los videos, debajo de los dos botones y a todo lo ancho */
+  const zv = document.getElementById('videoZona');
+  zv.replaceChildren();
+  (VIDEOS[m.id] || []).forEach(function(v){ zv.appendChild(pintarVideo(m, v)); });
+
   const cab = document.querySelector('.materia__cab');
   cab.style.removeProperty('--lam-materia');
   poner(m.lamina, function(u){ cab.style.setProperty('--lam-materia', u); });
@@ -8214,6 +8506,44 @@ function entrar(id){
   montar(m);
   window.scrollTo({ top:0, behavior:'instant' });
   document.getElementById('volver').focus();
+}
+
+/* LA PRUEBA DE UN VIDEO: la lamina con sus marcas a la izquierda y el texto
+   a la derecha (debajo, en estrecho). Es un solo enlace y se abre en otra
+   pestaña, como el juego. Los dos fotogramas se piden los dos y sin
+   `loading="lazy"`: pesan 80 KB entre ambos, y asi al encender la lampara
+   el de plena luz ya esta y la lamina no se queda un instante en el hueco. */
+function pintarVideo(m, v){
+  const a = document.createElement('a');
+  a.className = 'video';
+  a.href = v.url;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  const cuna = DENSIDADES.map(function(o){
+    return '<i style="opacity:' + o + '"></i>';
+  }).join('');
+  a.innerHTML =
+    '<span class="video__lamina">' +
+      '<span class="video__ventana">' +
+        '<img class="video__noche" src="' + v.noche + '" alt="" width="1280" height="720" decoding="async">' +
+        '<img class="video__dia" src="' + v.dia + '" alt="" width="1280" height="720" decoding="async">' +
+      '</span>' +
+      svgMarca(m.marca, 'video__reg') +
+      '<span class="video__cuna" aria-hidden="true">' + cuna + '</span>' +
+      '<span class="micro video__slug" aria-hidden="true">Plancha ' + m.tinta + ' · 1920 × 1080</span>' +
+    '</span>' +
+    '<span class="video__txt">' +
+      '<span class="rotulo">' + v.rotulo + '</span>' +
+      '<span class="video__tit">' + v.titulo + '</span>' +
+      '<span class="video__pie">' + v.pie + '</span>' +
+      '<span class="video__ver">' +
+        '<span class="video__play" aria-hidden="true">' +
+          '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z"/></svg>' +
+        '</span>' +
+        '<span>Ver el vídeo<small>' + v.duracion + ' · se abre en otra pestaña</small></span>' +
+      '</span>' +
+    '</span>';
+  return a;
 }
 
 function pintarAvance(m){

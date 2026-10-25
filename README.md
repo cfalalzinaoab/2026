@@ -19,6 +19,7 @@ cuadernos para imprimir solo lo que se está dando—.
 | `pau-materiales.css` | lo único que PAU no comparte con CAS: la marca en rombo y la tinta carmín |
 | `pdf/` | los dossieres de alumnado y los diecisiete cuadernos sueltos de CAS |
 | `img/`, `audio/` | láminas, texturas, el sello del centro (lo escribe `_sello-cfa.py`, en la carpeta de arriba) y las pistas de la unidad 1 |
+| `video/` | los vídeos de clase de CAS y PAU +25, con su fotograma de noche y el de plena luz; cómo se cuelga uno, en `video/LEEME.md` |
 | `unidad-01.html` | la unidad 1 de Castellà 2 |
 
 Es HTML estático. No hay servidor ni compilación: se abre `index.html` y
