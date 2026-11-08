@@ -124,71 +124,50 @@ const CAS_EJERCICIOS = {
  "2026-11-10": {
   "dia": 13,
   "pagina": "cas/dia-13.html",
-  "ejercicios": 16,
+  "ejercicios": 27,
   "carriles": [
-   "La relectura de dos minutos",
-   "El segundo texto",
-   "Los tiempos del pasado"
+   "La relectura y la h",
+   "La segunda redacción",
+   "Los tiempos del pasado, la sinonimia y la antonimia"
   ]
  },
  "2026-11-12": {
   "dia": 14,
   "pagina": "cas/dia-14.html",
-  "ejercicios": 17,
+  "ejercicios": 29,
   "carriles": [
-   "La h",
-   "El segundo texto y las cinco partes",
-   "Las formas no personales"
+   "Palabras juntas y separadas",
+   "Las cinco partes y la revisión",
+   "Formas no personales, perífrasis e hiperónimos"
   ]
  },
  "2026-11-17": {
   "dia": 15,
   "pagina": "cas/dia-15.html",
-  "ejercicios": 16,
+  "ejercicios": 23,
   "carriles": [
-   "Palabras que se separan (1)",
+   "La concordancia y el final de la oración",
    "El texto explicativo",
-   "Las perífrasis"
+   "El adverbio y las preposiciones"
   ]
  },
  "2026-11-19": {
   "dia": 16,
   "pagina": "cas/dia-16.html",
-  "ejercicios": 16,
+  "ejercicios": 17,
   "carriles": [
-   "Palabras que se separan (2)",
-   "Práctica de comprensión",
-   "El adverbio"
+   "Las dos pasadas: palabras y comas",
+   "O Couto y la tercera redacción",
+   "Las conjunciones y la palabra precisa"
   ]
  },
  "2026-11-24": {
   "dia": 17,
   "pagina": "cas/dia-17.html",
-  "ejercicios": 13,
+  "ejercicios": 10,
   "carriles": [
-   "La concordancia",
-   "El tercer texto",
-   "Las preposiciones"
-  ]
- },
- "2026-11-26": {
-  "dia": 18,
-  "pagina": "cas/dia-18.html",
-  "ejercicios": 18,
-  "carriles": [
-   "La lista y el recuento",
-   "El tercer texto y las dos pasadas",
-   "Las conjunciones"
-  ]
- },
- "2026-12-01": {
-  "dia": 19,
-  "pagina": "cas/dia-19.html",
-  "ejercicios": 24,
-  "carriles": [
-   "Repaso de ortografía",
-   "Simulacro del bloque 1",
-   "Sinonimia y antonimia"
+   "Corrección mixta y relectura",
+   "Simulacro del bloque 1"
   ]
  }
 };
