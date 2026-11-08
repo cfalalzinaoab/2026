@@ -3723,6 +3723,11 @@ ol,ul{ margin:0; padding:0; list-style:none }
    la orla —la marca medía 12 px y la línea pisaba la cuña— y se apagan; las
    marcas de corte y la cuña de tono se quedan. */
 .video__reg, .video__slug{ display:none }
+/* EN LOS MÓVILES MÁS ESTRECHOS LA MINIATURA BAJA A 5,5 rem. Con 7,5, a 320 le
+   quedaban 100 px al texto, «interrogativas» pedía 106 y se salía. */
+@media (max-width:360px){
+  .video{ --lamina:5.5rem }
+}
 @media (prefers-reduced-motion:reduce){
   .video, .video__ventana img, .video__play{ transition:none }
   .video:hover .video__ventana img{ transform:none }
