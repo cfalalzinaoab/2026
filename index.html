@@ -3328,6 +3328,149 @@ ol,ul{ margin:0; padding:0; list-style:none }
   }
 }
 
+/* --- LA TINTA LLENA (Osky, 08-11-2026) -------------------------------------
+   Lo que se pidió más visible que todo lo demás —la práctica para el examen
+   en CAS y los repasos de unidad en Castellano 2— va de tinta llena. No es
+   un color nuevo: es la receta de LA CUÑA, el metal entintado con su reflejo
+   arriba y su corte abajo, y la letra en --f-1, que es lo único que aguanta
+   los dos temas (de noche la tinta es clara y la letra casi negra; a plena
+   luz, al revés). Las paradas de arriba son las de la cuña, así que la banda
+   de la letra mide lo mismo que allí: 4,83:1 a plena luz y casi 9:1 de
+   noche. Sin dientes: aquí no se aprieta nada, se abre un PDF.            */
+.juego--examen, .repaso{
+  background:linear-gradient(180deg,
+    color-mix(in srgb, var(--i) var(--cuna-alta), #fff),
+    var(--i) 62%,
+    color-mix(in srgb, var(--i) var(--cuna-baja), #000) 94%,
+    color-mix(in srgb, var(--i) 50%, #000));
+  color:var(--f-1);
+  text-shadow:0 -1px 0 color-mix(in srgb, var(--i) 44%, #000);
+}
+
+/* LA PRÁCTICA PARA EL EXAMEN va encima de los días y a todo lo ancho: el
+   mismo óvalo, entintado entero y con su latido, que es más hondo que el de
+   los días porque esto es lo principal mientras haya examen a la vista.   */
+.juego--examen{
+  flex:1 1 100%;
+  padding:var(--e-5) var(--e-6);
+  font-size:var(--t-l);
+  animation:latido-lleno 3.6s ease-in-out infinite;
+}
+.juego--examen > span{ flex:1; font-weight:700; text-wrap:balance }
+.juego--examen small{
+  margin-top:4px;
+  font-size:var(--t-2xs);
+  font-weight:500;
+  color:inherit;
+}
+.juego--examen svg{ color:inherit }
+.juego--examen svg:not(.flecha){ width:30px; height:30px }
+.juego--examen .flecha{ width:19px; height:19px; color:inherit }
+.juego--examen:hover{ animation-play-state:paused; filter:brightness(1.05) }
+@keyframes latido-lleno{
+  0%, 100%{
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.34),
+      inset 0 -2px 0 rgba(0,0,0,.28),
+      0 0 0 1px color-mix(in srgb, var(--i) 60%, #000),
+      0 0 18px -2px color-mix(in srgb, var(--i) 50%, transparent);
+  }
+  50%{
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.34),
+      inset 0 -2px 0 rgba(0,0,0,.28),
+      0 0 0 1px color-mix(in srgb, var(--i) 60%, #000),
+      0 0 42px 4px color-mix(in srgb, var(--i) 66%, transparent);
+  }
+}
+@media (max-width:560px){
+  .juego--examen{ gap:var(--e-3); padding:var(--e-4) var(--e-5) }
+}
+@media (prefers-reduced-motion:reduce){
+  .juego--examen{
+    animation:none;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.34),
+      inset 0 -2px 0 rgba(0,0,0,.28),
+      0 0 0 1px color-mix(in srgb, var(--i) 60%, #000),
+      0 0 30px 0 color-mix(in srgb, var(--i) 58%, transparent);
+  }
+}
+
+/* LOS REPASOS DE UNIDAD, justo debajo del progreso del curso: un rectángulo
+   por unidad, dos en fila mientras quepan y uno debajo de otro en el móvil.
+   Rectángulo y no óvalo porque es un cuaderno, y con el canto matado de 2 px
+   de una pieza de fundición, como la cuña.                               */
+#repasoZona{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap:var(--e-4);
+  margin-bottom:var(--e-6);
+}
+#repasoZona:empty{ display:none }
+.repaso{
+  display:flex;
+  align-items:center;
+  gap:var(--e-4);
+  min-height:6rem;
+  padding:var(--e-4) var(--e-5);
+  border-radius:2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.34),
+    inset 6px 0 7px -7px rgba(255,255,255,.42),
+    inset -6px 0 7px -7px rgba(0,0,0,.42),
+    inset 0 -2px 0 rgba(0,0,0,.28),
+    0 0 24px -6px color-mix(in srgb, var(--i) 60%, transparent);
+  text-decoration:none;
+  transition:transform .3s var(--paso-ease), box-shadow .3s var(--paso-ease), filter .2s;
+}
+.repaso:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.34),
+    inset 6px 0 7px -7px rgba(255,255,255,.42),
+    inset -6px 0 7px -7px rgba(0,0,0,.42),
+    inset 0 -2px 0 rgba(0,0,0,.28),
+    0 0 36px -4px color-mix(in srgb, var(--i) 72%, transparent);
+}
+.repaso > svg:first-child{ flex:none; width:32px; height:32px }
+.repaso__txt{ flex:1; min-width:0; display:grid; gap:3px }
+.repaso__rot{
+  font:600 var(--t-3xs)/1.1 Archivo,sans-serif;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+}
+.repaso__tit{
+  font-family:var(--display);
+  font-variation-settings:var(--opsz);
+  font-weight:600;
+  /* entre --t-xl y --t-2xl: el número de la unidad es lo que se busca */
+  font-size:clamp(26px, 1.2rem + 1.6vw, 38px);
+  line-height:1.02;
+  letter-spacing:-.01em;
+}
+.repaso small{ font:500 var(--t-2xs)/1.3 Archivo,sans-serif }
+.repaso .flecha{ flex:none; width:20px; height:20px; transition:transform .3s var(--paso-ease) }
+.repaso:hover .flecha{ transform:translateX(3px) }
+@media (prefers-reduced-motion:reduce){
+  .repaso, .repaso .flecha{ transition:none }
+  .repaso:hover{ transform:none }
+}
+
+/* LAS FICHAS DE REPASO, justo debajo del vídeo: el óvalo del juego, tal
+   cual. La zona del vídeo suelta su aire de abajo cuando la ficha va detrás,
+   para que se lea como lo que es, el material que acompaña al vídeo.      */
+#fichaZona{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:var(--e-4);
+  margin-bottom:var(--e-6);
+}
+#fichaZona:empty{ display:none }
+#videoZona:has(+ #fichaZona:not(:empty)){ margin-bottom:var(--e-4) }
+
 /* --- LOS VÍDEOS DE CLASE: LA PRUEBA DE LA LÁMINA (Osky, 25-10-2026) ------
    Van debajo de los días y del juego, a todo lo ancho, y no como un botón
    más: como una PRUEBA DE IMPRENTA, que es lo que se tira antes de dar una
@@ -3366,20 +3509,22 @@ ol,ul{ margin:0; padding:0; list-style:none }
      lo que enseña dónde cae el corte; --orla, la franja de papel que las
      lleva. De --orla cuelgan el relleno de la hoja y la calle entre las dos
      columnas: si cambia una marca, el sitio para ella la sigue.          */
-  --corte:clamp(9px, 1.5vw, 20px);
-  --sangre:clamp(5px, .55vw, 8px);
+  --corte:clamp(6px, .6vw, 9px);
+  --sangre:4px;
   --orla:calc(var(--corte) + var(--sangre));
   --trazo:var(--hilo-f);
-  /* el tope de la lámina y la medida del texto de al lado (ver abajo) */
-  --lamina:25rem;
-  --texto:22rem;
+  /* el ancho de la lámina y la medida del texto de al lado (ver abajo) */
+  --lamina:clamp(7.5rem, 5.5rem + 5vw, 10.5rem);
+  --texto:16.5rem;
   display:grid;
+  grid-template-columns:var(--lamina) minmax(0, var(--texto));
   align-items:center;
-  gap:calc(var(--orla) + var(--e-4));
+  gap:calc(var(--orla) + var(--e-3));
   justify-self:start;
   width:100%;
-  max-width:calc(var(--lamina) + 2 * (var(--orla) + var(--e-3)) + 2px);
-  padding:calc(var(--orla) + var(--e-3));
+  max-width:calc(var(--lamina) + var(--texto) + var(--orla) + var(--e-3)
+                 + 2 * (var(--orla) + var(--e-2)) + 2px);
+  padding:calc(var(--orla) + var(--e-2));
   background:var(--f-0);
   background-image:var(--tersa);
   border:1px solid var(--hilo);
@@ -3500,7 +3645,7 @@ ol,ul{ margin:0; padding:0; list-style:none }
    Oscar el mismo 25-10-2026, con el recuadro ya publicado. */
 .video__txt{
   display:grid;
-  gap:var(--e-3);
+  gap:var(--e-2);
   align-content:center;
   min-width:0;
 }
@@ -3508,7 +3653,7 @@ ol,ul{ margin:0; padding:0; list-style:none }
   font-family:var(--display);
   font-variation-settings:var(--opsz);
   font-weight:500;
-  font-size:var(--t-xl);
+  font-size:var(--t-m);
   line-height:1.04;
   letter-spacing:-.012em;
   color:var(--i);
@@ -3518,9 +3663,8 @@ ol,ul{ margin:0; padding:0; list-style:none }
 .video__ver{
   display:flex;
   align-items:center;
-  gap:var(--e-4);
-  margin-top:var(--e-2);
-  font:600 var(--t-m)/1.25 Archivo,sans-serif;
+  gap:var(--e-3);
+  font:600 var(--t-xs)/1.25 Archivo,sans-serif;
   color:var(--tinta);
 }
 .video__ver small{
@@ -3537,7 +3681,7 @@ ol,ul{ margin:0; padding:0; list-style:none }
   flex:none;
   display:grid;
   place-items:center;
-  width:clamp(44px, 2.2rem + 1vw, 56px);
+  width:clamp(34px, 1.9rem + .3vw, 40px);
   aspect-ratio:1;
   border-radius:50%;
   background-color:var(--f-0);
@@ -3569,17 +3713,16 @@ ol,ul{ margin:0; padding:0; list-style:none }
    hoja se llevaba los 1.082 px de la medida. Ahora la lámina tiene un tope
    de 25rem y la hoja se ajusta a lo que lleva y se arrima a la izquierda,
    como los botones de arriba. Desde 1000 px el texto va al lado, a su
-   medida; por debajo, bajo la lámina. */
-@media (min-width:1000px){
-  .video{
-    grid-template-columns:minmax(0, var(--lamina)) minmax(15rem, var(--texto));
-    max-width:calc(var(--lamina) + var(--texto) + var(--orla) + var(--e-4)
-                   + 2 * (var(--orla) + var(--e-3)) + 2px);
-  }
-}
-@media (max-width:560px){
-  .video__reg, .video__slug{ display:none }
-}
+   medida; por debajo, bajo la lámina.
+
+   Y EL 08-11-2026, MUCHO MÁS PEQUEÑA: «se está robando el protagonismo».
+   Ahora la lámina es una miniatura de 7,5 a 10,5 rem con el texto siempre
+   al lado, también en el móvil. Medido: a 1280 la hoja pasa de 874 × 303 px
+   a 481 × 128, y a 375 de 379 px de alto a 163. Con la
+   lámina tan chica, la marca de registro y la línea del pliego no caben en
+   la orla —la marca medía 12 px y la línea pisaba la cuña— y se apagan; las
+   marcas de corte y la cuña de tono se quedan. */
+.video__reg, .video__slug{ display:none }
 @media (prefers-reduced-motion:reduce){
   .video, .video__ventana img, .video__play{ transition:none }
   .video:hover .video__ventana img{ transform:none }
@@ -6004,12 +6147,21 @@ try{
       <div class="admin__salida" id="llaveSalida" hidden></div>
     </div>
 
+    <!-- LOS REPASOS DE UNIDAD, justo debajo del progreso del curso (Osky,
+         08-11-2026). Los pinta entrar() desde REPASOS; hoy solo los tiene
+         Castellano 2, y en las otras dos la zona vacia no ocupa. -->
+    <div id="repasoZona"></div>
+
     <div id="juegoZona"></div>
 
     <!-- LOS VIDEOS DE CLASE, debajo de los dias y del juego. Los pinta
          entrar() desde VIDEOS: la materia que no tiene ninguno deja la zona
          vacia, y vacia no ocupa. -->
     <div id="videoZona"></div>
+
+    <!-- LAS FICHAS DE REPASO, justo debajo del video y en ovalo, como el del
+         juego (Osky, 08-11-2026). Las pinta entrar() desde FICHAS. -->
+    <div id="fichaZona"></div>
 
     <ol class="trayecto" id="trayecto"></ol>
 
@@ -7991,6 +8143,45 @@ const VIDEOS = {
   pau:[VIDEO_INTERROGATIVAS]
 };
 
+/* LA PRACTICA PARA EL EXAMEN · encima de los dias de clase y lo primero de
+   la zona, porque es lo que toca ahora (Osky, 08-11-2026): la guia de repaso
+   del primer trimestre, con las soluciones al final. Pasado el examen se
+   quita la entrada, y la zona vuelve a empezar por los dias.             */
+const EXAMEN = {
+  cas:{
+    titulo:'Práctica para el examen',
+    /* el punto va pegado a lo de delante y la fecha no se parte (&nbsp;):
+       en el móvil, ni renglón que empiece por «·» ni «26 de» suelto */
+    pie:'Examen 1&nbsp;· 26&nbsp;de&nbsp;noviembre&nbsp;· Guía de repaso con soluciones, en PDF',
+    url:'pdf/repaso/CAS-Practica-para-el-examen.pdf'
+  }
+};
+
+/* LAS FICHAS DE REPASO · debajo del video, en ovalo como el del juego. La de
+   CD y CI se hizo para CAS y Oscar la quiere igual en PAU +25.          */
+const FICHA_CDCI = {
+  titulo:'El complemento directo y el indirecto',
+  pie:'Ficha de repaso en PDF',
+  url:'pdf/repaso/CD-y-CI-repaso.pdf'
+};
+const FICHAS = {
+  cas:[FICHA_CDCI],
+  pau:[FICHA_CDCI]
+};
+
+/* LOS REPASOS DE UNIDAD · justo debajo del progreso del curso, un
+   rectangulo de tinta llena por unidad (Osky, 08-11-2026). Cada uno es el
+   cuaderno de repaso de Astra con su solucionario al final, en un solo PDF:
+   el de la unidad 2 venia en dos y se unio al colgarlo.                  */
+const REPASOS = {
+  c2:[
+    { unidad:1, pie:'Cuaderno con soluciones&nbsp;· PDF',
+      url:'pdf/repaso/Castellano-2-Unidad-1-repaso-con-soluciones.pdf' },
+    { unidad:2, pie:'Cuaderno con soluciones&nbsp;· PDF',
+      url:'pdf/repaso/Castellano-2-Unidad-2-repaso-con-soluciones.pdf' }
+  ]
+};
+
 /* LO QUE LA FICHA ENSEÑA DE CADA UNIDAD, ANTES DE ENTRAR.
    Lo escribe `_unidad.py` entre las dos marcas: no se teclea a mano. Antes
    aquí había un `MUESTRA` con tres párrafos de acentuación y una pregunta
@@ -8006,8 +8197,14 @@ const ICONOS = {
   pdf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>',
   cancion:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
   dias:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17.5h6"/></svg>',
-  juego:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>'
+  juego:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>',
+  examen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2"/><rect x="9" y="2.5" width="6" height="3.5" rx="1"/><path d="M9 13.5l2 2 4-4"/></svg>'
 };
+/* la flecha de los botones de la materia, la misma que llevan los dias y el
+   juego */
+const FLECHA = '<svg class="flecha" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" ' +
+  'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+  '<path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
 /* ============================================================================
    Almacenamiento. Puede lanzar en el propio acceso a la propiedad (data: URL,
@@ -8456,8 +8653,17 @@ function entrar(id){
      plomo; aqui ha entrado en registro y lleva su tinta. */
   document.getElementById('m-marca').innerHTML = svgMarca(m.marca, 'meta__reg');
 
+  /* los repasos de unidad, justo debajo del progreso del curso */
+  const zr = document.getElementById('repasoZona');
+  zr.replaceChildren();
+  (REPASOS[m.id] || []).forEach(function(r){ zr.appendChild(pintarRepaso(r)); });
+
   const zj = document.getElementById('juegoZona');
   zj.replaceChildren();
+  /* la practica para el examen va la primera y a todo lo ancho: mientras
+     haya examen a la vista, es lo principal de la materia */
+  const ex = EXAMEN[m.id];
+  if (ex) zj.appendChild(pintarOvalo('juego juego--examen', ICONOS.examen, ex));
   /* el calendario va DELANTE del juego: es donde se trabaja, y el juego es
      para repasar. Se abre en la misma pestaña porque es la misma web */
   const ses = SESIONES[m.id];
@@ -8490,6 +8696,13 @@ function entrar(id){
   const zv = document.getElementById('videoZona');
   zv.replaceChildren();
   (VIDEOS[m.id] || []).forEach(function(v){ zv.appendChild(pintarVideo(m, v)); });
+
+  /* y debajo del video, las fichas de repaso */
+  const zf = document.getElementById('fichaZona');
+  zf.replaceChildren();
+  (FICHAS[m.id] || []).forEach(function(f){
+    zf.appendChild(pintarOvalo('juego juego--ficha', ICONOS.pdf, f));
+  });
 
   const cab = document.querySelector('.materia__cab');
   cab.style.removeProperty('--lam-materia');
@@ -8541,6 +8754,35 @@ function pintarVideo(m, v){
         '<span>Ver el vídeo<small>' + v.duracion + ' · se abre en otra pestaña</small></span>' +
       '</span>' +
     '</span>';
+  return a;
+}
+
+/* UN OVALO DE LA MATERIA que abre un PDF: el icono, el titulo con su pie y
+   la flecha. Lo usan la practica para el examen y las fichas de repaso, y
+   se abre en otra pestaña, como el juego y el video. */
+function pintarOvalo(clase, icono, d){
+  const a = document.createElement('a');
+  a.className = clase;
+  a.href = d.url;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.innerHTML = icono + '<span>' + d.titulo + '<small>' + d.pie + '</small></span>' + FLECHA;
+  return a;
+}
+
+/* EL REPASO DE UNA UNIDAD: el rectangulo de tinta llena con su PDF. */
+function pintarRepaso(r){
+  const a = document.createElement('a');
+  a.className = 'repaso';
+  a.href = r.url;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.innerHTML = ICONOS.pdf +
+    '<span class="repaso__txt">' +
+      '<span class="repaso__rot">Repaso</span>' +
+      '<span class="repaso__tit">Unidad ' + r.unidad + '</span>' +
+      '<small>' + r.pie + '</small>' +
+    '</span>' + FLECHA;
   return a;
 }
 

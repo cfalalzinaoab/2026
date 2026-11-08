@@ -18,6 +18,7 @@ cuadernos para imprimir solo lo que se está dando—.
 | `pau/dia-NN.html` | los ejercicios de cada día de PAU +25 |
 | `pau-materiales.css` | lo único que PAU no comparte con CAS: la marca en rombo y la tinta carmín |
 | `pdf/` | los dossieres de alumnado y los diecisiete cuadernos sueltos de CAS |
+| `pdf/repaso/` | lo que la puerta de cada materia enlaza fuera del dossier: los repasos de las unidades 1 y 2 de Castellano 2 (cuaderno y soluciones en un PDF), la ficha de CD y CI de CAS y PAU +25 y la práctica para el examen de CAS. No lo copia ningún `publicar-web.py`: se cuelga a mano y se enlaza desde `REPASOS`, `FICHAS` y `EXAMEN` en `index.html` |
 | `img/`, `audio/` | láminas, texturas, el sello del centro (lo escribe `_sello-cfa.py`, en la carpeta de arriba) y las pistas de la unidad 1 |
 | `video/` | los vídeos de clase de CAS y PAU +25, con su fotograma de noche y el de plena luz; cómo se cuelga uno, en `video/LEEME.md` |
 | `unidad-01.html` | la unidad 1 de Castellà 2 |
