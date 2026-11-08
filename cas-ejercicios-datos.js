@@ -200,6 +200,14 @@ const CAS_DOSSIER = [
   "term": 0,
   "paginas": 223,
   "peso": "2,9 MB"
+ },
+ {
+  "archivo": "pdf/Ficha-CD-y-CI-2026-27-alumnado.pdf",
+  "titulo": "Ficha: el complemento directo y el indirecto",
+  "detalle": "Catorce páginas que amplían el apartado 5 de la Herramienta: me, te, nos y os, la prueba del femenino, el leísmo admitido, la pasiva y los tónicos. Se reparte aparte del dossier, con su clave al final.",
+  "term": 0,
+  "paginas": 14,
+  "peso": "0,4 MB"
  }
 ];
 const CAS_CUADERNOS = [

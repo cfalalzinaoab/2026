@@ -126,120 +126,120 @@ const CAS_DAYS = [
     "date": "2026-11-03",
     "number": 11,
     "parts": [
-      "J/⁠G",
+      "J/⁠G (quedó sin trabajar)",
       "El resumen: el modelo resuelto · texto real de 2018 (bloque 1 oficial) · la concesión sobre la consigna de 2018",
-      "Los pronombres: práctica"
+      "Los pronombres: práctica · CD y CI, primera explicación"
     ],
     "special": false,
-    "title": "J/⁠G"
+    "title": "J/⁠G (quedó sin trabajar)"
   },
   {
     "term": 0,
     "date": "2026-11-05",
     "number": 12,
     "parts": [
-      "Práctica: B/⁠V y J/⁠G",
-      "Práctica de resumen sobre texto real · texto real de 2017 (bloque 1 oficial) · el cierre sobre la consigna de 2017",
-      "El verbo: núcleo del predicado, copulativos"
+      "J/⁠G pendiente y práctica de B/⁠V y J/⁠G",
+      "«El espejo»: lectura e ideas del resumen",
+      "CD y CI, 40 minutos con la ficha ampliada · copulativos y atributo"
     ],
     "special": false,
-    "title": "Práctica: B/⁠V y J/⁠G"
+    "title": "J/⁠G pendiente y práctica de B/⁠V y J/⁠G"
   },
   {
     "term": 0,
     "date": "2026-11-10",
     "number": 13,
     "parts": [
-      "Corrección",
-      "Segundo texto del carril",
-      "El verbo: los tiempos del pasado"
+      "Relectura y la h",
+      "Revisión escrita · plan narrativo · se encarga la segunda redacción",
+      "CD y CI: consolidación · los tiempos del pasado · sinonimia y antonimia"
     ],
     "special": false,
-    "title": "Corrección"
+    "title": "Relectura y la h"
   },
   {
     "term": 0,
     "date": "2026-11-12",
     "number": 14,
     "parts": [
-      "Corrección",
-      "Devolución del segundo texto · texto real de 2016 (bloque 1 oficial) · el texto entero sobre la consigna de 2016, con la hoja A-⁠1",
-      "El verbo: formas no personales"
+      "Palabras juntas y separadas",
+      "Se recoge la segunda redacción · revisión entre compañeros con la hoja A-⁠1",
+      "Formas no personales · perífrasis · hiperonimia y definición"
     ],
     "special": false,
-    "title": "Corrección"
+    "title": "Palabras juntas y separadas"
   },
   {
     "term": 0,
     "date": "2026-11-17",
     "number": 15,
     "parts": [
-      "Corrección",
-      "El texto explicativo",
-      "El verbo: perífrasis · paradigmas a consulta"
+      "Concordancia, haber impersonal y los límites de la oración",
+      "El texto expositivo",
+      "Adverbios y locuciones · las preposiciones y el complemento de régimen · contraste con CD y CI"
     ],
     "special": false,
-    "title": "Corrección"
+    "title": "Concordancia, haber impersonal y los límites de la oración"
   },
   {
     "term": 0,
     "date": "2026-11-19",
     "number": 16,
     "parts": [
-      "Corrección",
-      "Práctica de comprensión: el bloque 1 entero de 2014, cronometrado",
-      "El adverbio"
+      "Puntuación · sino / si no y porque / por qué",
+      "O Couto: el bloque 1 con reloj · plan de la tercera redacción",
+      "Las conjunciones y los conectores por función · aplicación del léxico"
     ],
     "special": false,
-    "title": "Corrección"
+    "title": "Puntuación · sino / si no y porque / por qué"
   },
   {
     "term": 0,
     "date": "2026-11-24",
     "number": 17,
     "parts": [
-      "Corrección",
-      "Tercer texto del carril",
-      "Las preposiciones — y por qué deciden el complemento de régimen"
+      "Corrección mixta y relectura",
+      "El bloque 1 de 2026 con reloj · se recoge la tercera redacción",
+      "Repaso: categorías, CD, CI, atributo y régimen, verbo, invariables y léxico"
     ],
     "special": false,
-    "title": "Corrección"
+    "title": "Corrección mixta y relectura"
   },
   {
     "term": 0,
     "date": "2026-11-26",
     "number": 18,
     "parts": [
-      "Corrección",
-      "Devolución del tercer texto · texto real de 2015 (bloque 1 oficial) · el texto entero sobre la consigna de 2015, con las dos pasadas",
-      "Las conjunciones"
+      "EXAMEN 1 — la palabra: comprensión y resumen · léxico · acentuación y letras · las nueve clases · CD, CI, atributo y régimen",
+      "",
+      ""
     ],
-    "special": false,
-    "title": "Corrección"
+    "special": true,
+    "title": "EXAMEN 1"
   },
   {
     "term": 0,
     "date": "2026-12-01",
     "number": 19,
     "parts": [
-      "Repaso con el videojuego",
-      "Repaso de lectura y resumen",
-      "Sinonimia, antonimia y sus prefijos · hiperonimia"
+      "sin asignar",
+      "sin asignar",
+      "sin asignar"
     ],
     "special": false,
-    "title": "Repaso con el videojuego"
+    "title": "sin asignar"
   },
   {
     "term": 0,
     "date": "2026-12-03",
     "number": 20,
     "parts": [
-      "EXAMEN 1 — la palabra: comprensión y resumen · léxico · acentuación y letras · las nueve clases",
-      "",
-      ""
+      "sin asignar",
+      "sin asignar",
+      "sin asignar"
     ],
-    "special": true,
-    "title": "EXAMEN 1"
+    "special": false,
+    "title": "sin asignar"
   },
   {
     "term": 1,
@@ -451,7 +451,7 @@ const CAS_DAYS = [
     "number": 38,
     "parts": [
       "Repaso",
-      "Repaso",
+      "Comprensión oral: ejercicio que evalúa la parte oral de C1, con respuestas escritas breves",
       "Repaso"
     ],
     "special": false,
