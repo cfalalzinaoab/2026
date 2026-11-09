@@ -234,7 +234,7 @@ const PAU_DOSSIER = [
   "titulo": "El dossier de lengua castellana",
   "detalle": "La teoría, los ejercicios con espacio para contestarlos a mano y las soluciones al final. Ordenado por materias y cronológicamente.",
   "term": 0,
-  "paginas": 310,
+  "paginas": 312,
   "peso": "3,6 MB"
  }
 ];
@@ -252,15 +252,15 @@ const PAU_CUADERNOS = [
   "soluciones": {
    "archivo": "01-Pieza-1-La-silaba-y-el-acento-soluciones.pdf",
    "folios": [
-    217,
-    218
+    219,
+    220
    ],
    "paginas": 3,
-   "peso": "390 KB",
+   "peso": "402 KB",
    "ruta": "pdf/pau/01-Pieza-1-La-silaba-y-el-acento-soluciones.pdf"
   },
   "paginas": 11,
-  "peso": "506 KB",
+  "peso": "525 KB",
   "ruta": "pdf/pau/01-Pieza-1-La-silaba-y-el-acento.pdf"
  },
  {
@@ -276,15 +276,15 @@ const PAU_CUADERNOS = [
   "soluciones": {
    "archivo": "02-Pieza-2-Vocales-en-contacto-soluciones.pdf",
    "folios": [
-    218,
-    219
+    220,
+    221
    ],
    "paginas": 3,
-   "peso": "367 KB",
+   "peso": "375 KB",
    "ruta": "pdf/pau/02-Pieza-2-Vocales-en-contacto-soluciones.pdf"
   },
   "paginas": 10,
-  "peso": "487 KB",
+  "peso": "507 KB",
   "ruta": "pdf/pau/02-Pieza-2-Vocales-en-contacto.pdf"
  },
  {
@@ -300,15 +300,15 @@ const PAU_CUADERNOS = [
   "soluciones": {
    "archivo": "03-Pieza-3-La-tilde-diacritica-soluciones.pdf",
    "folios": [
-    219,
-    220
+    221,
+    222
    ],
    "paginas": 3,
-   "peso": "388 KB",
+   "peso": "397 KB",
    "ruta": "pdf/pau/03-Pieza-3-La-tilde-diacritica-soluciones.pdf"
   },
   "paginas": 9,
-  "peso": "475 KB",
+  "peso": "489 KB",
   "ruta": "pdf/pau/03-Pieza-3-La-tilde-diacritica.pdf"
  },
  {
@@ -324,15 +324,15 @@ const PAU_CUADERNOS = [
   "soluciones": {
    "archivo": "04-Pieza-4-Las-letras-las-palabras-que-se-separan-y-corregir-soluciones.pdf",
    "folios": [
-    221,
-    222
+    223,
+    224
    ],
    "paginas": 3,
-   "peso": "375 KB",
+   "peso": "382 KB",
    "ruta": "pdf/pau/04-Pieza-4-Las-letras-las-palabras-que-se-separan-y-corregir-soluciones.pdf"
   },
   "paginas": 15,
-  "peso": "512 KB",
+  "peso": "538 KB",
   "ruta": "pdf/pau/04-Pieza-4-Las-letras-las-palabras-que-se-separan-y-corregir.pdf"
  },
  {
@@ -348,15 +348,15 @@ const PAU_CUADERNOS = [
   "soluciones": {
    "archivo": "05-Pieza-10-Leer-el-texto-entero-y-contestar-el-test-soluciones.pdf",
    "folios": [
-    222,
-    224
+    224,
+    226
    ],
    "paginas": 4,
-   "peso": "383 KB",
+   "peso": "390 KB",
    "ruta": "pdf/pau/05-Pieza-10-Leer-el-texto-entero-y-contestar-el-test-soluciones.pdf"
   },
   "paginas": 18,
-  "peso": "515 KB",
+  "peso": "523 KB",
   "ruta": "pdf/pau/05-Pieza-10-Leer-el-texto-entero-y-contestar-el-test.pdf"
  },
  {
@@ -367,20 +367,20 @@ const PAU_CUADERNOS = [
   "archivo": "06-Pieza-11-Escribir-el-esqueleto-y-las-dos-extensiones.pdf",
   "folios": [
    62,
-   93
+   94
   ],
   "soluciones": {
    "archivo": "06-Pieza-11-Escribir-el-esqueleto-y-las-dos-extensiones-soluciones.pdf",
    "folios": [
-    224,
-    228
+    226,
+    230
    ],
    "paginas": 6,
-   "peso": "394 KB",
+   "peso": "401 KB",
    "ruta": "pdf/pau/06-Pieza-11-Escribir-el-esqueleto-y-las-dos-extensiones-soluciones.pdf"
   },
-  "paginas": 33,
-  "peso": "643 KB",
+  "paginas": 34,
+  "peso": "637 KB",
   "ruta": "pdf/pau/06-Pieza-11-Escribir-el-esqueleto-y-las-dos-extensiones.pdf"
  },
  {
@@ -390,21 +390,21 @@ const PAU_CUADERNOS = [
   "parte": "Parte 2 · El texto",
   "archivo": "07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso.pdf",
   "folios": [
-   94,
-   109
+   95,
+   110
   ],
   "soluciones": {
    "archivo": "07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso-soluciones.pdf",
    "folios": [
-    228,
-    230
+    230,
+    232
    ],
    "paginas": 4,
-   "peso": "419 KB",
+   "peso": "426 KB",
    "ruta": "pdf/pau/07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso-soluciones.pdf"
   },
   "paginas": 17,
-  "peso": "537 KB",
+  "peso": "547 KB",
   "ruta": "pdf/pau/07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso.pdf"
  },
  {
@@ -414,21 +414,21 @@ const PAU_CUADERNOS = [
   "parte": "Parte 2 · El texto",
   "archivo": "08-Los-textos-de-cada-sesion.pdf",
   "folios": [
-   110,
-   146
+   111,
+   147
   ],
   "soluciones": {
    "archivo": "08-Los-textos-de-cada-sesion-soluciones.pdf",
    "folios": [
-    230,
-    243
+    232,
+    245
    ],
    "paginas": 15,
-   "peso": "519 KB",
+   "peso": "526 KB",
    "ruta": "pdf/pau/08-Los-textos-de-cada-sesion-soluciones.pdf"
   },
   "paginas": 38,
-  "peso": "600 KB",
+  "peso": "608 KB",
   "ruta": "pdf/pau/08-Los-textos-de-cada-sesion.pdf"
  },
  {
@@ -438,21 +438,21 @@ const PAU_CUADERNOS = [
   "parte": "Parte 3 · Lengua",
   "archivo": "09-Pieza-6-Las-nueve-clases-y-la-categoria-de-una-palabra-en.pdf",
   "folios": [
-   147,
-   158
+   148,
+   160
   ],
   "soluciones": {
    "archivo": "09-Pieza-6-Las-nueve-clases-y-la-categoria-de-una-palabra-en-soluciones.pdf",
    "folios": [
-    243,
-    244
+    245,
+    246
    ],
    "paginas": 3,
-   "peso": "377 KB",
+   "peso": "385 KB",
    "ruta": "pdf/pau/09-Pieza-6-Las-nueve-clases-y-la-categoria-de-una-palabra-en-soluciones.pdf"
   },
-  "paginas": 13,
-  "peso": "540 KB",
+  "paginas": 14,
+  "peso": "566 KB",
   "ruta": "pdf/pau/09-Pieza-6-Las-nueve-clases-y-la-categoria-de-una-palabra-en.pdf"
  },
  {
@@ -462,21 +462,21 @@ const PAU_CUADERNOS = [
   "parte": "Parte 3 · Lengua",
   "archivo": "10-Pieza-5-Significado-figuras-y-sentido-figurado.pdf",
   "folios": [
-   159,
-   171
+   161,
+   173
   ],
   "soluciones": {
    "archivo": "10-Pieza-5-Significado-figuras-y-sentido-figurado-soluciones.pdf",
    "folios": [
-    244,
-    246
+    246,
+    248
    ],
    "paginas": 4,
-   "peso": "406 KB",
+   "peso": "413 KB",
    "ruta": "pdf/pau/10-Pieza-5-Significado-figuras-y-sentido-figurado-soluciones.pdf"
   },
   "paginas": 14,
-  "peso": "512 KB",
+  "peso": "520 KB",
   "ruta": "pdf/pau/10-Pieza-5-Significado-figuras-y-sentido-figurado.pdf"
  },
  {
@@ -486,21 +486,21 @@ const PAU_CUADERNOS = [
   "parte": "Parte 3 · Lengua",
   "archivo": "11-Pieza-7-Nombre-y-adjetivo-plurales-femeninos-derivadas-y-p.pdf",
   "folios": [
-   172,
-   184
+   174,
+   186
   ],
   "soluciones": {
    "archivo": "11-Pieza-7-Nombre-y-adjetivo-plurales-femeninos-derivadas-y-p-soluciones.pdf",
    "folios": [
-    246,
-    247
+    248,
+    249
    ],
    "paginas": 3,
-   "peso": "400 KB",
+   "peso": "408 KB",
    "ruta": "pdf/pau/11-Pieza-7-Nombre-y-adjetivo-plurales-femeninos-derivadas-y-p-soluciones.pdf"
   },
   "paginas": 14,
-  "peso": "479 KB",
+  "peso": "519 KB",
   "ruta": "pdf/pau/11-Pieza-7-Nombre-y-adjetivo-plurales-femeninos-derivadas-y-p.pdf"
  },
  {
@@ -510,21 +510,21 @@ const PAU_CUADERNOS = [
   "parte": "Parte 3 · Lengua",
   "archivo": "12-Pieza-8-Los-pronombres-antecedente-y-funcion.pdf",
   "folios": [
-   185,
-   193
+   187,
+   195
   ],
   "soluciones": {
    "archivo": "12-Pieza-8-Los-pronombres-antecedente-y-funcion-soluciones.pdf",
    "folios": [
-    247,
-    248
+    249,
+    250
    ],
    "paginas": 3,
-   "peso": "393 KB",
+   "peso": "401 KB",
    "ruta": "pdf/pau/12-Pieza-8-Los-pronombres-antecedente-y-funcion-soluciones.pdf"
   },
   "paginas": 10,
-  "peso": "492 KB",
+  "peso": "500 KB",
   "ruta": "pdf/pau/12-Pieza-8-Los-pronombres-antecedente-y-funcion.pdf"
  },
  {
@@ -534,21 +534,21 @@ const PAU_CUADERNOS = [
   "parte": "Parte 3 · Lengua",
   "archivo": "13-Pieza-9-El-verbo-morfologia-irregular-y-perifrasis.pdf",
   "folios": [
-   194,
-   206
+   196,
+   208
   ],
   "soluciones": {
    "archivo": "13-Pieza-9-El-verbo-morfologia-irregular-y-perifrasis-soluciones.pdf",
    "folios": [
-    248,
-    249
+    250,
+    251
    ],
    "paginas": 3,
-   "peso": "408 KB",
+   "peso": "422 KB",
    "ruta": "pdf/pau/13-Pieza-9-El-verbo-morfologia-irregular-y-perifrasis-soluciones.pdf"
   },
   "paginas": 14,
-  "peso": "543 KB",
+  "peso": "557 KB",
   "ruta": "pdf/pau/13-Pieza-9-El-verbo-morfologia-irregular-y-perifrasis.pdf"
  },
  {
@@ -558,12 +558,12 @@ const PAU_CUADERNOS = [
   "parte": "Anexos",
   "archivo": "14-Anexo-A-1-Redacciones-puntuadas.pdf",
   "folios": [
-   207,
-   211
+   209,
+   213
   ],
   "soluciones": null,
   "paginas": 6,
-  "peso": "416 KB",
+  "peso": "424 KB",
   "ruta": "pdf/pau/14-Anexo-A-1-Redacciones-puntuadas.pdf"
  },
  {
@@ -573,12 +573,12 @@ const PAU_CUADERNOS = [
   "parte": "Anexos",
   "archivo": "15-Anexo-A-4-De-segundo-orden-paronimos-y-verbos-que-mas-se-f.pdf",
   "folios": [
-   212,
-   216
+   214,
+   218
   ],
   "soluciones": null,
   "paginas": 6,
-  "peso": "411 KB",
+  "peso": "419 KB",
   "ruta": "pdf/pau/15-Anexo-A-4-De-segundo-orden-paronimos-y-verbos-que-mas-se-f.pdf"
  },
  {
@@ -588,21 +588,21 @@ const PAU_CUADERNOS = [
   "parte": "Para después",
   "archivo": "16-Anexo-A-2-Banco-de-textos-con-sus-preguntas-y-su-clave.pdf",
   "folios": [
-   282,
-   292
+   284,
+   294
   ],
   "soluciones": {
    "archivo": "16-Anexo-A-2-Banco-de-textos-con-sus-preguntas-y-su-clave-soluciones.pdf",
    "folios": [
-    249,
-    268
+    251,
+    270
    ],
    "paginas": 21,
-   "peso": "593 KB",
+   "peso": "613 KB",
    "ruta": "pdf/pau/16-Anexo-A-2-Banco-de-textos-con-sus-preguntas-y-su-clave-soluciones.pdf"
   },
   "paginas": 12,
-  "peso": "495 KB",
+  "peso": "511 KB",
   "ruta": "pdf/pau/16-Anexo-A-2-Banco-de-textos-con-sus-preguntas-y-su-clave.pdf"
  },
  {
@@ -612,12 +612,12 @@ const PAU_CUADERNOS = [
   "parte": "Para después",
   "archivo": "17-Anexo-A-3-El-gimnasio-sets-de-tildes-y-formas-verbales.pdf",
   "folios": [
-   293,
-   301
+   295,
+   303
   ],
   "soluciones": null,
   "paginas": 10,
-  "peso": "475 KB",
+  "peso": "489 KB",
   "ruta": "pdf/pau/17-Anexo-A-3-El-gimnasio-sets-de-tildes-y-formas-verbales.pdf"
  },
  {
@@ -627,21 +627,21 @@ const PAU_CUADERNOS = [
   "parte": "Para después",
   "archivo": "18-Tandas-por-tipo-de-item.pdf",
   "folios": [
-   302,
-   309
+   304,
+   311
   ],
   "soluciones": {
    "archivo": "18-Tandas-por-tipo-de-item-soluciones.pdf",
    "folios": [
-    268,
-    281
+    270,
+    283
    ],
    "paginas": 15,
-   "peso": "518 KB",
+   "peso": "525 KB",
    "ruta": "pdf/pau/18-Tandas-por-tipo-de-item-soluciones.pdf"
   },
   "paginas": 9,
-  "peso": "434 KB",
+  "peso": "443 KB",
   "ruta": "pdf/pau/18-Tandas-por-tipo-de-item.pdf"
  }
 ];
