@@ -427,7 +427,7 @@ const PAU_DAYS = [
   "number": 36,
   "parts": [
    "Gimnasio: cinco formas verbales del censo y la lista de fallos",
-   "Texto 2021t. Redacción corta (con el enunciado del examen 1)",
+   "Texto 2021t. Redacción corta (2025s: si la cultura distingue a las personas)",
    "Tanda: valor de que, seis ítems reales"
   ],
   "special": false,
