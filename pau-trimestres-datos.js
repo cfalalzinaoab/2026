@@ -270,12 +270,12 @@ const PAU_DAYS = [
   "date": "2026-12-17",
   "number": 23,
   "parts": [
-   "EXAMEN 1 — los bloques 1 y 2 de castellano 2022t enteros (7 puntos) y, en lugar de su bloque 3, seis ítems reales de 2015-⁠2021 de los tipos dados",
+   "EXAMEN 1 — los bloques 1 y 2 enteros de un examen oficial de castellano (7 puntos) y, en lugar de su bloque 3, seis ítems reales de 2015-⁠2021 de los tipos dados",
    "",
    ""
   ],
   "special": true,
-  "title": "EXAMEN 1 — los bloques 1 y 2 de castellano 2022t enteros (7 puntos) y, en lugar de su bloque 3, seis ítems reales de 2015-⁠2021 de los tipos dados"
+  "title": "EXAMEN 1 — los bloques 1 y 2 enteros de un examen oficial de castellano (7 puntos) y, en lugar de su bloque 3, seis ítems reales de 2015-⁠2021 de los tipos dados"
  },
  {
   "term": 1,
