@@ -207,11 +207,11 @@ const CAS_CUADERNOS = [
     194
    ],
    "paginas": 3,
-   "peso": "395 KB",
+   "peso": "406 KB",
    "ruta": "pdf/cas/01-Nudo-1-La-silaba-y-el-acento-soluciones.pdf"
   },
   "paginas": 8,
-  "peso": "453 KB",
+  "peso": "460 KB",
   "ruta": "pdf/cas/01-Nudo-1-La-silaba-y-el-acento.pdf"
  },
  {
@@ -231,11 +231,11 @@ const CAS_CUADERNOS = [
     195
    ],
    "paginas": 3,
-   "peso": "399 KB",
+   "peso": "406 KB",
    "ruta": "pdf/cas/02-Nudo-2-Vocales-en-contacto-y-la-dieresis-soluciones.pdf"
   },
   "paginas": 10,
-  "peso": "476 KB",
+  "peso": "483 KB",
   "ruta": "pdf/cas/02-Nudo-2-Vocales-en-contacto-y-la-dieresis.pdf"
  },
  {
@@ -255,11 +255,11 @@ const CAS_CUADERNOS = [
     196
    ],
    "paginas": 3,
-   "peso": "399 KB",
+   "peso": "405 KB",
    "ruta": "pdf/cas/03-Nudo-3-La-tilde-diacritica-soluciones.pdf"
   },
   "paginas": 7,
-  "peso": "452 KB",
+  "peso": "459 KB",
   "ruta": "pdf/cas/03-Nudo-3-La-tilde-diacritica.pdf"
  },
  {
@@ -279,11 +279,11 @@ const CAS_CUADERNOS = [
     197
    ],
    "paginas": 3,
-   "peso": "368 KB",
+   "peso": "375 KB",
    "ruta": "pdf/cas/04-Nudo-4-Las-letras-B-V-y-J-G-soluciones.pdf"
   },
   "paginas": 8,
-  "peso": "488 KB",
+  "peso": "495 KB",
   "ruta": "pdf/cas/04-Nudo-4-Las-letras-B-V-y-J-G.pdf"
  },
  {
@@ -303,11 +303,11 @@ const CAS_CUADERNOS = [
     199
    ],
    "paginas": 4,
-   "peso": "415 KB",
+   "peso": "421 KB",
    "ruta": "pdf/cas/05-Nudo-4-bis-Corregir-lo-que-escribes-soluciones.pdf"
   },
   "paginas": 9,
-  "peso": "493 KB",
+  "peso": "505 KB",
   "ruta": "pdf/cas/05-Nudo-4-bis-Corregir-lo-que-escribes.pdf"
  },
  {
@@ -327,11 +327,11 @@ const CAS_CUADERNOS = [
     203
    ],
    "paginas": 6,
-   "peso": "425 KB",
+   "peso": "431 KB",
    "ruta": "pdf/cas/06-Nudo-17-Leer-y-sintetizar-soluciones.pdf"
   },
   "paginas": 23,
-  "peso": "545 KB",
+  "peso": "525 KB",
   "ruta": "pdf/cas/06-Nudo-17-Leer-y-sintetizar.pdf"
  },
  {
@@ -347,15 +347,15 @@ const CAS_CUADERNOS = [
   "soluciones": {
    "archivo": "07-Nudo-18-Escribir-el-criterio-soluciones.pdf",
    "folios": [
-    203,
+    204,
     208
    ],
-   "paginas": 7,
-   "peso": "415 KB",
+   "paginas": 6,
+   "peso": "413 KB",
    "ruta": "pdf/cas/07-Nudo-18-Escribir-el-criterio-soluciones.pdf"
   },
   "paginas": 20,
-  "peso": "562 KB",
+  "peso": "576 KB",
   "ruta": "pdf/cas/07-Nudo-18-Escribir-el-criterio.pdf"
  },
  {
@@ -375,11 +375,11 @@ const CAS_CUADERNOS = [
     209
    ],
    "paginas": 3,
-   "peso": "388 KB",
+   "peso": "395 KB",
    "ruta": "pdf/cas/08-Nudo-15-Los-conectores-soluciones.pdf"
   },
   "paginas": 7,
-  "peso": "465 KB",
+  "peso": "471 KB",
   "ruta": "pdf/cas/08-Nudo-15-Los-conectores.pdf"
  },
  {
@@ -399,11 +399,11 @@ const CAS_CUADERNOS = [
     210
    ],
    "paginas": 3,
-   "peso": "388 KB",
+   "peso": "395 KB",
    "ruta": "pdf/cas/09-Herramienta-La-tabla-de-las-nueve-clases-de-palabras-soluciones.pdf"
   },
   "paginas": 8,
-  "peso": "422 KB",
+  "peso": "430 KB",
   "ruta": "pdf/cas/09-Herramienta-La-tabla-de-las-nueve-clases-de-palabras.pdf"
  },
  {
@@ -423,11 +423,11 @@ const CAS_CUADERNOS = [
     214
    ],
    "paginas": 6,
-   "peso": "410 KB",
+   "peso": "418 KB",
    "ruta": "pdf/cas/10-Nudo-8-Las-variables-nominales-sustantivo-adjetivo-determi-soluciones.pdf"
   },
   "paginas": 25,
-  "peso": "574 KB",
+  "peso": "581 KB",
   "ruta": "pdf/cas/10-Nudo-8-Las-variables-nominales-sustantivo-adjetivo-determi.pdf"
  },
  {
@@ -447,11 +447,11 @@ const CAS_CUADERNOS = [
     215
    ],
    "paginas": 3,
-   "peso": "372 KB",
+   "peso": "380 KB",
    "ruta": "pdf/cas/11-Nudo-9-Los-pronombres-y-la-sustitucion-soluciones.pdf"
   },
   "paginas": 10,
-  "peso": "485 KB",
+  "peso": "492 KB",
   "ruta": "pdf/cas/11-Nudo-9-Los-pronombres-y-la-sustitucion.pdf"
  },
  {
@@ -471,11 +471,11 @@ const CAS_CUADERNOS = [
     217
    ],
    "paginas": 4,
-   "peso": "410 KB",
+   "peso": "417 KB",
    "ruta": "pdf/cas/12-Nudo-10-El-verbo-soluciones.pdf"
   },
   "paginas": 27,
-  "peso": "611 KB",
+  "peso": "624 KB",
   "ruta": "pdf/cas/12-Nudo-10-El-verbo.pdf"
  },
  {
@@ -495,11 +495,11 @@ const CAS_CUADERNOS = [
     219
    ],
    "paginas": 4,
-   "peso": "405 KB",
+   "peso": "413 KB",
    "ruta": "pdf/cas/13-Nudo-11-Las-palabras-invariables-adverbio-preposicion-conj-soluciones.pdf"
   },
   "paginas": 14,
-  "peso": "501 KB",
+  "peso": "508 KB",
   "ruta": "pdf/cas/13-Nudo-11-Las-palabras-invariables-adverbio-preposicion-conj.pdf"
  },
  {
@@ -519,11 +519,11 @@ const CAS_CUADERNOS = [
     222
    ],
    "paginas": 5,
-   "peso": "418 KB",
+   "peso": "423 KB",
    "ruta": "pdf/cas/14-Nudo-5-Las-relaciones-de-significado-soluciones.pdf"
   },
   "paginas": 15,
-  "peso": "475 KB",
+  "peso": "490 KB",
   "ruta": "pdf/cas/14-Nudo-5-Las-relaciones-de-significado.pdf"
  },
  {
@@ -538,7 +538,7 @@ const CAS_CUADERNOS = [
   ],
   "soluciones": null,
   "paginas": 4,
-  "peso": "412 KB",
+  "peso": "420 KB",
   "ruta": "pdf/cas/15-Anexo-A-1-Hoja-de-revision-de-la-redaccion.pdf"
  },
  {
@@ -553,7 +553,7 @@ const CAS_CUADERNOS = [
   ],
   "soluciones": null,
   "paginas": 8,
-  "peso": "439 KB",
+  "peso": "447 KB",
   "ruta": "pdf/cas/16-Anexo-A-2-El-resumen-resuelto-paso-a-paso.pdf"
  },
  {
@@ -568,7 +568,7 @@ const CAS_CUADERNOS = [
   ],
   "soluciones": null,
   "paginas": 4,
-  "peso": "390 KB",
+  "peso": "397 KB",
   "ruta": "pdf/cas/17-Anexo-A-3-Texto-de-partida-Un-influencer-agricola.pdf"
  }
 ];
