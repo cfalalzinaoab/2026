@@ -427,7 +427,7 @@ const PAU_DAYS = [
   "number": 36,
   "parts": [
    "Gimnasio: cinco formas verbales del censo y la lista de fallos",
-   "Texto 2021t. Redacción corta (2022t: una sociedad sin empatía)",
+   "Texto 2021t. Redacción corta (con el enunciado del examen 1)",
    "Tanda: valor de que, seis ítems reales"
   ],
   "special": false,
@@ -498,24 +498,24 @@ const PAU_DAYS = [
   "date": "2027-03-16",
   "number": 42,
   "parts": [
-   "EXAMEN 2a — castellano 2022s entero",
+   "EXAMEN 2a — castellano entero",
    "",
    ""
   ],
   "special": true,
-  "title": "EXAMEN 2a — castellano 2022s entero"
+  "title": "EXAMEN 2a — castellano entero"
  },
  {
   "term": 1,
   "date": "2027-03-18",
   "number": 43,
   "parts": [
-   "EXAMEN 2b — comentario 2024t entero",
+   "EXAMEN 2b — comentario entero",
    "",
    ""
   ],
   "special": true,
-  "title": "EXAMEN 2b — comentario 2024t entero"
+  "title": "EXAMEN 2b — comentario entero"
  },
  {
   "term": 2,
@@ -534,12 +534,12 @@ const PAU_DAYS = [
   "date": "2027-04-01",
   "number": 45,
   "parts": [
-   "SIMULACRO 1 — castellano 2023t, con el tiempo de la prueba",
+   "SIMULACRO 1 — castellano, con el tiempo de la prueba",
    "",
    ""
   ],
   "special": true,
-  "title": "SIMULACRO 1 — castellano 2023t, con el tiempo de la prueba"
+  "title": "SIMULACRO 1 — castellano, con el tiempo de la prueba"
  },
  {
   "term": 2,
@@ -558,19 +558,19 @@ const PAU_DAYS = [
   "date": "2027-04-08",
   "number": 47,
   "parts": [
-   "SIMULACRO 2 — comentario 2025t",
+   "SIMULACRO 2 — comentario",
    "",
    ""
   ],
   "special": true,
-  "title": "SIMULACRO 2 — comentario 2025t"
+  "title": "SIMULACRO 2 — comentario"
  },
  {
   "term": 2,
   "date": "2027-04-13",
   "number": 48,
   "parts": [
-   "Devolución del simulacro 2 · SIMULACRO 3 — castellano 2024t, solo los bloques 1 y 3 (45 min), corregido en el acto",
+   "Devolución del simulacro 2 · SIMULACRO 3 — castellano, solo los bloques 1 y 3 (45 min), corregido en el acto",
    "",
    ""
   ],

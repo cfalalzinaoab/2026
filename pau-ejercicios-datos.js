@@ -404,7 +404,7 @@ const PAU_CUADERNOS = [
    "ruta": "pdf/pau/07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso-soluciones.pdf"
   },
   "paginas": 17,
-  "peso": "547 KB",
+  "peso": "546 KB",
   "ruta": "pdf/pau/07-Pieza-12-Los-conectores-y-los-marcadores-del-discurso.pdf"
  },
  {
@@ -641,7 +641,7 @@ const PAU_CUADERNOS = [
    "ruta": "pdf/pau/18-Tandas-por-tipo-de-item-soluciones.pdf"
   },
   "paginas": 9,
-  "peso": "443 KB",
+  "peso": "442 KB",
   "ruta": "pdf/pau/18-Tandas-por-tipo-de-item.pdf"
  }
 ];
