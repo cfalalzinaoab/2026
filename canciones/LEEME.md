@@ -32,3 +32,17 @@ de soluciones, que Oscar quitó el 25 de octubre de 2026.
 
 Lo que hay que publicar después es `index.html` y el MP3 nuevo. La página de
 la unidad no cambia.
+
+## Si trae actividades y solucionario
+
+Desde la unidad 2 («Aquí también», 16 de noviembre de 2026) la canción puede
+llevar su ficha de actividades en PDF y su solucionario. Se dejan aquí, al
+lado del MP3, con estos nombres:
+
+- `unidad-02-actividades.pdf`
+- `unidad-02-solucionario.pdf`
+
+Al pasar `python _unidad.py 02`, la ficha del portal los enseña debajo del
+reproductor, con sus páginas y su peso. Si no están, no sale ningún hueco: la
+canción vale sola, como la de la unidad 1. Antes de subirlos, se mira que no
+lleven nombres de alumnos: el repositorio es público.
